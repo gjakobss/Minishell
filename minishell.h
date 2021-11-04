@@ -7,6 +7,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+# include <sys/wait.h>
 
 # include "libft/libft.h"
 
