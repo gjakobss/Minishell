@@ -11,17 +11,26 @@
 
 # include "libft/libft.h"
 
+typedef struct	s_cmds {
+	char	*full_line;
+	char	**command;
+	int		type;
+}		t_cmds;
+
 typedef struct	s_mini
 {
 	char	**bin_paths;
 	char	**env;
-	char	**commands;
+//	char	**commands;
 	int		pipes;
-	int		quotes;
+	int		s_quotes;
+	int		d_quotes;
 	int		pipefd[2];
-
+	t_cmds	*cmd;
 }				t_mini;
 
 t_mini	g_mini;
+
+t_cmds	*parser(char *line);
 
 #endif

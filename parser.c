@@ -12,15 +12,9 @@
 
 #include "minishell.h"
 
-typedef struct	s_cmds {
-	char	*full_line;
-	char	**command;
-	int		type;
-}		t_cmds;
-
 /*		LIBFT STUFF		*/
 
-char	*ft_strdup(const char *s1)
+/*char	*ft_strdup(const char *s1)
 {
 	char	*ptr;
 	int		i;
@@ -81,14 +75,22 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		str[s2++] = s[s1++];
 	str[s2] = '\0';
 	return (str);
-}
+}*/
 
 /*		LIBFT STUFF		*/
 
 int	is_terminator(char j)
 {
 	if (j == '|' || j == '<' || j == '>' || j == ';' || j == '\0')
+	{
+	if (j == '|')
+		g_mini.pipes += 1;
+	if (j == '\"')
+		g_mini.d_quotes += 1;
+	if (j == '\'')
+		g_mini.s_quotes += 1;
 		return (1);
+	}
 	else
 		return (0);
 }
@@ -138,12 +140,12 @@ void	assign_line(t_cmds *cmd, char *line)
 			if (line[i] == '"')
 			{
 				i++;
-				while (line[i] != '"')
+				while (line[i] != '"' && line[i] != '\0')
 					i++;
 			}
 			i++;
 		}
-		len = i - start - 1;
+		len = i - start;
 		cmd[j].full_line = ft_substr(line, start, len);
 		j++;
 		i++;
@@ -152,7 +154,7 @@ void	assign_line(t_cmds *cmd, char *line)
 
 //1o aloca n structs t_cmds, sendo n o numero de comandos na line
 //2o (assign_line) parte line em comandos, e mete cada comando dentro da sua struct
-void	parser(char *line)
+t_cmds	*parser(char *line)
 {
 	t_cmds	*cmd;
 	int		num_cmds;
@@ -163,11 +165,15 @@ void	parser(char *line)
 	assign_line(cmd, line);
 	i = -1;
 	while (++i < num_cmds)
-		printf("cmd %d is %s\n", i + 1, cmd[i].full_line);
+	{
+//		printf("cmd %d is %s\n", i + 1, cmd[i].full_line);
+		cmd[i].command = ft_split(cmd[i].full_line, ' ');
+	}
+	return (cmd);
 }
 
-int	main(int ac, char **av)
-{
-	parser(av[1]);
-	return (0);
-}
+//int	main(void)
+//{
+//	parser("ls -la | wc -l");
+//	return (0);
+//}

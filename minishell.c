@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-
-
 char	**init_env(char **o_env)
 {
 	int i;
@@ -25,7 +23,7 @@ char	**init_env(char **o_env)
 	return (env);
 }
 
-int	parse_commands(void)
+/*int	parse_commands(void)
 {
 	int j;
 	int i;
@@ -60,7 +58,7 @@ int	parse_commands(void)
 		return (-1);
 	}
 	return (0);
-}
+}*/
 
 int	get_bin_path(void)
 {
@@ -89,7 +87,7 @@ int	send_to_exec(void)
 	{
 		while(g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.commands[0]), F_OK);
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), F_OK);
 			if (j == 0)
 				break;
 			i++;
@@ -100,7 +98,7 @@ int	send_to_exec(void)
 		if (id == 0 && j == 0)
 		{
 			printf("im just a kid\n");
-			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.commands[0]), g_mini.commands, 0);
+			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), g_mini.cmd->command, 0);
 		}
 		else
 		{
@@ -108,10 +106,7 @@ int	send_to_exec(void)
 			printf("wait has ended\n");
 		}
 	}
-//
-//
-//
-//
+
 	else
 	{
 		pipe(g_mini.pipefd);
@@ -122,10 +117,6 @@ int	send_to_exec(void)
 			
 		}
 	}
-//
-//
-//
-//
 	return (0);
 }
 
@@ -151,14 +142,16 @@ int main(int argc, char **argv, char **o_env)
 			continue ;
 		if (ft_strcmp(line, "exit") == 0)
 			break ;
-		if (line != NULL)
-			g_mini.commands = ft_split(line, ' ');
-		parse_commands();
+//		if (line != NULL)
+//			g_mini.commands = ft_split(line, ' ');
+//		parse_commands();
+		g_mini.cmd = parser(line);
 		get_bin_path();
 		send_to_exec();
 	}
 	free(g_mini.env);
-	free(g_mini.commands);
+//	free(g_mini.cmd->command);
+//	free(g_mini.cmd);
 }
 
 
