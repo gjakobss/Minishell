@@ -11,4 +11,17 @@
 
 # include "libft/libft.h"
 
+typedef struct	s_mini
+{
+	char	**bin_paths;
+	char	**env;
+	char	**commands;
+	int		pipes;
+	int		quotes;
+	int		pipefd[2];
+
+}				t_mini;
+
+t_mini	g_mini;
+
 #endif
