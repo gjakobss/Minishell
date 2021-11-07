@@ -99,29 +99,14 @@ void exec_one(void)
 			wait(NULL);
 }
 
-int	send_to_exec(void)
+void	exec_com_one(int c, int index)
 {
 	int i;
 	int j;
 	int id;
-	int c;
-	int	index;
 
 	i = 0;
-	c = 0;
-	index = 0;
-	if (g_mini.pipes == 0)
-		exec_one();
-	else
-	{
-		id = 0;
-		g_mini.pipefd = malloc(sizeof(int *) * g_mini.pipes);
-		while (id < g_mini.pipes)
-		{
-			g_mini.pipefd[id] = malloc(sizeof(int) * 2);
-			pipe(g_mini.pipefd[id++]);
-		}
-		id = fork();
+	id = fork();
 		if (id == 0)
 		{
 			while (g_mini.bin_paths[i] != NULL)
@@ -142,64 +127,101 @@ int	send_to_exec(void)
 			wait(NULL);
 			close (g_mini.pipefd[index][1]);
 		}
+}
 
+int	exec_com_mid(int c, int index)
+{
+	int id;
+	int i;
+	int j;
 
+	i = 0;
+	id = fork();
+	if	(id == 0)
+	{
+		
+		while (g_mini.bin_paths[i] != NULL)
+		{
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
+			if (j == 0)
+				break ;
+			i++;
+		}
+		if (j == -1)
+			printf("NO PATHS AVAILABLE (built-ins not included)\n");
+		close(g_mini.pipefd[index][0]);
+		dup2(g_mini.pipefd[index - 1][0], 0);
+		dup2(g_mini.pipefd[index][1], 1);
+		execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+	}
+	wait(NULL);
+	close(g_mini.pipefd[index][1]);
+	return (index);
+}
+
+void	exec_last_com(int c, int index)
+{
+	int id;
+	int i;
+	int j;
+
+	i = 0;
+	id = fork();
+	if (id == 0)
+	{
+		i = 0;
+		while (g_mini.bin_paths[i] != NULL)
+		{
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
+			if (j == 0)
+				break ;
+			i++;
+		}
+		if (j == -1)
+			printf("NO PATHS AVAILABLE (built-ins not included)\n");
+		close(g_mini.pipefd[index][1]);
+		close(g_mini.pipefd[index][0]);
+		dup2(g_mini.pipefd[index - 1][0], 0);
+		execve(ft_strjoin(g_mini.bin_paths[i], "/" , g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+	}
+	else
+	{
+		close(g_mini.pipefd[index][1]);
+		close(g_mini.pipefd[index][0]);
+		wait(NULL);
+	}
+}
+
+int	send_to_exec(void)
+{
+	int i;
+	int c;
+	int	index;
+
+	i = 0;
+	c = 0;
+	index = 0;
+	if (g_mini.pipes == 0)
+		exec_one();
+	else
+	{
+		g_mini.pipefd = malloc(sizeof(int *) * g_mini.pipes);
+		while (i < g_mini.pipes)
+		{
+			g_mini.pipefd[i] = malloc(sizeof(int) * 2);
+			pipe(g_mini.pipefd[i++]);
+		}
+		exec_com_one(c, index);
 		index++;
 		c++;
 		g_mini.pipes /= 2;
-		g_mini.pipes--;
-		while (g_mini.pipes > 0)
+		while (--g_mini.pipes > 0)
 		{
-			id = fork();
-			if	(id == 0)
-			{
-				while (g_mini.bin_paths[i] != NULL)
-				{
-					j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
-					if (j == 0)
-						break ;
-					i++;
-				}
-				if (j == -1)
-					printf("NO PATHS AVAILABLE (built-ins not included)\n");
-				close(g_mini.pipefd[index][0]);
-				dup2(g_mini.pipefd[index - 1][0], 0);
-				dup2(g_mini.pipefd[index][1], 1);
-				execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
-			}
-			wait(NULL);
-			close(g_mini.pipefd[index][1]);
+			exec_com_mid(c, index);
 			c++;
 			index++;
-			g_mini.pipes--;
 		}
-
-
-
-		id = fork();
-		if (id == 0)
-		{
-			i = 0;
-			while (g_mini.bin_paths[i] != NULL)
-			{
-				j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
-				if (j == 0)
-					break ;
-				i++;
-			}
-			if (j == -1)
-				printf("NO PATHS AVAILABLE (built-ins not included)\n");
-			close(g_mini.pipefd[index][1]);
-			close(g_mini.pipefd[index][0]);
-			dup2(g_mini.pipefd[index - 1][0], 0);
-			execve(ft_strjoin(g_mini.bin_paths[i], "/" , g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
-		}
-		else
-		{
-			close(g_mini.pipefd[index][1]);
-			close(g_mini.pipefd[index][0]);
-			wait(NULL);
-		}
+		exec_last_com(c, index);
 	}
 	return (0);
 }
