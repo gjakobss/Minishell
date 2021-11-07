@@ -32,9 +32,9 @@ static int	get_len(char const *s, char c)
 
 	i = 0;
 	word = 0;
-	if (s[0] == '\0')
+	if (!s)
 		return (0);
-	while (s[0] == c && s[i + 1] == c && s[i] != '\0')
+	while (*s == c && s[i + 1] == c && s[i] != '\0')
 		i++;
 	while (s[i] != '\0')
 	{

@@ -21,11 +21,11 @@ typedef struct	s_mini
 {
 	char	**bin_paths;
 	char	**env;
-//	char	**commands;
+	int		**pipefd;
 	int		pipes;
 	int		s_quotes;
 	int		d_quotes;
-	int		pipefd[2];
+//	int		pipefd[2];
 	t_cmds	*cmd;
 }				t_mini;
 

@@ -81,14 +81,17 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 int	is_terminator(char j)
 {
-	if (j == '|' || j == '<' || j == '>' || j == ';' || j == '\0')
+//	if (j == '|' || j == '<' || j == '>' || j == ';' || j == '\0')
+	if (j == '|' || j == '<' || j == '>' || j == ';')
 	{
-	if (j == '|')
-		g_mini.pipes += 1;
-	if (j == '\"')
-		g_mini.d_quotes += 1;
-	if (j == '\'')
-		g_mini.s_quotes += 1;
+		if (j == '|')
+		{
+			g_mini.pipes += 1;
+		}
+		if (j == '\"')
+			g_mini.d_quotes += 1;
+		if (j == '\'')
+			g_mini.s_quotes += 1;
 		return (1);
 	}
 	else
@@ -99,24 +102,26 @@ int	command_counter(char *line)
 {
 	int	counter;
 	int	i;
+	int	len;
 
+	len = ft_strlen(line);
 	counter = 1;
 	i = 0;
-	while (line[i])
+	while (i < len)
 	{
-		if (line[i] == '"')
-		{
-			i++;
-			while (line[i] != '"')
-				i++;
-			i++;
-		}
-		if (is_terminator(line[i]))
+//		if (line[i] == '"')
+//		{
+//			i++;
+//			while (line[i] != '"' && line[i])
+//				i++;
+//			i++;
+//		}
+		if (is_terminator(line[i]) && i > 0)
 		{
 			counter++;
-			i++;
-			if (is_terminator(line[i]))
-				i++;
+//			i++;
+//			if (is_terminator(line[i]))
+//				i++;
 		}
 		i++;
 	}
@@ -143,13 +148,34 @@ void	assign_line(t_cmds *cmd, char *line)
 				while (line[i] != '"' && line[i] != '\0')
 					i++;
 			}
+			if (line[i] == '\0')
+				break;
 			i++;
 		}
 		len = i - start;
-		cmd[j].full_line = ft_substr(line, start, len);
+		if (len > 0)
+			cmd[j].full_line = ft_substr(line, start, len);
 		j++;
 		i++;
 	}
+}
+
+int	check_commands(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if ((line[i] >= 'a' && line[i] <= 'z') || (line[i] >= 'A' && line[i] <= 'Z'))
+			return (0);
+		i++;
+	}
+//	while (line[i] == ' ')
+//		i++;
+//	if (is_terminator(line[i]) && is_terminator(line [i + 1]))
+//		return (-1);
+	return (-1);
 }
 
 //1o aloca n structs t_cmds, sendo n o numero de comandos na line
@@ -160,20 +186,17 @@ t_cmds	*parser(char *line)
 	int		num_cmds;
 	int		i;
 
+	if (check_commands(line) == -1)
+		return (NULL);
 	num_cmds = command_counter(line);
-	cmd = malloc(sizeof(t_cmds) * num_cmds);
+	cmd = malloc(sizeof(t_cmds) * (num_cmds + 1));
 	assign_line(cmd, line);
 	i = -1;
 	while (++i < num_cmds)
 	{
-//		printf("cmd %d is %s\n", i + 1, cmd[i].full_line);
 		cmd[i].command = ft_split(cmd[i].full_line, ' ');
 	}
+	cmd[i].command = NULL;
 	return (cmd);
 }
 
-//int	main(void)
-//{
-//	parser("ls -la | wc -l");
-//	return (0);
-//}
