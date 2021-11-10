@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:08:06 by malmeida          #+#    #+#             */
-/*   Updated: 2021/11/10 22:14:55 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/11/10 23:08:07 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,40 @@ void	bi_pwd(void)
 	getcwd(str, 999);
 	printf("%s\n", str);
 }
+
+void	bi_cd(char *str)
+{
+	int	ret;
+
+	if (str[0] == '~' && str[1] == '\0')
+		ret = chdir(getenv("HOME"));
+	else
+		ret = chdir(str);
+	if (ret == -1)
+		printf("Error changing directory\n");
+}
+
+/*
+
+void	bi_export(char *str)
+{
+	int		i;
+	char	**new_env = NULL;
+
+	i = 0;
+	while (g_mini.env[i] != NULL)
+	{
+		new_env[i] = ft_strdup(g_mini.env[i]);
+		i++;
+	}
+	new_env[i] = ft_strdup(str);
+	new_env[i + 1] = NULL;
+	i = 0;
+	while (g_mini.env[i] != NULL)
+	{
+		free(g_mini.env[i]);
+		i++;
+	}
+	g_mini.env = new_env;
+}
+*/
