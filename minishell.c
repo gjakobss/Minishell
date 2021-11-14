@@ -23,48 +23,12 @@ char	**init_env(char **o_env)
 	return (env);
 }
 
-/*int	parse_commands(void)
-{
-	int j;
-	int i;
-	int	s_quotes;
-	int	d_quotes;
-
-	i = 0;
-	s_quotes = 0;
-	d_quotes = 0;
-	while (g_mini.commands[i] != NULL)
-	{
-		j = 0;
-		while(g_mini.commands[i][j] != '\0')
-		{
-			if (g_mini.commands[i][j] == '\'' && d_quotes % 2 == 0)
-				s_quotes += 1;
-			else if (g_mini.commands[i][j] == '\"' && s_quotes % 2 == 0)
-				d_quotes += 1;
-			if (g_mini.commands[i][j] == '|' && (d_quotes % 2 == 0 && s_quotes % 2 == 0))
-			{
-				g_mini.pipes += 1;
-			}
-			j++;
-		}
-		i++;
-	}
-	if (g_mini.pipes)
-		printf("pi-pi-piiiiipe\n");
-	if ((d_quotes % 2 != 0) || (s_quotes % 2 != 0))
-	{
-		printf("Unclosed quotation mark\n");
-		return (-1);
-	}
-	return (0);
-}*/
-
 int	get_bin_path(void)
 {
 	int i;
 
 	i = 0;
+//	usar o getenv("PATH")
 	while (g_mini.env[i] != NULL)
 	{
 		if (g_mini.env[i][0] == 'P' && g_mini.env[i][1] == 'A')
@@ -73,6 +37,30 @@ int	get_bin_path(void)
 	}
 	g_mini.bin_paths = ft_split(g_mini.env[i] + 5, ':');
 	return (0);
+}
+
+void	exec_one_bi(int x)
+{
+	char	*str;
+	str = g_mini.cmd[x].command[0];
+	if (!ft_strcmp(str, "cd"))
+		bi_cd(g_mini.cmd[x].command[1]);
+	if (!ft_strcmp(str, "pwd"))
+		bi_pwd();
+	if (!ft_strcmp(str, "env"))
+		bi_env();
+}
+
+int	is_builtin(int x)
+{
+	char	*str;
+
+	str = g_mini.cmd[x].command[0];
+	if (!ft_strcmp(str, "echo") || !ft_strcmp(str, "pwd") || !ft_strcmp(str, "env")
+		|| !ft_strcmp(str, "export") || !ft_strcmp(str, "unset") || !ft_strcmp(str, "cd"))
+		return (1);
+	return (0);
+
 }
 
 void exec_one(void)
@@ -84,14 +72,14 @@ void exec_one(void)
 	i = 0;
 	j = 0;
 	while(g_mini.bin_paths[i] != NULL)
-		{
+	{
 			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), F_OK);
 			if (j == 0)
 				break;
 			i++;
-		}
+	}
 		if (j == -1)
-			printf("NO PATHS AVAILABLE (built-ins not included)\n");
+			printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
 		id = fork();
 		if (id == 0 && j == 0)
 			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), g_mini.cmd->command, 0);
@@ -116,11 +104,17 @@ void	exec_com_one(int c, int index)
 					break ;
 				i++;
 			}
-			if (j == -1)
-				printf("NO PATHS AVAILABLE (built-ins not included)\n");
+			if (j == -1 && is_builtin(c) == 0)
+				printf("command not found: %s\n", g_mini.cmd[c].command[0]);
 			close(g_mini.pipefd[index][0]);
 			dup2(g_mini.pipefd[index][1], 1);
-			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+			if (is_builtin(c) == 1)
+			{
+				exec_one_bi(c);
+				exit(0);
+			}
+			else
+				execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
 		}
 		else
 		{
@@ -139,7 +133,7 @@ int	exec_com_mid(int c, int index)
 	id = fork();
 	if	(id == 0)
 	{
-		
+
 		while (g_mini.bin_paths[i] != NULL)
 		{
 			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
@@ -147,11 +141,19 @@ int	exec_com_mid(int c, int index)
 				break ;
 			i++;
 		}
-		if (j == -1)
-			printf("NO PATHS AVAILABLE (built-ins not included)\n");
+		if (j == -1 && is_builtin(0) == 1)
+			j = 0;
+		else if (j == -1 && is_builtin(0) == 0)
+			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
+		if (is_builtin(c) == 1)
+			{
+				exec_one_bi(c);
+				exit(0);
+			}
+		else
 		execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
 	}
 	wait(NULL);
@@ -178,19 +180,26 @@ void	exec_last_com(int c, int index)
 			i++;
 		}
 		if (j == -1)
-			printf("NO PATHS AVAILABLE (built-ins not included)\n");
+			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
+		if (is_builtin(c) == 1)
+			{
+				exec_one_bi(c);
+				exit(0);
+			}
+		else
 		execve(ft_strjoin(g_mini.bin_paths[i], "/" , g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
 	}
 	else
 	{
+		wait(NULL);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
-		wait(NULL);
 	}
 }
+
 
 int	send_to_exec(void)
 {
@@ -201,7 +210,9 @@ int	send_to_exec(void)
 	i = 0;
 	c = 0;
 	index = 0;
-	if (g_mini.pipes == 0)
+	if (g_mini.pipes == 0 && is_builtin(0) == 1)
+		exec_one_bi(0);
+	else if (g_mini.pipes == 0 && is_builtin(0) == 0)
 		exec_one();
 	else
 	{
@@ -244,8 +255,8 @@ int main(int argc, char **argv, char **o_env)
 	{
 		init_g();
 		line = readline("BBShell >$ ");
-		if (ft_strlen(line) == 0)
-			continue ;
+		if (!line)
+			continue;
 		if (ft_strcmp(line, "exit") == 0)
 			break ;
 		g_mini.cmd = parser(line);
@@ -253,10 +264,11 @@ int main(int argc, char **argv, char **o_env)
 			continue ;
 		get_bin_path();
 		send_to_exec();
+		//need to update env with getenv();
 	}
 	free(g_mini.env);
 //	free(g_mini.cmd->command);
-//	free(g_mini.cmd);
+	free(g_mini.cmd);
 }
 
 

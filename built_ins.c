@@ -33,7 +33,7 @@ void	bi_cd(char *str)
 {
 	int	ret;
 
-	if (str[0] == '~' && str[1] == '\0')
+	if ((!str) || (str[0] == '~' && str[1] == '\0'))
 		ret = chdir(getenv("HOME"));
 	else
 		ret = chdir(str);

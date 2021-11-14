@@ -104,10 +104,6 @@ int	check_commands(char *line)
 			return (0);
 		i++;
 	}
-//	while (line[i] == ' ')
-//		i++;
-//	if (is_terminator(line[i]) && is_terminator(line [i + 1]))
-//		return (-1);
 	return (-1);
 }
 

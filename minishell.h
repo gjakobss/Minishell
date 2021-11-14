@@ -8,6 +8,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # include "libft/libft.h"
 
@@ -35,6 +36,6 @@ t_cmds	*parser(char *line);
 
 void	bi_env(void);
 void	bi_pwd(void);
-void	bi_cd(void);
+void	bi_cd(char *str);
 
 #endif
