@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:08:06 by malmeida          #+#    #+#             */
-/*   Updated: 2021/11/16 13:48:14 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/11/16 23:52:37 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,76 @@ void	bi_cd(char *str)
 		printf("Error changing directory\n");
 }
 
+
+//	Esta funcao tira as aspas dos argumentos do echo, tipo se lhe passares
+//	echo "joao", queres que ele imprima so joao em vez de "joao"
+//	Depois dou-lhe um nome mais serio
+//	Ta meio fodido isto ainda
+
+/*
+static char	*real_aspas_remover(char *str)
+{
+	char	*ptr;
+	int		i;
+	int		len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	if (str[1] != '"' && str[len - 1] != '"')
+		return (str);
+	else
+		ptr = (char *)malloc(sizeof(char) * len - 3);
+	i = 0;
+	while (i < len - 2)
+	{
+		ptr[i] = str[i + 2];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+static void	aspas_remover(char **str, int n_flag)
+{
+	int	i;
+	
+	if (n_flag)
+		i = 2;
+	else
+		i = 1;
+	while (str[i])
+	{
+		str[i] = real_aspas_remover(str[i]);
+		i++;
+	}
+}
+*/
 void	bi_echo(char **str)
 {
 	int	n_flag;
+	int	i;
 
 	if (str[1][0] == '-' && str[1][1] == 'n')
+	{
 		n_flag = 1;
+		i = 2;
+	}
 	else
+	{
 		n_flag = 0;
-
+		i = 1;
+	}
+	//aspas_remover(str, n_flag);
+	while (str[i])
+	{
+		printf("%s", str[i]);
+		if (str[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!n_flag)
+		printf("\n");
 }
 
 /*
