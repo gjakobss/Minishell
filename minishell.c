@@ -49,6 +49,8 @@ void	exec_one_bi(int x)
 		bi_pwd();
 	if (!ft_strcmp(str, "env"))
 		bi_env();
+	if (!ft_strcmp(str, "echo"))
+		bi_echo(g_mini.cmd[x].command);
 }
 
 int	is_builtin(int x)

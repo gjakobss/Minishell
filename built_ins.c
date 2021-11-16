@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:08:06 by malmeida          #+#    #+#             */
-/*   Updated: 2021/11/10 23:08:07 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/11/16 13:48:14 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ void	bi_cd(char *str)
 		ret = chdir(str);
 	if (ret == -1)
 		printf("Error changing directory\n");
+}
+
+void	bi_echo(char **str)
+{
+	int	n_flag;
+
+	if (str[1][0] == '-' && str[1][1] == 'n')
+		n_flag = 1;
+	else
+		n_flag = 0;
+
 }
 
 /*

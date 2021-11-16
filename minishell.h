@@ -37,5 +37,6 @@ t_cmds	*parser(char *line);
 void	bi_env(void);
 void	bi_pwd(void);
 void	bi_cd(char *str);
+void	bi_echo(char **str);
 
 #endif
