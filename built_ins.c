@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:08:06 by malmeida          #+#    #+#             */
-/*   Updated: 2021/11/16 23:52:37 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/11/17 22:19:02 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	bi_cd(char *str)
 //	Depois dou-lhe um nome mais serio
 //	Ta meio fodido isto ainda
 
-/*
 static char	*real_aspas_remover(char *str)
 {
 	char	*ptr;
@@ -73,7 +72,7 @@ static char	*real_aspas_remover(char *str)
 
 static void	aspas_remover(char **str, int n_flag)
 {
-	int	i;
+	int		i;
 	
 	if (n_flag)
 		i = 2;
@@ -85,7 +84,7 @@ static void	aspas_remover(char **str, int n_flag)
 		i++;
 	}
 }
-*/
+
 void	bi_echo(char **str)
 {
 	int	n_flag;
@@ -101,7 +100,7 @@ void	bi_echo(char **str)
 		n_flag = 0;
 		i = 1;
 	}
-	//aspas_remover(str, n_flag);
+	aspas_remover(str, n_flag);
 	while (str[i])
 	{
 		printf("%s", str[i]);
