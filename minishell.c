@@ -2,17 +2,16 @@
 
 char	**init_env(char **o_env)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	**env;
 
 	i = 0;
-
 	while (o_env[i] != NULL)
 	{
 		i++;
 	}
-	env = malloc(sizeof(char*) * i + 1);
+	env = malloc(sizeof(char *) * i + 1);
 	i = 0;
 	while (o_env[i] != NULL)
 	{
@@ -25,14 +24,14 @@ char	**init_env(char **o_env)
 
 int	get_bin_path(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 //	usar o getenv("PATH")
 	while (g_mini.env[i] != NULL)
 	{
 		if (g_mini.env[i][0] == 'P' && g_mini.env[i][1] == 'A')
-			break;
+			break ;
 		i++;
 	}
 	g_mini.bin_paths = ft_split(g_mini.env[i] + 5, ':');
@@ -42,6 +41,7 @@ int	get_bin_path(void)
 void	exec_one_bi(int x)
 {
 	char	*str;
+
 	str = g_mini.cmd[x].command[0];
 	if (!ft_strcmp(str, "cd"))
 		bi_cd(g_mini.cmd[x].command[1]);
@@ -58,87 +58,84 @@ int	is_builtin(int x)
 	char	*str;
 
 	str = g_mini.cmd[x].command[0];
-	if (!ft_strcmp(str, "echo") || !ft_strcmp(str, "pwd") || !ft_strcmp(str, "env")
-		|| !ft_strcmp(str, "export") || !ft_strcmp(str, "unset") || !ft_strcmp(str, "cd"))
+	if (!ft_strcmp(str, "echo") || !ft_strcmp(str, "pwd")
+		|| !ft_strcmp(str, "env")
+		|| !ft_strcmp(str, "export") || !ft_strcmp(str, "unset")
+		|| !ft_strcmp(str, "cd"))
 		return (1);
 	return (0);
-
 }
 
-void exec_one(void)
+void	exec_one(void)
 {
-	int i;
-	int j;
-	int id;
+	int	i;
+	int	j;
+	int	id;
 
 	i = 0;
 	j = 0;
-	while(g_mini.bin_paths[i] != NULL)
+	while (g_mini.bin_paths[i] != NULL)
 	{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), F_OK);
-			if (j == 0)
-				break;
-			i++;
+		j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
+		if (j == 0)
+			break ;
+		i++;
 	}
-		if (j == -1)
-			printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
-		id = fork();
-		if (id == 0 && j == 0)
-			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), g_mini.cmd->command, 0);
-		else
-			wait(NULL);
+	if (j == -1)
+		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
+	id = fork();
+	if (id == 0 && j == 0)
+		execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, 0);
+	else
+		wait(NULL);
 }
 
 void	exec_com_one(int c, int index)
 {
-	int i;
-	int j;
-	int id;
+	int	i;
+	int	j;
+	int	id;
 
 	i = 0;
 	id = fork();
-		if (id == 0)
+	if (id == 0)
+	{
+		while (g_mini.bin_paths[i] != NULL)
 		{
-			while (g_mini.bin_paths[i] != NULL)
-			{
-				j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
-				if (j == 0)
-					break ;
-				i++;
-			}
-			if (j == -1 && is_builtin(c) == 0)
-				printf("command not found: %s\n", g_mini.cmd[c].command[0]);
-			close(g_mini.pipefd[index][0]);
-			dup2(g_mini.pipefd[index][1], 1);
-			if (is_builtin(c) == 1)
-			{
-				exec_one_bi(c);
-				exit(0);
-			}
-			else
-				execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			if (j == 0)
+				break ;
+			i++;
+		}
+		if (j == -1 && is_builtin(c) == 0)
+			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
+		close(g_mini.pipefd[index][0]);
+		dup2(g_mini.pipefd[index][1], 1);
+		if (is_builtin(c) == 1)
+		{
+			exec_one_bi(c);
+			exit(0);
 		}
 		else
-		{
-			wait(NULL);
-			close (g_mini.pipefd[index][1]);
-		}
+			execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+	}
+	wait(NULL);
+	close (g_mini.pipefd[index][1]);
 }
 
 int	exec_com_mid(int c, int index)
 {
-	int id;
-	int i;
-	int j;
+	int	id;
+	int	i;
+	int	j;
 
 	i = 0;
 	id = fork();
-	if	(id == 0)
+	if (id == 0)
 	{
-
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
@@ -151,12 +148,12 @@ int	exec_com_mid(int c, int index)
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
-			{
-				exec_one_bi(c);
-				exit(0);
-			}
+		{
+			exec_one_bi(c);
+			exit(0);
+		}
 		else
-		execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+		execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
 	}
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
@@ -165,9 +162,9 @@ int	exec_com_mid(int c, int index)
 
 void	exec_last_com(int c, int index)
 {
-	int id;
-	int i;
-	int j;
+	int	id;
+	int	i;
+	int	j;
 
 	i = 0;
 	id = fork();
@@ -176,7 +173,7 @@ void	exec_last_com(int c, int index)
 		i = 0;
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[c].command[0]), F_OK);
+			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
@@ -187,12 +184,12 @@ void	exec_last_com(int c, int index)
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		if (is_builtin(c) == 1)
-			{
-				exec_one_bi(c);
-				exit(0);
-			}
+		{
+			exec_one_bi(c);
+			exit(0);
+		}
 		else
-		execve(ft_strjoin(g_mini.bin_paths[i], "/" , g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+			execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
 	}
 	else
 	{
@@ -202,11 +199,10 @@ void	exec_last_com(int c, int index)
 	}
 }
 
-
 int	send_to_exec(void)
 {
-	int i;
-	int c;
+	int	i;
+	int	c;
 	int	index;
 
 	i = 0;
@@ -239,15 +235,14 @@ int	send_to_exec(void)
 	return (0);
 }
 
-void	init_g()
+void	init_g(void)
 {
 	g_mini.pipes = 0;
-
 }
 
-int main(int argc, char **argv, char **o_env)
+int	main(int argc, char **argv, char **o_env)
 {
-	char *line;
+	char	*line;
 
 	(void)argc;
 	(void)argv;
@@ -258,7 +253,7 @@ int main(int argc, char **argv, char **o_env)
 		init_g();
 		line = readline("BBShell >$ ");
 		if (!line)
-			continue;
+			continue ;
 		if (ft_strcmp(line, "exit") == 0)
 			break ;
 		g_mini.cmd = parser(line);
@@ -272,9 +267,6 @@ int main(int argc, char **argv, char **o_env)
 //	free(g_mini.cmd->command);
 	free(g_mini.cmd);
 }
-
-
-
 
 
 

@@ -12,13 +12,13 @@
 
 # include "libft/libft.h"
 
-typedef struct	s_cmds {
+typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
 	int		type;
 }		t_cmds;
 
-typedef struct	s_mini
+typedef struct s_mini
 {
 	char	**bin_paths;
 	char	**env;
@@ -33,7 +33,6 @@ typedef struct	s_mini
 t_mini	g_mini;
 
 t_cmds	*parser(char *line);
-
 void	bi_env(void);
 void	bi_pwd(void);
 void	bi_cd(char *str);

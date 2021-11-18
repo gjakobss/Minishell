@@ -61,16 +61,12 @@ int	command_counter(char *line)
 	return (counter);
 }
 
-void	assign_line(t_cmds *cmd, char *line)
+void	assign_line(t_cmds *cmd, char *line, int j, int i)
 {
-	int	i;
-	int	j;
 	int	start;
 	int	len;
 
-	j = 0;
-	i = 0;
-	while (line[i])
+	while (line[++i])
 	{
 		start = i;
 		while (!is_terminator(line[i]))
@@ -82,25 +78,25 @@ void	assign_line(t_cmds *cmd, char *line)
 					i++;
 			}
 			if (line[i] == '\0')
-				break;
+				break ;
 			i++;
 		}
 		len = i - start;
 		if (len > 0)
 			cmd[j].full_line = ft_substr(line, start, len);
 		j++;
-		i++;
 	}
 }
 
 int	check_commands(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if ((line[i] >= 'a' && line[i] <= 'z') || (line[i] >= 'A' && line[i] <= 'Z'))
+		if ((line[i] >= 'a' && line[i] <= 'z')
+			|| (line[i] >= 'A' && line[i] <= 'Z'))
 			return (0);
 		i++;
 	}
@@ -119,7 +115,7 @@ t_cmds	*parser(char *line)
 		return (NULL);
 	num_cmds = command_counter(line);
 	cmd = malloc(sizeof(t_cmds) * (num_cmds + 1));
-	assign_line(cmd, line);
+	assign_line(cmd, line, 0, -1);
 	i = -1;
 	while (++i < num_cmds)
 	{
@@ -128,4 +124,3 @@ t_cmds	*parser(char *line)
 	cmd[i].command = NULL;
 	return (cmd);
 }
-

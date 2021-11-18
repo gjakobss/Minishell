@@ -41,7 +41,6 @@ void	bi_cd(char *str)
 		printf("Error changing directory\n");
 }
 
-
 //	Esta funcao tira as aspas dos argumentos do echo, tipo se lhe passares
 //	echo "joao", queres que ele imprima so joao em vez de "joao"
 //	Depois dou-lhe um nome mais serio
@@ -51,20 +50,23 @@ static char	*real_aspas_remover(char *str)
 {
 	char	*ptr;
 	int		i;
+	int		j;
 	int		len;
 
 	len = 0;
 	while (str[len])
 		len++;
-	if (str[1] != '"' && str[len - 1] != '"')
+	if (str[0] != '"' && str[len - 1] != '"')
 		return (str);
 	else
-		ptr = (char *)malloc(sizeof(char) * len - 3);
+		ptr = (char *)malloc(sizeof(char) * len - 1);
 	i = 0;
+	j = 1;
 	while (i < len - 2)
 	{
-		ptr[i] = str[i + 2];
+		ptr[i] = str[j];
 		i++;
+		j++;
 	}
 	ptr[i] = '\0';
 	return (ptr);
@@ -73,7 +75,7 @@ static char	*real_aspas_remover(char *str)
 static void	aspas_remover(char **str, int n_flag)
 {
 	int		i;
-	
+
 	if (n_flag)
 		i = 2;
 	else
