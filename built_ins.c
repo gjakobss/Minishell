@@ -48,28 +48,37 @@ void	bi_cd(char *str)
 
 static char	*real_aspas_remover(char *str)
 {
-	char	*ptr;
+	char	**ptr;
 	int		i;
-	int		j;
+//	int		j;
 	int		len;
 
 	len = 0;
+	i = 0;
 	while (str[len])
 		len++;
-	if (str[0] != '"' && str[len - 1] != '"')
+	while (str[i])
+	{
+		if (str[i] == '"')
+			break;
+		i++;
+	}
+	if (str[i] == '\0')
 		return (str);
 	else
-		ptr = (char *)malloc(sizeof(char) * len - 1);
-	i = 0;
-	j = 1;
-	while (i < len - 2)
-	{
-		ptr[i] = str[j];
-		i++;
-		j++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+		ptr = ft_split(str, '"');
+	i = 1;
+//		ptr = (char *)malloc(sizeof(char) * len - 1);
+//	i = 0;
+//	j = 1;
+//	while (i < len - 2)
+//	{
+//		ptr[i] = str[j];
+//		i++;
+//		j++;
+//	}
+//	ptr[i] = '\0';
+	return (*ptr);
 }
 
 static void	aspas_remover(char **str, int n_flag)

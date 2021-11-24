@@ -238,6 +238,8 @@ int	send_to_exec(void)
 void	init_g(void)
 {
 	g_mini.pipes = 0;
+	g_mini.s_quotes = 0;
+	g_mini.d_quotes = 0;
 }
 
 int	main(int argc, char **argv, char **o_env)
