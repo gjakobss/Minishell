@@ -3,22 +3,19 @@
 char	**init_env(char **o_env)
 {
 	int		i;
-	int		j;
 	char	**env;
 
 	i = 0;
 	while (o_env[i] != NULL)
-	{
 		i++;
-	}
-	env = malloc(sizeof(char *) * i + 1);
+	env = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (o_env[i] != NULL)
 	{
 		env[i] = o_env[i];
 		i++;
 	}
-	j = 0;
+	env[i] = NULL;
 	return (env);
 }
 
@@ -51,6 +48,8 @@ void	exec_one_bi(int x)
 		bi_env();
 	if (!ft_strcmp(str, "echo"))
 		bi_echo(g_mini.cmd[x].command);
+	if (!ft_strcmp(str, "export"))
+		bi_export(g_mini.cmd[x].command);
 }
 
 int	is_builtin(int x)
@@ -240,6 +239,8 @@ void	init_g(void)
 	g_mini.pipes = 0;
 	g_mini.s_quotes = 0;
 	g_mini.d_quotes = 0;
+	g_mini.semi_col = 0;
+	g_mini.dollar = 0;
 }
 
 int	main(int argc, char **argv, char **o_env)
@@ -266,59 +267,5 @@ int	main(int argc, char **argv, char **o_env)
 		//need to update env with getenv();
 	}
 	free(g_mini.env);
-//	free(g_mini.cmd->command);
 	free(g_mini.cmd);
 }
-
-
-
-//Tentativa bem sucedida de fazer dois comandos (SÓ 2).
-
-/*	else
-	{
-		pipe(g_mini.pipefd);
-		id = fork();
-		if (id == 0)
-		{
-			while (g_mini.bin_paths[i] != NULL)
-			{
-				j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), F_OK);
-				if (j == 0)
-					break ;
-				i++;
-			}
-			if (j == -1)
-				printf("NO PATHS AVAILABLE (built-ins not included)\n");
-			close(g_mini.pipefd[0]);
-			dup2(g_mini.pipefd[1], 1);
-			execve(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd->command[0]), g_mini.cmd->command, 0);
-		}
-		else
-		{
-			id = fork();
-			if (id == 0)
-			{
-				i = 0;
-				while (g_mini.bin_paths[i] != NULL)
-				{
-					j = access(ft_strjoin(g_mini.bin_paths[i], "/" ,g_mini.cmd[1].command[0]), F_OK);
-					if (j == 0)
-						break ;
-					i++;
-				}
-				if (j == -1)
-					printf("NO PATHS AVAILABLE (built-ins not included)\n");
-				close(g_mini.pipefd[1]);
-				dup2(g_mini.pipefd[0], 0);
-				execve(ft_strjoin(g_mini.bin_paths[i], "/" , g_mini.cmd[1].command[0]), g_mini.cmd[1].command, 0);
-			}
-			else
-			{
-				close(g_mini.pipefd[0]);
-				close(g_mini.pipefd[1]);
-				wait(NULL);
-			}
-			wait(NULL);
-		}
-	}
-	return (0);*/

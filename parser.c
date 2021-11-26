@@ -14,20 +14,16 @@
 
 int	is_terminator(char j)
 {
-	if (j == '"')
-	{
+	if ((j == '"') && ((g_mini.s_quotes / 2) % 2 != 0))
 		g_mini.d_quotes += 1;
-	}
-	else if (j == '\'')
-	{
+	else if ((j == '\'') && ((g_mini.d_quotes / 2) % 2 != 0))
 		g_mini.s_quotes += 1;
-	}
 	else if (j == '|' || j == '<' || j == '>' || j == ';')
 	{
 		if (j == '|')
-		{
 			g_mini.pipes += 1;
-		}
+		if (j == ';')
+			g_mini.semi_col += 1;
 		return (1);
 	}
 	return (0);
@@ -89,12 +85,36 @@ int	check_commands(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';' || line[i] == '"' || line[i] == '\'')
+		{
+			while (line[i] != '\0')
+			{
+				if ((line[i] >= 'a' && line[i] <= 'z')
+					|| (line[i] >= 'A' && line[i] <= 'Z'))
+					break;
+			i++;
+			}
+			if (line[i] == '\0')
+				return (-1);
+		}
+		i++;
+	}
+/*	while ( line[i] != '\0')
+	{
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';')
+			break ;
+		i++;
+	}
+	if (line[i] == '\0')
+		i = 0;
+	while (line[i] != '\0')
+	{
 		if ((line[i] >= 'a' && line[i] <= 'z')
 			|| (line[i] >= 'A' && line[i] <= 'Z'))
 			return (0);
 		i++;
-	}
-	return (-1);
+	}*/
+	return (0);
 }
 
 //1o aloca n structs t_cmds, sendo n o numero de comandos na line

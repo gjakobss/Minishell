@@ -26,7 +26,8 @@ typedef struct s_mini
 	int		pipes;
 	int		s_quotes;
 	int		d_quotes;
-//	int		pipefd[2];
+	int		semi_col;
+	int		dollar;
 	t_cmds	*cmd;
 }				t_mini;
 
@@ -37,5 +38,5 @@ void	bi_env(void);
 void	bi_pwd(void);
 void	bi_cd(char *str);
 void	bi_echo(char **str);
-
+void	bi_export(char **buff);
 #endif
