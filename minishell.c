@@ -75,7 +75,7 @@ void	exec_one(void)
 	j = 0;
 	while (g_mini.bin_paths[i] != NULL)
 	{
-		j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
+		j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
 		if (j == 0)
 			break ;
 		i++;
@@ -84,7 +84,7 @@ void	exec_one(void)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
 	id = fork();
 	if (id == 0 && j == 0)
-		execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, 0);
+		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
 	else
 		wait(NULL);
 }
@@ -101,13 +101,13 @@ void	exec_com_one(int c, int index)
 	{
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
 		}
 		if (j == -1 && is_builtin(c) == 0)
-			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
+			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
@@ -116,7 +116,7 @@ void	exec_com_one(int c, int index)
 			exit(0);
 		}
 		else
-			execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 	}
 	wait(NULL);
 	close (g_mini.pipefd[index][1]);
@@ -134,7 +134,7 @@ int	exec_com_mid(int c, int index)
 	{
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
@@ -142,7 +142,7 @@ int	exec_com_mid(int c, int index)
 		if (j == -1 && is_builtin(0) == 1)
 			j = 0;
 		else if (j == -1 && is_builtin(0) == 0)
-			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
+			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
@@ -152,7 +152,7 @@ int	exec_com_mid(int c, int index)
 			exit(0);
 		}
 		else
-		execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 	}
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
@@ -172,13 +172,13 @@ void	exec_last_com(int c, int index)
 		i = 0;
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
 		}
 		if (j == -1)
-			printf("command not found: %s\n", g_mini.cmd[c].command[0]);
+			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
@@ -188,7 +188,7 @@ void	exec_last_com(int c, int index)
 			exit(0);
 		}
 		else
-			execve(ft_strjoin(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, 0);
+			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 	}
 	else
 	{
@@ -255,15 +255,19 @@ int	main(int argc, char **argv, char **o_env)
 	{
 		init_g();
 		line = readline("BBShell >$ ");
-		if (!line)
+		if (!line || line[0] == '\0')
 			continue ;
-		if (ft_strcmp(line, "exit") == 0)
-			break ;
-		g_mini.cmd = parser(line);
-		if (g_mini.cmd == NULL)
-			continue ;
-		get_bin_path();
-		send_to_exec();
+		else
+		{
+			if (ft_strcmp(line, "exit") == 0)
+				break ;
+			g_mini.cmd = parser(line);
+			if (g_mini.cmd == NULL)
+				continue ;
+			get_bin_path();
+			send_to_exec();
+		}
+		free(line);
 		//need to update env with getenv();
 	}
 	free(g_mini.env);

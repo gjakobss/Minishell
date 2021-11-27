@@ -14,9 +14,9 @@
 
 int	is_terminator(char j)
 {
-	if ((j == '"') && ((g_mini.s_quotes / 2) % 2 != 0))
+	if (j == '"')
 		g_mini.d_quotes += 1;
-	else if ((j == '\'') && ((g_mini.d_quotes / 2) % 2 != 0))
+	else if (j == '\'')
 		g_mini.s_quotes += 1;
 	else if (j == '|' || j == '<' || j == '>' || j == ';')
 	{
@@ -85,7 +85,7 @@ int	check_commands(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';' || line[i] == '"' || line[i] == '\'')
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';')
 		{
 			while (line[i] != '\0')
 			{
@@ -95,7 +95,9 @@ int	check_commands(char *line)
 			i++;
 			}
 			if (line[i] == '\0')
+			{
 				return (-1);
+			}
 		}
 		i++;
 	}
@@ -136,7 +138,6 @@ t_cmds	*parser(char *line)
 	cmd[i].command = NULL;
 	if (((g_mini.s_quotes / 2) % 2 != 0) || ((g_mini.d_quotes / 2) % 2 != 0))
 	{
-
 		printf("Error: unclosed quotes\n");
 		return (NULL);
 	}

@@ -30,7 +30,9 @@ static char	*real_aspas_remover(char *str)
 		return (str);
 	else
 		ptr = ft_split(str, c);
-//	if (ptr[1] != NULL)
+	i = 1;
+	while (ptr[i] != NULL)
+		ptr[0] = ft_strjoin(ptr[0], ptr[i++]);
 	return (*ptr);
 }
 
@@ -44,7 +46,6 @@ static void	aspas_remover(char **str, int n_flag)
 		i = 1;
 	while (str[i])
 	{
-//		if (str[i] == '$')
 		str[i] = real_aspas_remover(str[i]);
 		i++;
 	}
