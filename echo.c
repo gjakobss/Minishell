@@ -11,20 +11,17 @@ static char	*real_aspas_remover(char *str)
 	int		i;
 	char	c;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	c = '"';
+	while (str[++i])
 	{
 		if (str[i] == '"')
-		{
-			c = '"';
 			break ;
-		}
 		else if (str[i] == '\'')
 		{
 			c = '\'';
 			break ;
 		}
-		i++;
 	}
 	if (str[i] == '\0')
 		return (str);

@@ -11,4 +11,3 @@ void	bi_cd(char *str)
 	if (ret == -1)
 		printf("Error changing directory\n");
 }
-

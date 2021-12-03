@@ -152,7 +152,7 @@ int	exec_com_mid(int c, int index)
 			exit(0);
 		}
 		else
-		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
+			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 	}
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
@@ -256,7 +256,7 @@ int	main(int argc, char **argv, char **o_env)
 		init_g();
 		line = readline("BBShell >$ ");
 		if (!line || line[0] == '\0')
-			continue ;
+			break ;
 		else
 		{
 			if (ft_strcmp(line, "exit") == 0)
