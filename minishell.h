@@ -22,6 +22,7 @@ typedef struct s_mini
 {
 	char	**bin_paths;
 	char	**env;
+	char	**exp;
 	int		**pipefd;
 	int		pipes;
 	int		s_quotes;
@@ -39,4 +40,10 @@ void	bi_pwd(void);
 void	bi_cd(char *str);
 void	bi_echo(char **str);
 void	bi_export(char **buff);
+int		send_to_exec(void);
+int		is_builtin(int x);
+void	exec_one_bi(int x);
+char	**exp_organizer(char **exp, char *str);
+char	*exp_organizer2(char **ret, int i);
+
 #endif

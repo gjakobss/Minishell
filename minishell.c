@@ -19,6 +19,72 @@ char	**init_env(char **o_env)
 	return (env);
 }
 
+char	*exp_organizer2(char **ret, int i)
+{
+	int	j;
+	int	x;
+
+	j = 0;
+	while (ret[++j] != NULL)
+	{
+		if (i == j)
+			j++;
+		if (ret[j] == NULL)
+			break ;
+		if(ret[i][0] > ret[j][0] && ft_strcmp(ret[j], "0") != 0)
+			i = j;
+		else if (ret[i][0] == ret[j][0] && ft_strcmp(ret[j], "0") != 0)
+		{
+			x = 0;
+			while(ret[i][x] != '\0' && ret[j][x] != '\0' && ret[i][x] == ret[j][x])
+				x++;
+			if (ret[j][x] == '\0' || ret[i][x] > ret[j][x])
+				i = j;
+		}
+	}
+	return (ret[i]);
+
+}
+
+char	**exp_organizer(char **exp, char *str)
+{
+	char	**ret;
+	int		i;
+	int		j;
+	int		y;
+
+	i = 0;
+	j = 0;
+	y = 0;
+	while (exp[i])
+		i++;
+	if (str != NULL)
+		i++;
+	ret = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	if (str)
+		ret[i++] = str;
+	while (exp[j])
+		ret[i++] = exp[j++];
+	ret[i] = NULL;
+	exp = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (ret[i] != NULL)
+	{
+		j = 0;
+		exp[y] = exp_organizer2(ret, i);
+		while (ft_strcmp(ret[j], exp[y]) != 0)
+			j++;
+		if (ft_strcmp(ret[j], exp[y]) == 0)
+			ret[j] = "0";
+		y++;
+		while (ret[i] != NULL && ft_strcmp(ret[i], "0") == 0)
+			i++;
+	}
+	exp[y] = NULL;
+	return (exp);
+}
+
 int	get_bin_path(void)
 {
 	int	i;
@@ -65,175 +131,6 @@ int	is_builtin(int x)
 	return (0);
 }
 
-void	exec_one(void)
-{
-	int	i;
-	int	j;
-	int	id;
-
-	i = 0;
-	j = 0;
-	while (g_mini.bin_paths[i] != NULL)
-	{
-		j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
-		if (j == 0)
-			break ;
-		i++;
-	}
-	if (j == -1)
-		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
-	id = fork();
-	if (id == 0 && j == 0)
-		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
-	else
-		wait(NULL);
-}
-
-void	exec_com_one(int c, int index)
-{
-	int	i;
-	int	j;
-	int	id;
-
-	i = 0;
-	id = fork();
-	if (id == 0)
-	{
-		while (g_mini.bin_paths[i] != NULL)
-		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
-			if (j == 0)
-				break ;
-			i++;
-		}
-		if (j == -1 && is_builtin(c) == 0)
-			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
-		close(g_mini.pipefd[index][0]);
-		dup2(g_mini.pipefd[index][1], 1);
-		if (is_builtin(c) == 1)
-		{
-			exec_one_bi(c);
-			exit(0);
-		}
-		else
-			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
-	}
-	wait(NULL);
-	close (g_mini.pipefd[index][1]);
-}
-
-int	exec_com_mid(int c, int index)
-{
-	int	id;
-	int	i;
-	int	j;
-
-	i = 0;
-	id = fork();
-	if (id == 0)
-	{
-		while (g_mini.bin_paths[i] != NULL)
-		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
-			if (j == 0)
-				break ;
-			i++;
-		}
-		if (j == -1 && is_builtin(0) == 1)
-			j = 0;
-		else if (j == -1 && is_builtin(0) == 0)
-			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
-		close(g_mini.pipefd[index][0]);
-		dup2(g_mini.pipefd[index - 1][0], 0);
-		dup2(g_mini.pipefd[index][1], 1);
-		if (is_builtin(c) == 1)
-		{
-			exec_one_bi(c);
-			exit(0);
-		}
-		else
-			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
-	}
-	wait(NULL);
-	close(g_mini.pipefd[index][1]);
-	return (index);
-}
-
-void	exec_last_com(int c, int index)
-{
-	int	id;
-	int	i;
-	int	j;
-
-	i = 0;
-	id = fork();
-	if (id == 0)
-	{
-		i = 0;
-		while (g_mini.bin_paths[i] != NULL)
-		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
-			if (j == 0)
-				break ;
-			i++;
-		}
-		if (j == -1)
-			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
-		close(g_mini.pipefd[index][1]);
-		close(g_mini.pipefd[index][0]);
-		dup2(g_mini.pipefd[index - 1][0], 0);
-		if (is_builtin(c) == 1)
-		{
-			exec_one_bi(c);
-			exit(0);
-		}
-		else
-			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
-	}
-	else
-	{
-		wait(NULL);
-		close(g_mini.pipefd[index][1]);
-		close(g_mini.pipefd[index][0]);
-	}
-}
-
-int	send_to_exec(void)
-{
-	int	i;
-	int	c;
-	int	index;
-
-	i = 0;
-	c = 0;
-	index = 0;
-	if (g_mini.pipes == 0 && is_builtin(0) == 1)
-		exec_one_bi(0);
-	else if (g_mini.pipes == 0 && is_builtin(0) == 0)
-		exec_one();
-	else
-	{
-		g_mini.pipefd = malloc(sizeof(int *) * g_mini.pipes);
-		while (i < g_mini.pipes)
-		{
-			g_mini.pipefd[i] = malloc(sizeof(int) * 2);
-			pipe(g_mini.pipefd[i++]);
-		}
-		exec_com_one(c, index);
-		index++;
-		c++;
-		g_mini.pipes /= 2;
-		while (--g_mini.pipes > 0)
-		{
-			exec_com_mid(c, index);
-			c++;
-			index++;
-		}
-		exec_last_com(c, index);
-	}
-	return (0);
-}
-
 void	init_g(void)
 {
 	g_mini.pipes = 0;
@@ -251,6 +148,7 @@ int	main(int argc, char **argv, char **o_env)
 	(void)argv;
 
 	g_mini.env = init_env(o_env);
+	g_mini.exp = exp_organizer(o_env, NULL);
 	while (1)
 	{
 		init_g();
