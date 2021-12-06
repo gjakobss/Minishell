@@ -12,6 +12,9 @@
 
 # include "libft/libft.h"
 
+# define LEAF 1
+# define BRANCH 2
+
 typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
@@ -30,7 +33,29 @@ typedef struct s_mini
 	int		semi_col;
 	int		dollar;
 	t_cmds	*cmd;
+        t_tree          head;
 }				t_mini;
+
+typedef struct s_branch {
+        int             op;
+        struct s_tree   *left;
+        struct s_tree   *right;
+}           t_branch;
+
+typedef struct  s_leaf   {
+    char    *full_line;
+    char    **command;
+    int     args;
+}           t_leaf;
+
+typedef struct  s_tree {
+    int     type;
+    union {
+        t_branch    branch;
+        t_leaf      leaf;
+    }
+    struct s_tree   *prev;
+}           t_tree;
 
 t_mini	g_mini;
 
