@@ -39,11 +39,8 @@ int	get_env_from_export(char	**buff, int j)
 
 void	bi_export(char **buff)
 {
-//	int		i;
 	int		j;
-//	char	**new_env;
 
-//	i = 0;
 	j = 0;
 	if (!buff[1])
 	{
@@ -56,21 +53,5 @@ void	bi_export(char **buff)
 	while(buff[j] != NULL)
 	{
 		j = get_env_from_export(buff, j);
-/*		while(buff[++j] != NULL)
-			if (ft_strchr(buff[j], 61) != NULL)
-				break;
-		if (buff[j] == NULL)
-			break ;
-		while (g_mini.env[i] != NULL)
-			i++;
-		new_env = malloc(sizeof(char *) * (i + 2));
-		i = -1;
-		while (g_mini.env[++i] != NULL)
-			new_env[i] = ft_strdup(g_mini.env[i]);
-		new_env[i++] = ft_strdup(buff[j]);
-		new_env[i] = NULL;
-		i = 0;
-		free(g_mini.env);
-		g_mini.env = new_env;*/
 	}
 }

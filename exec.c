@@ -74,9 +74,7 @@ int	exec_com_mid(int c, int index)
 				break ;
 			i++;
 		}
-		if (j == -1 && is_builtin(0) == 1)
-			j = 0;
-		else if (j == -1 && is_builtin(0) == 0)
+		if (j == -1 && is_builtin(0) == 0)
 			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);

@@ -85,7 +85,7 @@ int	check_commands(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';')
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';' || line[i] == ' ')
 		{
 			while (line[i] != '\0')
 			{
@@ -101,21 +101,6 @@ int	check_commands(char *line)
 		}
 		i++;
 	}
-/*	while ( line[i] != '\0')
-	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || line[i] == ';')
-			break ;
-		i++;
-	}
-	if (line[i] == '\0')
-		i = 0;
-	while (line[i] != '\0')
-	{
-		if ((line[i] >= 'a' && line[i] <= 'z')
-			|| (line[i] >= 'A' && line[i] <= 'Z'))
-			return (0);
-		i++;
-	}*/
 	return (0);
 }
 

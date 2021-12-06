@@ -35,9 +35,7 @@ static int	get_len(char const *s, char c)
 	if (!s)
 		return (0);
 	while (s[i] != '\0' && s[i] == c)
-	{
 		i++;
-	}
 	if (i > 0)
 		i--;
 	while (s[i] != '\0')
