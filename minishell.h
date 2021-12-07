@@ -33,15 +33,35 @@ typedef struct s_mini
 	int		num_cmds;
 }				t_mini;
 
+typedef struct	s_expand
+{
+	char	*full;
+	char	*before;
+	char	*var;
+	char	*after;
+}				t_expand;
+
 t_mini	g_mini;
 
 t_cmds	*parser(char *line);
+/*		Built-ins		*/
 void	bi_env(void);
 void	bi_pwd(void);
 void	bi_cd(char *str);
 void	bi_echo(char **str);
 void	bi_export(char **buff);
 void	bi_unset(char **buff);
+
+/*		Arg Validation	*/
+int		arg_validation(char *line);
+int		quotes_checker(char *line);
+int		is_squote(char c);
+int		is_dquote(char c);
+void	operators_count(char *line);
+int		check_commands(char *line);
+
+/*		Arg Lexer	*/
+
 int		send_to_exec(void);
 int		is_builtin(int x);
 void	exec_one_bi(int x);
