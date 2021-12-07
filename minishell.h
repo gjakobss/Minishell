@@ -33,7 +33,7 @@ typedef struct s_mini
 	int		semi_col;
 	int		dollar;
 	t_cmds	*cmd;
-        t_tree          head;
+	t_tree          head;
 }				t_mini;
 
 typedef struct s_branch {
