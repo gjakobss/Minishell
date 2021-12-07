@@ -76,8 +76,9 @@ void	assign_line(t_cmds *cmd, char *line, int j, int i)
 		}
 		len = i - start;
 		if (len > 0)
-			cmd[j].full_line = ft_substr(line, start, len);
+			cmd[j++].full_line = ft_substr(line, start, len);
 	}
+	cmd[j].full_line = NULL;
 }
 
 int	check_commands(char *line)
@@ -163,13 +164,14 @@ t_cmds	*parser(char *line)
 	t_cmds	*cmd;
 	int		i;
 
+//	line = ft_strjoin(line, "'\0");
 	if (check_commands(line) == -1)
 		return (NULL);
 	g_mini.num_cmds = command_counter(line);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	assign_line(cmd, line, 0, -1);
 	i = -1;
-	while (++i < g_mini.num_cmds)
+	while (++i < g_mini.num_cmds)	
 		cmd[i].command = ft_split(cmd[i].full_line, ' ');
 	cmd[i].command = NULL;
 	if (((g_mini.s_quotes / 2) % 2 != 0) || ((g_mini.d_quotes / 2) % 2 != 0))

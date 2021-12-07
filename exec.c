@@ -24,7 +24,7 @@ void	exec_one(void)
 		wait(NULL);
 }
 
-void	exec_com_one(int c, int index)
+int	exec_com_one(int c, int index)
 {
 	int	i;
 	int	j;
@@ -42,7 +42,10 @@ void	exec_com_one(int c, int index)
 			i++;
 		}
 		if (j == -1 && is_builtin(c) == 0)
+		{
 			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+			return (-1);
+		}
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
@@ -55,6 +58,7 @@ void	exec_com_one(int c, int index)
 	}
 	wait(NULL);
 	close (g_mini.pipefd[index][1]);
+	return (0);
 }
 
 int	exec_com_mid(int c, int index)
@@ -75,7 +79,10 @@ int	exec_com_mid(int c, int index)
 			i++;
 		}
 		if (j == -1 && is_builtin(0) == 0)
+		{
 			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+			return (-1);
+		}
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
@@ -92,7 +99,7 @@ int	exec_com_mid(int c, int index)
 	return (index);
 }
 
-void	exec_last_com(int c, int index)
+int	exec_last_com(int c, int index)
 {
 	int	id;
 	int	i;
@@ -110,8 +117,11 @@ void	exec_last_com(int c, int index)
 				break ;
 			i++;
 		}
-		if (j == -1)
+		if (j == -1 && is_builtin(0) == 0)
+		{
 			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+			return (-1);
+		}
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
@@ -129,6 +139,7 @@ void	exec_last_com(int c, int index)
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 	}
+	return (0);
 }
 
 int	send_to_exec(void)
@@ -152,17 +163,19 @@ int	send_to_exec(void)
 			g_mini.pipefd[i] = malloc(sizeof(int) * 2);
 			pipe(g_mini.pipefd[i++]);
 		}
-		exec_com_one(c, index);
+		if (exec_com_one(c, index) == -1)
+			return (-1);
 		index++;
 		c++;
 		g_mini.pipes /= 2;
 		while (--g_mini.pipes > 0)
 		{
-			exec_com_mid(c, index);
+			if (exec_com_mid(c, index) == -1)
+				return (-1);
 			c++;
 			index++;
 		}
-		exec_last_com(c, index);
+		return (exec_last_com(c, index));
 	}
 	return (0);
 }

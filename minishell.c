@@ -57,7 +57,8 @@ int	main(int argc, char **argv, char **o_env)
 				printf("bbshell: command not found: %s\n",  g_mini.cmd[0].command[0]);
 				continue;
 			}
-			send_to_exec();
+			if (send_to_exec() == -1)
+				continue;
 		}
 		free(line);
 		//need to update env with getenv();

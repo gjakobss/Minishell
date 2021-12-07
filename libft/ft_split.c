@@ -41,9 +41,7 @@ static int	get_len(char const *s, char c)
 	while (s[i] != '\0')
 	{
 		if (s[i + 1] != '\0' && s[i] == c && s[i + 1] != c)
-		{
 			word++;
-		}
 		i++;
 	}
 	if (s[0] != c)
