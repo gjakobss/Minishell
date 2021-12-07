@@ -30,6 +30,7 @@ typedef struct s_mini
 	int		semi_col;
 	int		dollar;
 	t_cmds	*cmd;
+	int		num_cmds;
 }				t_mini;
 
 t_mini	g_mini;
@@ -51,4 +52,5 @@ char	**exp_organizer(char **exp, char *str);
 void	exec_one_bi(int x);
 int		is_builtin(int x);
 int		get_bin_path(void);
+void	parse_args(void);
 #endif

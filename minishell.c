@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **o_env)
 			if (ft_strcmp(line, "exit") == 0)
 				break ;
 			g_mini.cmd = parser(line);
+//			parse_args();
 			if (g_mini.cmd == NULL)
 				continue ;
 			add_history(line);
