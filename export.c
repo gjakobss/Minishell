@@ -72,7 +72,5 @@ void	bi_export(char **buff)
 	}
 	j = 0;
 	while(buff[j] != NULL)
-	{
 		j = get_env_from_export(buff, j);
-	}
 }

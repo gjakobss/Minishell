@@ -7,10 +7,18 @@ void	exec_one(void)
 	int	id;
 
 	i = 0;
-	j = 0;
+	j = 2;
 	while (g_mini.bin_paths[i] != NULL)
 	{
-		j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
+		if(g_mini.cmd->command[0][0] == '/')
+			j = access(g_mini.cmd->command[0], F_OK);
+		if (j == 0)
+		{
+			j = 1;
+			break ;
+		}
+		else if (g_mini.cmd->command[0][0] != '/')
+			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
 		if (j == 0)
 			break ;
 		i++;
@@ -20,6 +28,8 @@ void	exec_one(void)
 	id = fork();
 	if (id == 0 && j == 0)
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
+	else if (id == 0 && j == 1)
+		execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
 	else
 		wait(NULL);
 }
@@ -80,7 +90,7 @@ int	exec_com_mid(int c, int index)
 		}
 		if (j == -1 && is_builtin(0) == 0)
 		{
-			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+//			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 			return (-1);
 		}
 		close(g_mini.pipefd[index][0]);
@@ -157,9 +167,10 @@ int	send_to_exec(void)
 		exec_one();
 	else
 	{
-		g_mini.pipefd = malloc(sizeof(int *) * g_mini.pipes);
-		while (i < g_mini.pipes)
+		g_mini.pipefd = malloc(sizeof(int *) * (g_mini.pipes * 2));
+		while (i < g_mini.pipes * 2)
 		{
+
 			g_mini.pipefd[i] = malloc(sizeof(int) * 2);
 			pipe(g_mini.pipefd[i++]);
 		}
@@ -167,7 +178,6 @@ int	send_to_exec(void)
 			return (-1);
 		index++;
 		c++;
-		g_mini.pipes /= 2;
 		while (--g_mini.pipes > 0)
 		{
 			if (exec_com_mid(c, index) == -1)

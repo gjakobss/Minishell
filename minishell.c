@@ -64,4 +64,5 @@ int	main(int argc, char **argv, char **o_env)
 	}
 	free(g_mini.env);
 	free(g_mini.cmd);
+	free(g_mini.pipefd);
 }

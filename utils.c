@@ -149,14 +149,11 @@ int	get_bin_path(void)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 //	usar o getenv("PATH")
-	while (g_mini.env[i] != NULL)
-	{
+	while (g_mini.env[++i] != NULL)
 		if (g_mini.env[i][0] == 'P' && g_mini.env[i][1] == 'A')
 			break ;
-		i++;
-	}
 	if (g_mini.env[i] == NULL && is_builtin(0) == 0)
 		return (-1);
 	else if (g_mini.env[i] == NULL && is_builtin(0) == 1)
