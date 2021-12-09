@@ -40,15 +40,36 @@ int	get_env_from_export(char	**buff, int j)
 void	bi_export(char **buff)
 {
 	int		j;
+	int		i;
+	int checker;
 
+	checker = 0;
 	j = 0;
+	i = -1;
 	if (!buff[1])
 	{
 		write_export();
 		return ;
 	}
 	while (buff[++j] != NULL)
-		g_mini.exp = exp_organizer(g_mini.exp, buff[j]);
+	{
+
+		i = -1;
+		while (buff[j][checker] != '=')
+			checker++;
+		while (g_mini.exp[++i])
+		{
+			if (ft_strncmp(buff[j], g_mini.exp[i], checker) == 0)
+			{
+				checker = -1;
+				g_mini.exp[i] = buff[j];
+				g_mini.exp = exp_organizer(g_mini.exp, NULL);
+				break ;
+			}
+		}
+		if (checker != -1)
+			g_mini.exp = exp_organizer(g_mini.exp, buff[j]);
+	}
 	j = 0;
 	while(buff[j] != NULL)
 	{

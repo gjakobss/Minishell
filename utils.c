@@ -1,5 +1,58 @@
 #include "minishell.h"
 
+char	**get_quotes( char **exp, char *str, int z)
+{
+	int i;
+	int j;
+	int x;
+	char **ret;
+
+	i = 0;
+	while (exp[i])
+		i++;
+	if (str)
+		i++;
+	ret = malloc(sizeof(char *) * (i + 1));
+	j = 0;
+	i = 0;
+	x = -1;
+	if (str)
+	{
+		ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
+		while(str[++x])
+		{
+			ret[j][i] = str[x];
+			if (str[x] == '=')
+				ret[j][++i] = '"';
+			i++;
+		}
+		ret[j][i++] = '"';
+		ret[j][i] = '\0';
+		j++;
+	}
+	i = -1;
+	x = -1;
+	while(exp[++x] != NULL)
+	{
+		z = -1;
+		ret[j] = malloc(sizeof(char) * (ft_strlen(exp[x]) + 3));
+		while (exp[x][++z])
+		{
+			ret[j][++i] = exp[x][z];
+			if (exp[x][z] == '=' && exp[x][z + 1] != '"')
+				ret[j][++i] = '"';
+		}
+		if(ret[j][i] != '"')
+			ret[j][++i] = '"';
+		i++;
+		ret[j][i] = '\0';
+		j++;
+		i = -1;
+	}
+	ret[j] = NULL;
+	return (ret);
+}
+
 char	*exp_organizer2(char **ret, int i)
 {
 	int	j;
@@ -34,19 +87,14 @@ char	**exp_organizer(char **exp, char *str)
 	int		y;
 
 	i = 0;
-	j = 0;
 	y = 0;
 	while (exp[i])
 		i++;
 	if (str != NULL)
 		i++;
-	ret = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	if (str)
-		ret[i++] = str;
-	while (exp[j])
-		ret[i++] = exp[j++];
-	ret[i] = NULL;
+	ret = NULL;
+	//ret = get_quotes(ret, exp, str, 0);
+	ret = get_quotes(exp, str, 0);
 	exp = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (ret[i] != NULL)

@@ -32,6 +32,9 @@ int	check_commands(char *line)
 			if (line[i] == '\0')
 				return (1);
 		}
+		if ((line[i] >= 'a' && line[i] <= 'z') || \
+			(line[i] >= 'A' && line[i] <= 'Z'))
+			break;
 		i++;
 	}
 	return (0);
