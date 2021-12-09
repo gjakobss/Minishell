@@ -12,10 +12,19 @@
 
 # include "libft/libft.h"
 
+# define PIPE 1
+# define GREATER 2
+# define SMALLER 3
+# define DGREATER 4
+# define DSMALLER 5
+# define EOL 6
+# define DQUOTES 7
+# define SQUOTES 8
+
 typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
-	int		type;
+	int		op;
 }		t_cmds;
 
 typedef struct s_mini
@@ -43,7 +52,6 @@ typedef struct	s_expand
 
 t_mini	g_mini;
 
-t_cmds	*parser(char *line);
 /*		Built-ins		*/
 void	bi_env(void);
 void	bi_pwd(void);
@@ -60,7 +68,9 @@ int		is_dquote(char c);
 void	operators_count(char *line);
 int		check_commands(char *line);
 
-/*		Arg Lexer	*/
+/*		Arg Parser	*/
+t_cmds	*parser(char *line);
+
 
 int		send_to_exec(void);
 int		is_builtin(int x);
