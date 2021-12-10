@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:52:03 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/09 13:35:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:32:22 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,50 @@ void	assign_line(t_cmds *cmd, char *line)
 	cmd[j].full_line = NULL;
 }
 
+void	expand_variable(char **line, int start)
+{
+	t_expand	str;
+	int			i;
+	int			len;
+
+	(void)start;
+	str.full = ft_strdup(*line);
+	str.before = ft_substr(str.full, 0, start);
+	i = start;
+	while ((ft_isalpha(str.full[i]) || str.full[i] == '$') && str.full[i])
+		i++;
+	str.var = ft_substr(str.full, start, i + 1);
+	// replace_var(&(str.var));
+	len = ft_strlen(str.full);
+	// str.after = ft_substr(str.full, i, len - i + 1);
+	// juntar tudo com strjoins maybe?
+}
+
+void	expander(t_cmds *cmd)
+{
+	int	i;
+	int	j;
+	int	z;
+
+	i = -1;
+	while (++i < g_mini.num_cmds)
+	{
+		j = 0;
+		while (cmd[i].command[++j])
+		{
+			z = -1;
+			while (cmd[i].command[j][++z])
+			{
+				if (cmd[i].command[j][z] ==  '\'')
+					while (cmd[i].command[j][++z] && cmd[i].command[j][z] != '\'')
+						;
+				if (cmd[i].command[j][z] == '$')
+					expand_variable(&(cmd[i].command[j]), z);
+			}
+		}
+	}
+}
+
 void	lexer(t_cmds *cmd, char *line)
 {
 	int	i;
@@ -121,7 +165,6 @@ void	lexer(t_cmds *cmd, char *line)
 	while (++i < g_mini.num_cmds)	
 		cmd[i].command = ft_split(cmd[i].full_line, ' ');
 	cmd[i].command = NULL;
-
 }
 
 
@@ -132,5 +175,6 @@ t_cmds	*parser(char *line)
 	g_mini.num_cmds = command_counter(line);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	lexer(cmd, line);
+	expander(cmd);
 	return (cmd);
 }
