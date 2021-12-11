@@ -12,7 +12,7 @@
 # include <fcntl.h>
 
 # include "libft/libft.h"
-# include "gnl/get_next_line.h"
+# include "get_next_line.h"
 
 # define PIPE 1
 # define GREATER 2
