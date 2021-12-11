@@ -72,7 +72,18 @@ int		check_commands(char *line);
 
 /*		Arg Parser	*/
 t_cmds	*parser(char *line);
+int		is_terminator(char *line, int *j);
+int		command_counter(char *line);
 
+/*		Lexer		*/
+void	quotes_skipper(char *line, int *i, int quotes);
+int		assign_operator(char *line, int *i);
+void	assign_line(t_cmds *cmd, char *line);
+void	lexer(t_cmds *cmd, char *line);
+
+/*		Expand Variables	*/
+void	expand_variables(char **line, int start);
+void	expander(t_cmds *cmd);
 
 int		send_to_exec(void);
 int		is_builtin(int x);
