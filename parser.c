@@ -12,9 +12,15 @@
 
 #include "minishell.h"
 
-int	is_terminator(char j)
+int	is_terminator(char *line, int *j)
 {
-	if (j == '|' || j == '<' || j == '>' || j == ';')
+	if ((line[*j] == '>' && line[*j + 1] == '>') || (line[*j] == '<' && line[*j + 1] == '<')
+		|| (line[*j] == '>' && line[*j - 1] == '>') || (line[*j] == '<' && line[*j - 1] == '<'))
+	{
+//		j += 1;
+		return (0);
+	}
+	if (line[*j] == '|' || line[*j] == '<' || line[*j] == '>' || line[*j] == ';')
 		return (1);
 	else
 		return (0);
@@ -31,7 +37,7 @@ int	command_counter(char *line)
 	i = 0;
 	while (i < len)
 	{
-		if (is_terminator(line[i]))
+		if (is_terminator(line, &i))
 			counter++;
 		i++;
 	}
@@ -95,7 +101,7 @@ void	assign_line(t_cmds *cmd, char *line)
 	while (line[++i])
 	{
 		start = i;
-		while (line[i] && !is_terminator(line[i]))
+		while (line[i] && !is_terminator(line, &i))
 		{
 			if (line[i] == '"')
 				quotes_skipper(line, &i, DQUOTES);
@@ -162,7 +168,7 @@ void	lexer(t_cmds *cmd, char *line)
 
 	assign_line(cmd, line);
 	i = -1;
-	while (++i < g_mini.num_cmds)	
+	while (++i < g_mini.num_cmds)
 		cmd[i].command = ft_split(cmd[i].full_line, ' ');
 	cmd[i].command = NULL;
 }
