@@ -14,14 +14,10 @@
 
 int	is_terminator(char *line, int *j)
 {
-	if ((line[*j] == '>' && line[*j + 1] == '>') || (line[*j] == '<' && line[*j + 1] == '<')
-		|| (line[*j] == '>' && line[*j - 1] == '>') || (line[*j] == '<' && line[*j - 1] == '<'))
-	{
-//		j += 1;
-//		nao devia ser so uma das linhas de cima? Assim nao conta nunca quando sao >> ou <<
-		return (0);
-	}
-	if (line[*j] == '|' || line[*j] == '<' || line[*j] == '>' || line[*j] == ';')
+	if ((line[*j] == '>' && line[*j + 1] == '>') || (line[*j] == '<' && line[*j + 1] == '<'))
+		return (1);
+	if (line[*j] == '|' || (line[*j] == '<' && line[*j - 1] != '<')
+		|| (line[*j] == '>' && line[*j - 1] != '>') || line[*j] == ';')
 		return (1);
 	else
 		return (0);

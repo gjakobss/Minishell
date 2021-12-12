@@ -97,5 +97,7 @@ int		is_builtin(int x);
 int		get_bin_path(void);
 void	parse_args(void);
 int		send_output(int c, int index, int check);
-int	append_output(int c, int index, int i);
+int		append_output(int c, int index, int i);
+int		send_input(int c, int index);
+int		wait_input(int c, int index);
 #endif

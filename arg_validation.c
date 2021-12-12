@@ -59,7 +59,7 @@ void	operators_count(char *line)
 				if (line[i] == '\0')
 					return ;
 		}
-		if (line[i] == '|' || line[i] == '>')
+		if (line[i] == '|' || line[i] == '>' || line[i] == '<')
 			g_mini.pipes += 1;
 		if (line[i] == ';')
 			g_mini.semi_col += 1;
