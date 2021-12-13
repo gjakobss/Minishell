@@ -6,11 +6,22 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/13 12:50:02 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:13:11 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	replace_command(char **line, t_expand str)
+{
+	char	*half;
+	char	*full;
+
+	half = ft_strjoin(str.before, str.var);
+	full = ft_strjoin(half, str.after);
+	*line = NULL;
+	*line = ft_strdup(full);
+}
 
 void	replace_var(char **str)
 {
@@ -19,7 +30,7 @@ void	replace_var(char **str)
 	int		len;
 	char	*copy;
 
-	copy = ft_strdup(*str);
+	copy = ft_substr(*str, 1, 100);
 	len = ft_strlen(copy);
 	i = 0;
 	while (g_mini.env[i])
@@ -60,11 +71,7 @@ void	expand_variable(char **line, int start)
 	replace_var(&(str.var));
 	len = ft_strlen(str.full);
 	str.after = ft_substr(str.full, i, len - i);
-	printf("full str is: %s\n", str.full);
-	printf("before is: %s\n", str.before);
-	printf("var is: %s\n", str.var);
-	printf("after is %s\n", str.after);
-	// juntar tudo com strjoins maybe?
+	replace_command(line, str);	
 }
 
 void	expander(t_cmds *cmd)
