@@ -85,6 +85,9 @@ void	lexer(t_cmds *cmd, char *line);
 void	expand_variables(char **line, int start);
 void	expander(t_cmds *cmd);
 
+/*		Splitter		*/
+char	**splitter(char const *s, char c);
+
 int		send_to_exec(void);
 int		is_builtin(int x);
 void	exec_one_bi(int x);

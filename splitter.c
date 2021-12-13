@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:18:36 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/12 00:09:41 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:30:34 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**splitter(char const *s, char c)
 	int		i;
 	int		j;
 	int		arr_index;
+	int		quote;
 	char	**array;
 
 	if (!s)
@@ -72,7 +73,16 @@ char	**splitter(char const *s, char c)
 	{
 		i = j;
 		while (s[j] && s[j] != c)
+		{
+			quote = is_quote(s[j]);
+			if (quote)
+			{
+				j++;
+				while (is_quote(s[j]) != quote)
+					j++;
+			}
 			j++;
+		}
 		array[arr_index++] = ft_substr(s, i, j - i);
 		while (s[j] && s[j] == c)
 			j++;

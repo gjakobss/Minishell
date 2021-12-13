@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:05:34 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/11 23:15:36 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:29:26 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void	lexer(t_cmds *cmd, char *line)
 	assign_line(cmd, line);
 	i = -1;
 	while (++i < g_mini.num_cmds)
-		cmd[i].command = ft_split(cmd[i].full_line, ' ');
+		cmd[i].command = splitter(cmd[i].full_line, ' ');
 	cmd[i].command = NULL;
 }
