@@ -34,10 +34,16 @@ int	command_counter(char *line)
 	i = 0;
 	while (i < len)
 	{
-		if (is_terminator(line, &i))
+		if (line[i] == '"')
+			g_mini.d_quotes += 1;
+		if (line[i] == '\'')
+			g_mini.s_quotes += 1;
+		if (is_terminator(line, &i) && g_mini.d_quotes % 2 == 0 && g_mini.s_quotes % 2 == 0)
 			counter++;
 		i++;
 	}
+	g_mini.d_quotes = 0;
+	g_mini.s_quotes = 0;
 	return (counter);
 }
 
@@ -46,6 +52,7 @@ t_cmds	*parser(char *line)
 	t_cmds	*cmd;
 
 	g_mini.num_cmds = command_counter(line);
+	printf("%d\n", g_mini.num_cmds);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	lexer(cmd, line);
 	expander(cmd);

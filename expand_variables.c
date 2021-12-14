@@ -86,7 +86,6 @@ void	expander(t_cmds *cmd)
 		j = 0;
 		while (cmd[i].command[++j])
 		{
-			printf("%s\n", cmd[i].command[j]);
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{

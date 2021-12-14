@@ -43,6 +43,7 @@ typedef struct s_mini
 	int		dollar;
 	t_cmds	*cmd;
 	int		num_cmds;
+	int		sig_int;
 }				t_mini;
 
 typedef struct	s_expand
