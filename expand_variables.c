@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/13 17:13:11 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:30:49 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	expander(t_cmds *cmd)
 		j = 0;
 		while (cmd[i].command[++j])
 		{
+			printf("%s\n", cmd[i].command[j]);
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{

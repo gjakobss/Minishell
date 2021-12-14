@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **o_env)
 	g_mini.exp = exp_organizer(o_env, NULL);
 	while (1)
 	{
+		activate_signals();
 		init_g();
 		line = readline("BBShell >$ ");
 		if (!line || line[0] == '\0')

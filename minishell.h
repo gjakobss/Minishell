@@ -89,6 +89,9 @@ void	expander(t_cmds *cmd);
 /*		Splitter		*/
 char	**splitter(char const *s, char c);
 
+/*		Signals		*/
+void	activate_signals(void);
+
 int		send_to_exec(void);
 int		is_builtin(int x);
 void	exec_one_bi(int x);

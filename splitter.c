@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:18:36 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/13 11:30:34 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:25:27 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**splitter(char const *s, char c)
 	array = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!(array))
 		return (0);
-	array[count_words(s, c)] = 0;
+	array[count_words(s, c)] = NULL;
 	arr_index = 0;
 	while (*s && *s == c)
 		s++;
