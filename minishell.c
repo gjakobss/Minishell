@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **o_env)
 				continue;
 		}
 		free(line);
-		//need to update env with getenv();
+		g_mini.exp = exp_organizer(g_mini.env, NULL);
 	}
 	free(g_mini.env);
 	free(g_mini.cmd);

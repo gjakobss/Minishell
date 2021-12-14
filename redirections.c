@@ -42,8 +42,6 @@ int	append_output(int c, int index, int i)
 		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
-		if (g_mini.cmd[c + 1].command)
-		exit(0);
 		while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
 			write(fd, buff, ft_strlen(buff));
 		while (g_mini.cmd[c].command[++i])
