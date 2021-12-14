@@ -193,7 +193,7 @@ int	send_to_exec(void)
 		exec_one_bi(0);
 	else if (g_mini.cmd[0].op == 6 && is_builtin(0) == 0)
 		exec_one();
-	else
+	else //casos de comandos multiplos
 	{
 		g_mini.pipefd = malloc(sizeof(int *) * (g_mini.pipes * 2));
 		while (i < g_mini.pipes * 2)
