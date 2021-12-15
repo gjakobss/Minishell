@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:52:03 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/11 23:13:20 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:36:17 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_cmds	*parser(char *line)
 	t_cmds	*cmd;
 
 	g_mini.num_cmds = command_counter(line);
-	printf("%d\n", g_mini.num_cmds);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	lexer(cmd, line);
 	expander(cmd);

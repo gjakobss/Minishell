@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/14 12:30:49 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:14:27 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	expander(t_cmds *cmd)
 			{
 				if (cmd[i].command[j][z] ==  '\'')
 					while (cmd[i].command[j][++z] && cmd[i].command[j][z] != '\'')
-						;
+							;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
 			}

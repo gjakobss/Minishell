@@ -89,6 +89,7 @@ void	expander(t_cmds *cmd);
 
 /*		Splitter		*/
 char	**splitter(char const *s, char c);
+int		is_quote(char c);
 
 /*		Signals		*/
 void	activate_signals(void);

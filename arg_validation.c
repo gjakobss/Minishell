@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:22:40 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/09 11:11:14 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:57:32 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,18 @@ void	operators_count(char *line)
 	}
 }
 
-int	is_dquote(char c)
-{
-	if (c == '"')
-		return (1);
-	else
-		return (0);
-}
-
-int	is_squote(char c)
-{
-	if (c == '\'')
-		return (1);
-	else
-		return (0);
-}
-
 int	quotes_checker(char *line)
 {
 	int	i;
+	int	quote;
 
 	i = -1;
 	while (line[++i])
 	{
-		if (is_dquote(line[i]))
+		quote = is_quote(line[i])
+		if (quote == DQUOTES)
 			g_mini.d_quotes += 1;
-		if (is_squote(line[i]))
+		if (quote == SQUOTES)
 			g_mini.s_quotes += 1;
 	}
 	if ((g_mini.s_quotes % 2 != 0) || (g_mini.d_quotes % 2 != 0))

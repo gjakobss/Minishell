@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:22:47 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/14 11:36:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:31:51 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 	if (signum == SIGINT)
 	{
 		printf("\n");
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
