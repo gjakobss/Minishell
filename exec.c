@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
+/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	exec_one(void)
@@ -10,7 +22,7 @@ void	exec_one(void)
 	j = 2;
 	while (g_mini.bin_paths[i] != NULL)
 	{
-		if(g_mini.cmd->command[0][0] == '/')
+		if (g_mini.cmd->command[0][0] == '/')
 			j = access(g_mini.cmd->command[0], F_OK);
 		if (j == 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 12:14:27 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:02:36 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	replace_var(char **str)
 	while (g_mini.env[i])
 	{
 		if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
-			break;
+			break ;
 		i++;
 	}
 	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)

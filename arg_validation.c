@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:22:40 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 12:57:32 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:00:21 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_commands(char *line)
 			{
 				if ((line[i] >= 'a' && line[i] <= 'z') || \
 						(line[i] >= 'A' && line[i] <= 'Z'))
-					break;
+					break ;
 				i++;
 			}
 			if (line[i] == '\0')
@@ -34,7 +34,7 @@ int	check_commands(char *line)
 		}
 		if ((line[i] >= 'a' && line[i] <= 'z') || \
 			(line[i] >= 'A' && line[i] <= 'Z'))
-			break;
+			break ;
 		i++;
 	}
 	return (0);
@@ -74,7 +74,7 @@ int	quotes_checker(char *line)
 	i = -1;
 	while (line[++i])
 	{
-		quote = is_quote(line[i])
+		quote = is_quote(line[i]);
 		if (quote == DQUOTES)
 			g_mini.d_quotes += 1;
 		if (quote == SQUOTES)

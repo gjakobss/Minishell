@@ -1,9 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/15 13:01:15 by malmeida          #+#    #+#             */
+/*   Updated: 2021/12/15 13:01:22 by malmeida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//	Esta funcao tira as aspas dos argumentos do echo, tipo se lhe passares
-//	echo "joao", queres que ele imprima so joao em vez de "joao"
-//	Depois dou-lhe um nome mais serio
-//	Ta meio fodido isto ainda
+#include "minishell.h"
 
 static char	*real_aspas_remover(char *str)
 {

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/15 13:00:27 by malmeida          #+#    #+#             */
+/*   Updated: 2021/12/15 13:01:05 by malmeida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	update_pwd(char *old, char *new)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (g_mini.env[i] && ft_strncmp(g_mini.env[i], "PWD", 3) != 0)
@@ -19,9 +31,9 @@ int	update_pwd(char *old, char *new)
 
 void	bi_cd(char *str)
 {
-	char new_pwd[1024];
-	char *old_pwd;
-	int	ret;
+	char	new_pwd[1024];
+	char	*old_pwd;
+	int		ret;
 
 	old_pwd = getenv("PWD");
 	if ((!str) || (str[0] == '~' && str[1] == '\0'))
