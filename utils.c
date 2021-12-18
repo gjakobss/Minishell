@@ -23,11 +23,16 @@ char	**get_quotes( char **exp, char *str, int z)
 		{
 			ret[j][i] = str[x];
 			if (str[x] == '=')
+			{
+				z = 1;
 				ret[j][++i] = '"';
+			}
 			i++;
 		}
-		ret[j][i++] = '"';
+		if (z == 1)
+			ret[j][i++] = '"';
 		ret[j][i] = '\0';
+		printf("%s\n", ret[j]);
 		j++;
 	}
 	i = -1;
@@ -93,7 +98,6 @@ char	**exp_organizer(char **exp, char *str)
 	if (str != NULL)
 		i++;
 	ret = NULL;
-	//ret = get_quotes(ret, exp, str, 0);
 	ret = get_quotes(exp, str, 0);
 	exp = malloc(sizeof(char *) * (i + 1));
 	i = 0;

@@ -94,8 +94,16 @@ int		is_quote(char c);
 /*		Signals		*/
 void	activate_signals(void);
 
+int		exec_one2(int j, int i);
+int		exec_com2(int c, int i, int com);
+int		exec_last_com(int c, int index);
+int		exec_com_mid(int c, int index);
+void	exec_one(void);
+int		exec_com_one(int c, int index);
+int		divergent(int c, int index, int id);
+int		one_time(int c, int index);
+int		multi_exec(int c, int index, int i);
 int		send_to_exec(void);
-int		is_builtin(int x);
 void	exec_one_bi(int x);
 char	**exp_organizer(char **exp, char *str);
 char	*exp_organizer2(char **ret, int i);

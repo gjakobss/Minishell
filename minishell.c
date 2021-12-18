@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **o_env)
 				continue;
 		}
 		free(line);
-		g_mini.exp = exp_organizer(g_mini.env, NULL);
+//		g_mini.exp = exp_organizer(g_mini.env, NULL); Preciso de dar um fix aqui (buga quando existem variaveis sem '=')
 	}
 	free(g_mini.env);
 	free(g_mini.cmd);

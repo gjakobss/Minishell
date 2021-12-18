@@ -32,13 +32,10 @@ void	replace_var(char **str)
 
 	copy = ft_substr(*str, 1, 100);
 	len = ft_strlen(copy);
-	i = 0;
-	while (g_mini.env[i])
-	{
+	i = -1;
+	while (g_mini.env[++i])
 		if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 			break ;
-		i++;
-	}
 	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 	{
 		*str = NULL;
@@ -71,7 +68,7 @@ void	expand_variable(char **line, int start)
 	replace_var(&(str.var));
 	len = ft_strlen(str.full);
 	str.after = ft_substr(str.full, i, len - i);
-	replace_command(line, str);	
+	replace_command(line, str);
 }
 
 void	expander(t_cmds *cmd)
@@ -89,9 +86,10 @@ void	expander(t_cmds *cmd)
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{
-				if (cmd[i].command[j][z] ==  '\'')
-					while (cmd[i].command[j][++z] && cmd[i].command[j][z] != '\'')
-							;
+				if (cmd[i].command[j][z] == '\'')
+					while (cmd[i].command[j][++z]
+					&& cmd[i].command[j][z] != '\'')
+					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
 			}
