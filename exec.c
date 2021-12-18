@@ -30,7 +30,8 @@ void	exec_one(void)
 			break ;
 		}
 		else if (g_mini.cmd->command[0][0] != '/')
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), F_OK);
+			j = access(ft_str3join(g_mini.bin_paths[i], "/",
+						g_mini.cmd->command[0]), F_OK);
 		if (j == 0)
 			break ;
 		i++;
@@ -39,7 +40,8 @@ void	exec_one(void)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
 	id = fork();
 	if (id == 0 && j == 0)
-		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
+		execve(ft_str3join(g_mini.bin_paths[i], "/",
+			g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
 	else if (id == 0 && j == 1)
 		execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
 	else
@@ -58,7 +60,16 @@ int	exec_com_one(int c, int index)
 	{
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			if (g_mini.cmd->command[0][0] == '/')
+				j = access(g_mini.cmd->command[0], F_OK);
+			if (j == 0)
+			{
+				j = 1;
+				break ;
+			}
+			else if (g_mini.cmd->command[0][0] != '/')
+				j = access(ft_str3join(g_mini.bin_paths[i], "/",
+							g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
@@ -75,7 +86,8 @@ int	exec_com_one(int c, int index)
 			exec_one_bi(c);
 			exit(0);
 		}
-		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
+		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
+					g_mini.cmd[c].command, g_mini.env);
 	}
 	wait(NULL);
 	close (g_mini.pipefd[index][1]);
@@ -94,14 +106,23 @@ int	exec_com_mid(int c, int index)
 	{
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			if (g_mini.cmd->command[0][0] == '/')
+				j = access(g_mini.cmd->command[0], F_OK);
+			if (j == 0)
+			{
+				j = 1;
+				break ;
+			}
+			else if (g_mini.cmd->command[0][0] != '/')
+				j = access(ft_str3join(g_mini.bin_paths[i], "/",
+							g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
 		}
 		if (j == -1 && is_builtin(0) == 0)
 		{
-//			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 			return (-1);
 		}
 		close(g_mini.pipefd[index][0]);
@@ -112,8 +133,8 @@ int	exec_com_mid(int c, int index)
 			exec_one_bi(c);
 			exit(0);
 		}
-		else
-			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
+		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
+					g_mini.cmd[c].command, g_mini.env);
 	}
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
@@ -133,7 +154,16 @@ int	exec_last_com(int c, int index)
 		i = 0;
 		while (g_mini.bin_paths[i] != NULL)
 		{
-			j = access(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), F_OK);
+			if (g_mini.cmd->command[0][0] == '/')
+				j = access(g_mini.cmd->command[0], F_OK);
+			if (j == 0)
+			{
+				j = 1;
+				break ;
+			}
+			else if (g_mini.cmd->command[0][0] != '/')
+				j = access(ft_str3join(g_mini.bin_paths[i], "/",
+							g_mini.cmd[c].command[0]), F_OK);
 			if (j == 0)
 				break ;
 			i++;
@@ -151,8 +181,8 @@ int	exec_last_com(int c, int index)
 			exec_one_bi(c);
 			exit(0);
 		}
-		else
-			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
+		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
+					g_mini.cmd[c].command, g_mini.env);
 	}
 	else
 	{
@@ -229,7 +259,7 @@ int	send_to_exec(void)
 				return (-1);
 //		return (divergent(c, index));
 		if (g_mini.cmd[c - 1].op == 2)
-				return (send_output(c, index, 0));
+			return (send_output(c, index, 0));
 		if (g_mini.cmd[c - 1].op == 4)
 			return (append_output(c, index, 0));
 		return (exec_last_com(c, index));

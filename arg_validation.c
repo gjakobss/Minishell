@@ -19,21 +19,21 @@ int	check_commands(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>' || \
-				line[i] == ';' || line[i] == ' ')
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>'
+			|| line[i] == ';' || line[i] == ' ')
 		{
 			while (line[i] != '\0')
 			{
-				if ((line[i] >= 'a' && line[i] <= 'z') || \
-						(line[i] >= 'A' && line[i] <= 'Z'))
+				if ((line[i] >= 'a' && line[i] <= 'z')
+					|| (line[i] >= 'A' && line[i] <= 'Z'))
 					break ;
 				i++;
 			}
 			if (line[i] == '\0')
 				return (1);
 		}
-		if ((line[i] >= 'a' && line[i] <= 'z') || \
-			(line[i] >= 'A' && line[i] <= 'Z'))
+		if ((line[i] >= 'a' && line[i] <= 'z')
+			|| (line[i] >= 'A' && line[i] <= 'Z'))
 			break ;
 		i++;
 	}
@@ -47,15 +47,9 @@ void	operators_count(char *line)
 	i = -1;
 	while (line[++i])
 	{
-		if (is_dquote(line[i]))
+		if (is_quote(line[i]))
 		{
-			while (!is_dquote(line[++i]))
-				if (line[i] == '\0')
-					return ;
-		}
-		if (is_squote(line[i]))
-		{
-			while (!is_squote(line[++i]))
+			while (!is_quote(line[++i]))
 				if (line[i] == '\0')
 					return ;
 		}

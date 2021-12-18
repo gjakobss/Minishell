@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	is_quote(char c)
+int	is_quote(char c)
 {
 	if (c == '"')
 		return (DQUOTES);
