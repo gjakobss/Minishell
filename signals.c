@@ -16,7 +16,6 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-
 	if (signum == SIGINT)
 	{
 		printf("\n");

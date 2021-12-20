@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 20:17:26 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/12/20 20:17:28 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	rm_from_exp(int j)
@@ -30,14 +42,14 @@ void	rm_from_env(int j)
 	free(g_mini.env[j + 1]);
 }
 
-void	bi_unset(char **buff)
+int	bi_unset(char **buff)
 {
-	int j;
+	int	j;
 	int	i;
 	int	len;
 
 	i = 0;
-	while(buff[++i])
+	while (buff[++i])
 	{
 		j = -1;
 		len = ft_strlen(buff[i]);
@@ -45,8 +57,9 @@ void	bi_unset(char **buff)
 			if (ft_strncmp(buff[i], g_mini.exp[j], len - 1) == 0)
 				rm_from_exp(j);
 		j = -1;
-		while(g_mini.env[++j])
+		while (g_mini.env[++j])
 			if (ft_strncmp(buff[i], g_mini.env[j], len - 1) == 0)
 				rm_from_env(j);
 	}
+	return (0);
 }

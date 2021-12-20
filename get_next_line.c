@@ -55,7 +55,7 @@ static int	backup(int readval, char **line, char **str, int fd)
 	return (writer(line, str, fd));
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*str[100000];
 	char		buffer[BUFFER_SIZE + 1];
@@ -64,7 +64,8 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	while ((readval = read(fd, buffer, BUFFER_SIZE)) > 0)
+	readval = read(fd, buffer, BUFFER_SIZE);
+	while (readval > 0)
 	{
 		buffer[readval] = '\0';
 		if (!str[fd])
@@ -74,6 +75,7 @@ int			get_next_line(int fd, char **line)
 		str[fd] = temp;
 		if (ft_strchr(str[fd], '\n'))
 			break ;
+		readval = read(fd, buffer, BUFFER_SIZE);
 	}
 	return (backup(readval, line, str, fd));
 }

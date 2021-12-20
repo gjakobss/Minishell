@@ -19,4 +19,5 @@ void	bi_env(void)
 	i = 0;
 	while (g_mini.env[i] != NULL)
 		printf("%s\n", g_mini.env[i++]);
+	return (0);
 }

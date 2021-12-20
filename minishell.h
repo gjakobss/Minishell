@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/12/20 19:26:16 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -44,9 +56,10 @@ typedef struct s_mini
 	t_cmds	*cmd;
 	int		num_cmds;
 	int		sig_int;
+	int		status;
 }				t_mini;
 
-typedef struct	s_expand
+typedef struct s_expand
 {
 	char	*full;
 	char	*before;
@@ -57,12 +70,12 @@ typedef struct	s_expand
 t_mini	g_mini;
 
 /*		Built-ins		*/
-void	bi_env(void);
-void	bi_pwd(void);
-void	bi_cd(char *str);
-void	bi_echo(char **str);
-void	bi_export(char **buff);
-void	bi_unset(char **buff);
+int	bi_env(void);
+int	bi_pwd(void);
+int	bi_cd(char *str);
+int	bi_echo(char **str);
+int	bi_export(char **buff);
+int	bi_unset(char **buff);
 
 /*		Arg Validation	*/
 int		arg_validation(char *line);
@@ -104,12 +117,10 @@ int		divergent(int c, int index, int id);
 int		one_time(int c, int index);
 int		multi_exec(int c, int index, int i);
 int		send_to_exec(void);
-void	exec_one_bi(int x);
-char	**exp_organizer(char **exp, char *str);
+int		exec_one_bi(int x);
+char	**exp_organizer(char **exp, char *str, int i, int y);
 char	*exp_organizer2(char **ret, int i);
-char	*exp_organizer2(char **ret, int i);
-char	**exp_organizer(char **exp, char *str);
-void	exec_one_bi(int x);
+int		exec_one_bi(int x);
 int		is_builtin(int x);
 int		get_bin_path(void);
 void	parse_args(void);

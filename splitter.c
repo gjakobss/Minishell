@@ -51,12 +51,31 @@ static int	count_words(char const *s, char c)
 	return (word_count);
 }
 
+int	splitter2(int j, const char *s, char c)
+{
+	int	quote;
+	int	arr_index;
+
+	arr_index = 0;
+	while (s[j] && s[j] != c)
+	{
+		quote = is_quote(s[j]);
+		if (quote)
+		{
+			j++;
+			while (is_quote(s[j]) != quote)
+				j++;
+		}
+		j++;
+	}
+	return (j);
+}
+
 char	**splitter(char const *s, char c)
 {
-	int		i;
 	int		j;
+	int		i;
 	int		arr_index;
-	int		quote;
 	char	**array;
 
 	if (!s)
@@ -72,17 +91,7 @@ char	**splitter(char const *s, char c)
 	while (s[j])
 	{
 		i = j;
-		while (s[j] && s[j] != c)
-		{
-			quote = is_quote(s[j]);
-			if (quote)
-			{
-				j++;
-				while (is_quote(s[j]) != quote)
-					j++;
-			}
-			j++;
-		}
+		j = splitter2(j, s, c);
 		array[arr_index++] = ft_substr(s, i, j - i);
 		while (s[j] && s[j] == c)
 			j++;

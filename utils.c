@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 20:18:09 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/12/20 20:18:11 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**get_quotes( char **exp, char *str, int z)
 {
-	int i;
-	int j;
-	int x;
-	char **ret;
+	int		i;
+	int		j;
+	int		x;
+	char	**ret;
 
 	i = 0;
 	while (exp[i])
@@ -19,7 +31,7 @@ char	**get_quotes( char **exp, char *str, int z)
 	if (str)
 	{
 		ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
-		while(str[++x])
+		while (str[++x])
 		{
 			ret[j][i] = str[x];
 			if (str[x] == '=')
@@ -32,12 +44,11 @@ char	**get_quotes( char **exp, char *str, int z)
 		if (z == 1)
 			ret[j][i++] = '"';
 		ret[j][i] = '\0';
-		printf("%s\n", ret[j]);
 		j++;
 	}
 	i = -1;
 	x = -1;
-	while(exp[++x] != NULL)
+	while (exp[++x] != NULL)
 	{
 		z = -1;
 		ret[j] = malloc(sizeof(char) * (ft_strlen(exp[x]) + 3));
@@ -47,7 +58,7 @@ char	**get_quotes( char **exp, char *str, int z)
 			if (exp[x][z] == '=' && exp[x][z + 1] != '"')
 				ret[j][++i] = '"';
 		}
-		if(ret[j][i] != '"')
+		if (ret[j][i] != '"')
 			ret[j][++i] = '"';
 		i++;
 		ret[j][i] = '\0';
@@ -70,12 +81,13 @@ char	*exp_organizer2(char **ret, int i)
 			j++;
 		if (ret[j] == NULL)
 			break ;
-		if(ret[i][0] > ret[j][0] && ft_strcmp(ret[j], "0") != 0)
+		if (ret[i][0] > ret[j][0] && ft_strcmp(ret[j], "0") != 0)
 			i = j;
 		else if (ret[i][0] == ret[j][0] && ft_strcmp(ret[j], "0") != 0)
 		{
 			x = 0;
-			while(ret[i][x] != '\0' && ret[j][x] != '\0' && ret[i][x] == ret[j][x])
+			while (ret[i][x] != '\0' && ret[j][x] != '\0'
+			&& ret[i][x] == ret[j][x])
 				x++;
 			if (ret[j][x] == '\0' || ret[i][x] > ret[j][x])
 				i = j;
@@ -84,20 +96,15 @@ char	*exp_organizer2(char **ret, int i)
 	return (ret[i]);
 }
 
-char	**exp_organizer(char **exp, char *str)
+char	**exp_organizer(char **exp, char *str, int i, int y)
 {
 	char	**ret;
-	int		i;
 	int		j;
-	int		y;
 
-	i = 0;
-	y = 0;
 	while (exp[i])
 		i++;
 	if (str != NULL)
 		i++;
-	ret = NULL;
 	ret = get_quotes(exp, str, 0);
 	exp = malloc(sizeof(char *) * (i + 1));
 	i = 0;
@@ -117,23 +124,24 @@ char	**exp_organizer(char **exp, char *str)
 	return (exp);
 }
 
-void	exec_one_bi(int x)
+int	exec_one_bi(int x)
 {
 	char	*str;
 
 	str = g_mini.cmd[x].command[0];
 	if (!ft_strcmp(str, "cd"))
-		bi_cd(g_mini.cmd[x].command[1]);
+		return(bi_cd(g_mini.cmd[x].command[1]));
 	if (!ft_strcmp(str, "pwd"))
-		bi_pwd();
+		return(bi_pwd());
 	if (!ft_strcmp(str, "env"))
-		bi_env();
+		return(bi_env());
 	if (!ft_strcmp(str, "echo"))
-		bi_echo(g_mini.cmd[x].command);
+		return(bi_echo(g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "export"))
-		bi_export(g_mini.cmd[x].command);
+		return(bi_export(g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "unset"))
-		bi_unset(g_mini.cmd[x].command);
+		return(bi_unset(g_mini.cmd[x].command));
+	return (-1);
 }
 
 int	is_builtin(int x)

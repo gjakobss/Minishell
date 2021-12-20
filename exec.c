@@ -44,6 +44,7 @@ int	exec_com_one(int c, int index)
 {
 	int	i;
 	int	id;
+	int status;
 
 	id = fork();
 	if (id == 0)
@@ -55,14 +56,16 @@ int	exec_com_one(int c, int index)
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
 		{
-			exec_one_bi(c);
-			exit(0);
+			g_mini.status = exec_one_bi(c) * 256;
+			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
-	wait(NULL);
+	waitpid(id, status, 0);WIFEXITED WEXITSTATUS
 	close (g_mini.pipefd[index][1]);
+	if (WIFEXITED(status))
+		g_mini.status = WEXITSTATUS(status);
 	return (0);
 }
 
@@ -80,8 +83,8 @@ int	exec_com_mid(int c, int index)
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
 		{
-			exec_one_bi(c);
-			exit(0);
+			g_mini.status = exec_one_bi(c) * 256;
+			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
@@ -105,8 +108,8 @@ int	exec_last_com(int c, int index)
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		if (is_builtin(c) == 1)
 		{
-			exec_one_bi(c);
-			exit(0);
+			g_mini.status = exec_one_bi(c) * 256;
+			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);

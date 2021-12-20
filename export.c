@@ -66,38 +66,44 @@ int	get_env_from_export(char **buff, int j)
 	return (j);
 }
 
-void	bi_export(char **buff)
+int	bi_export2(int j, int i, char **buff)
+{
+	int	checker;
+
+	checker = 0;
+	while (buff[j][checker] != '\0' && buff[j][checker] != '=')
+		checker++;
+	while (g_mini.exp[++i])
+	{
+		if (ft_strncmp(buff[j], g_mini.exp[i], checker) == 0)
+		{
+			checker = -1;
+			g_mini.exp[i] = buff[j];
+			g_mini.exp = exp_organizer(g_mini.exp, NULL, 0, 0);
+			break ;
+		}
+	}
+	if (checker != -1)
+		g_mini.exp = exp_organizer(g_mini.exp, buff[j], 0, 0);
+	return (j);
+}
+
+int	bi_export(char **buff)
 {
 	int	j;
 	int	i;
-	int	checker;
 
 	j = 0;
 	i = -1;
 	if (!buff[1])
 	{
 		write_export();
-		return ;
+		return (0);
 	}
 	while (buff[++j] != NULL)
-	{
-		checker = 0;
-		while (buff[j][checker] !='\0' && buff[j][checker] != '=')
-			checker++;
-		while (g_mini.exp[++i])
-		{
-			if (ft_strncmp(buff[j], g_mini.exp[i], checker) == 0)
-			{
-				checker = -1;
-				g_mini.exp[i] = buff[j];
-				g_mini.exp = exp_organizer(g_mini.exp, NULL);
-				break ;
-			}
-		}
-		if (checker != -1)
-			g_mini.exp = exp_organizer(g_mini.exp, buff[j]);
-	}
+		j = bi_export2(j, i, buff);
 	j = 0;
 	while (buff[j] != NULL)
 		j = get_env_from_export(buff, j);
+	return (0);
 }

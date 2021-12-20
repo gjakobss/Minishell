@@ -55,7 +55,7 @@ static void	aspas_remover(char **str, int n_flag)
 	}
 }
 
-void	bi_echo(char **str)
+int	bi_echo(char **str)
 {
 	int	n_flag;
 	int	i;
@@ -81,4 +81,5 @@ void	bi_echo(char **str)
 	}
 	if (!n_flag)
 		printf("\n");
+	return (0);
 }

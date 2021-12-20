@@ -1,11 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 19:28:47 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/12/20 19:28:51 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+int	send_output2(int fd, int index, int c)
+{
+	char	*buff;
+
+	fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	close(g_mini.pipefd[index][1]);
+	close(g_mini.pipefd[index][0]);
+	while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
+		write(fd, buff, ft_strlen(buff));
+	exit(0);
+}
 
 int	send_output(int c, int index, int i)
 {
 	int		fd;
 	int		id;
-	char	*buff;
 
+	fd = 0;
 	while (g_mini.cmd[c].command[++i])
 		printf("%s: %s: No such file or directory\n",
 			g_mini.cmd[c - 1].command[0], g_mini.cmd[c].command[i]);
@@ -16,14 +40,7 @@ int	send_output(int c, int index, int i)
 	}
 	id = fork();
 	if (id == 0)
-	{
-		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		close(g_mini.pipefd[index][1]);
-		close(g_mini.pipefd[index][0]);
-		while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
-			write(fd, buff, ft_strlen(buff));
-		exit(0);
-	}
+		send_output2(fd, index, c);
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
 	close(g_mini.pipefd[index][0]);
@@ -39,13 +56,15 @@ int	append_output(int c, int index, int i)
 	id = fork();
 	if (id == 0)
 	{
-		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(g_mini.cmd[c].command[0],
+				O_WRONLY | O_CREAT | O_APPEND, 0777);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 		while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
 			write(fd, buff, ft_strlen(buff));
 		while (g_mini.cmd[c].command[++i])
-			write(fd, ft_strjoin(g_mini.cmd[c].command[i], "\n"), ft_strlen(g_mini.cmd[c].command[i]) + 1);
+			write(fd, ft_strjoin(g_mini.cmd[c].command[i], "\n"),
+				ft_strlen(g_mini.cmd[c].command[i]) + 1);
 		exit(0);
 	}
 	wait(NULL);
@@ -56,8 +75,8 @@ int	append_output(int c, int index, int i)
 
 int	send_input(int c, int index)
 {
-	int	i;
-	char *temp;
+	int		i;
+	char	*temp;
 
 	(void)index;
 	i = 0;
@@ -78,7 +97,7 @@ int	send_input(int c, int index)
 
 int	wait_input(int c, int index)
 {
-	char *line;
+	char	*line;
 
 	(void)index;
 	line = readline("heredoc> ");
@@ -86,4 +105,3 @@ int	wait_input(int c, int index)
 		line = readline("heredoc> ");
 	return (0);
 }
-
