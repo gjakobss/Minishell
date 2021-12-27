@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:22:40 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:17:34 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:20:22 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	quotes_checker(char *line)
 
 int	arg_validation(char *line)
 {
-
 	if (check_commands(line))
 	{
 		printf("");

@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 20:18:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 12:14:24 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:21:27 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,17 +130,17 @@ int	exec_one_bi(int x)
 
 	str = g_mini.cmd[x].command[0];
 	if (!ft_strcmp(str, "cd"))
-		return(bi_cd(g_mini.cmd[x].command[1]));
+		return (bi_cd(g_mini.cmd[x].command[1]));
 	if (!ft_strcmp(str, "pwd"))
-		return(bi_pwd());
+		return (bi_pwd());
 	if (!ft_strcmp(str, "env"))
-		return(bi_env());
+		return (bi_env());
 	if (!ft_strcmp(str, "echo"))
-		return(bi_echo(g_mini.cmd[x].command));
+		return (bi_echo(g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "export"))
-		return(bi_export(g_mini.cmd[x].command));
+		return (bi_export(g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "unset"))
-		return(bi_unset(g_mini.cmd[x].command));
+		return (bi_unset(g_mini.cmd[x].command));
 	return (-1);
 }
 
