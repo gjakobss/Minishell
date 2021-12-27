@@ -6,13 +6,13 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 20:18:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 11:43:01 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:14:24 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_quotes( char **exp, char *str, int z)
+char	**get_quotes(char **exp, char *str, int z)
 {
 	int		i;
 	int		j;

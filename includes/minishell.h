@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 11:45:23 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:18:49 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,16 @@ typedef struct s_expand
 t_mini	g_mini;
 
 /*		Built-ins		*/
-int	bi_env(void);
-int	bi_pwd(void);
-int	bi_cd(char *str);
-int	bi_echo(char **str);
-int	bi_export(char **buff);
-int	bi_unset(char **buff);
+int		bi_env(void);
+int		bi_pwd(void);
+int		bi_cd(char *str);
+int		bi_echo(char **str);
+int		bi_export(char **buff);
+int		bi_unset(char **buff);
 
 /*		Arg Validation	*/
 int		arg_validation(char *line);
 int		quotes_checker(char *line);
-int		is_squote(char c);
-int		is_dquote(char c);
 void	operators_count(char *line);
 int		check_commands(char *line);
 
@@ -97,35 +95,58 @@ void	assign_line(t_cmds *cmd, char *line);
 void	lexer(t_cmds *cmd, char *line);
 
 /*		Expand Variables	*/
+void	replace_command(char **line, t_expand str);
+void	replace_var(char **str);
 void	expand_variables(char **line, int start);
 void	expander(t_cmds *cmd);
 
 /*		Splitter		*/
-char	**splitter(char const *s, char c);
 int		is_quote(char c);
+int		splitter2(int j, const char *s, char c);
+char	**splitter(char const *s, char c);
 
 /*		Signals		*/
 void	activate_signals(void);
 
-int		exec_one2(int j, int i);
-int		exec_com2(int c, int i, int com);
-int		exec_last_com(int c, int index);
-int		exec_com_mid(int c, int index);
+/*		Exec		*/
 void	exec_one(void);
 int		exec_com_one(int c, int index);
+int		exec_com_mid(int c, int index);
+int		exec_last_com(int c, int index);
+int		send_to_exec(void);
+
+int		exec_one2(int j, int i);
+int		exec_com2(int c, int i, int com);
 int		divergent(int c, int index, int id);
 int		one_time(int c, int index);
 int		multi_exec(int c, int index, int i);
-int		send_to_exec(void);
-int		exec_one_bi(int x);
-char	**exp_organizer(char **exp, char *str, int i, int y);
+
+/*		Minishell	*/
+int		garbage_collector(void);
+int		take_care(char *line);
+void	init_g(void);
+char	**init_env(char **o_env);
+
+/*		Redirections	*/
+int		send_output2(int fd, int index, int c);
+int		send_output(int c, int index, int i);
+int		append_output(int c, int index, int i);
+int		send_input(int c, int index);
+int		wait_input(int c, int index);
+
+/*		Utils	*/
+char	**get_quotes(char **exp, char *str, int z);
 char	*exp_organizer2(char **ret, int i);
+char	**exp_organizer(char **exp, char *str, int i, int y);
 int		exec_one_bi(int x);
 int		is_builtin(int x);
 int		get_bin_path(void);
+
+/*
 void	parse_args(void);
 int		send_output(int c, int index, int check);
 int		append_output(int c, int index, int i);
 int		send_input(int c, int index);
 int		wait_input(int c, int index);
+*/
 #endif
