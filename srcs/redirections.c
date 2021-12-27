@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:28:47 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/20 19:28:51 by gjakobss         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:41:47 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	send_output2(int fd, int index, int c)
 {

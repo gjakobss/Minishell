@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/20 19:26:16 by gjakobss         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:45:23 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <fcntl.h>
 # include <signal.h>
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include "get_next_line.h"
 
 # define PIPE 1

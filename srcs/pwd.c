@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/01 15:39:47 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/03/05 15:06:36 by gjakobss         ###   ########.fr       */
+/*   Created: 2021/12/20 19:28:28 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/12/27 11:40:24 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../includes/minishell.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
+int	bi_pwd(void)
+{
+	char	str[999];
 
-# include "libft/libft.h"
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
-
-int		get_next_line(int fd, char **line);
-#endif
+	getcwd(str, 999);
+	printf("%s\n", str);
+	return (0);
+}

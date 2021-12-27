@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 18:49:18 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/18 18:49:20 by gjakobss         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:41:26 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	write_export(void)
 {

@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:05:34 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/13 11:29:26 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:40:14 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	quotes_skipper(char *line, int	*i, int quotes)
 {

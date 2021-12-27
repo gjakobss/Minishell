@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:51:27 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	exec_one(void)
 {
@@ -62,7 +62,7 @@ int	exec_com_one(int c, int index)
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
-	waitpid(id, status, 0);WIFEXITED WEXITSTATUS
+	waitpid(id, &status, 0); //WIFEXITED WEXITSTATUS
 	close (g_mini.pipefd[index][1]);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);

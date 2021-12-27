@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 20:18:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/20 20:18:11 by gjakobss         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:43:01 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	**get_quotes( char **exp, char *str, int z)
 {

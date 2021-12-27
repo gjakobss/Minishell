@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:15 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:01:22 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 11:50:43 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static char	*real_aspas_remover(char *str)
 {
@@ -63,7 +63,7 @@ int	bi_echo(char **str)
 	if (str[1] == NULL)
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	n_flag = 0;
 	i = 0;
