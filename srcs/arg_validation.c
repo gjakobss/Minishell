@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:22:40 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:20:22 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:00:21 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	check_commands(char *line)
 {

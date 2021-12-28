@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 15:27:15 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 11:42:29 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:13:29 by gjakobss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "get_next_line.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>

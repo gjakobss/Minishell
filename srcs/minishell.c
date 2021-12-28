@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 12:09:44 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:26:11 by gjakobss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 char	**init_env(char **o_env)
 {
@@ -38,6 +38,7 @@ void	init_g(void)
 	g_mini.d_quotes = 0;
 	g_mini.semi_col = 0;
 	g_mini.dollar = 0;
+	g_mini.status = 1;
 }
 
 int	take_care(char *line)
@@ -85,6 +86,7 @@ int	main(int argc, char **argv, char **o_env)
 				exit(0);
 			if (take_care(line) == -1)
 				continue ;
+			printf("%d\n", g_mini.status);
 		}
 		free(line);
 	}

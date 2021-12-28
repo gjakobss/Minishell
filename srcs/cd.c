@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:00:27 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 11:41:04 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:01:05 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	update_pwd(char *old, char *new)
 {

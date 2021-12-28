@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:07:40 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	exec_one(void)
 {
@@ -62,7 +62,7 @@ int	exec_com_one(int c, int index)
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
-	waitpid(id, &status, 0); //WIFEXITED WEXITSTATUS
+	waitpid(id, &status, 0);
 	close (g_mini.pipefd[index][1]);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
@@ -73,6 +73,7 @@ int	exec_com_mid(int c, int index)
 {
 	int	id;
 	int	i;
+	int	status;
 
 	id = fork();
 	if (id == 0)
@@ -89,8 +90,10 @@ int	exec_com_mid(int c, int index)
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
-	wait(NULL);
-	close(g_mini.pipefd[index][1]);
+	waitpid(id, &status, 0);
+	close (g_mini.pipefd[index][1]);
+	if (WIFEXITED(status))
+		g_mini.status = WEXITSTATUS(status);
 	return (index);
 }
 
@@ -98,6 +101,7 @@ int	exec_last_com(int c, int index)
 {
 	int	id;
 	int	i;
+	int status;
 
 	id = fork();
 	if (id == 0)
@@ -116,9 +120,11 @@ int	exec_last_com(int c, int index)
 	}
 	else
 	{
-		wait(NULL);
-		close(g_mini.pipefd[index][1]);
+		waitpid(id, &status, 0);
+		close (g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
+		if (WIFEXITED(status))
+		g_mini.status = WEXITSTATUS(status);
 	}
 	return (0);
 }

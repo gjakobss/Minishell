@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:15 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 11:50:43 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:01:22 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static char	*real_aspas_remover(char *str)
 {

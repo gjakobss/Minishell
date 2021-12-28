@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:22:47 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 11:42:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:31:51 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	sig_handler(int signum, siginfo_t *info, void *context)
 {

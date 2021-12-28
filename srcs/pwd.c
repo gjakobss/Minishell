@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:28:28 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 11:40:24 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:28:30 by gjakobss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	bi_pwd(void)
 {

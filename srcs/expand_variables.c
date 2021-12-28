@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:05:09 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:02:36 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	replace_command(char **line, t_expand str)
 {
@@ -60,6 +60,11 @@ void	expand_variable(char **line, int start)
 
 	(void)start;
 	str.full = ft_strdup(*line);
+	if (str.full[start] == '$' && str.full[start + 1] == '?')
+	{
+		*line = ft_itoa(g_mini.status);
+		return ;
+	}
 	str.before = ft_substr(str.full, 0, start);
 	i = start;
 	while ((ft_isalpha(str.full[i]) || str.full[i] == '$') && str.full[i])

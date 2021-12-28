@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:18:36 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:05:56 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/14 12:25:27 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	is_quote(char c)
 {

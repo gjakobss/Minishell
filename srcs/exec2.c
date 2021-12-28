@@ -6,11 +6,11 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 18:47:34 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 12:08:14 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/18 18:47:39 by gjakobss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	exec_one2(int j, int i)
 {

@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:34 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 11:49:50 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:01:35 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	bi_env(void)
 {

@@ -6,11 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:52:03 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/27 12:03:34 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:36:17 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	is_terminator(char *line, int *j)
 {
