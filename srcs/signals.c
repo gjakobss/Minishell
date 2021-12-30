@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:22:47 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/30 12:55:20 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/30 16:23:11 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	activate_signals(void)
@@ -31,5 +31,5 @@ void	activate_signals(void)
 	//	CTRL C;
 	sigaction(SIGINT, &sa_signal, NULL);
 	//	CTRL \;
-	sigaction(SIGQUIT, &sa_signal, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
