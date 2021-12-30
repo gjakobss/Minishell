@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:22:47 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 11:31:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/30 12:55:20 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-	if (signum == SIGINT)
-	{
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
-	}
 }
 
 void	activate_signals(void)

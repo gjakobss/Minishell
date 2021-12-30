@@ -6,7 +6,7 @@
 #    By: malmeida <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/27 11:29:20 by malmeida          #+#    #+#              #
-#    Updated: 2021/12/27 11:54:49 by malmeida         ###   ########.fr        #
+#    Updated: 2021/12/30 12:37:40 by malmeida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,12 @@ LIBFT_DIR	=	./libft
 
 			# Compiling Variables #
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror
 INC			= -I./includes -lreadline -I$(LIBFT_DIR)
 RM			= rm -f
-FSANITIZE	=-g -fsanitize=address
+FSANITIZE	= -g -fsanitize=address
+RDFLAG		= -L/Users/$(shell whoami)/.brew/opt/readline/lib -lreadline
+RDFLAGER	= -I/Users/$(shell whoami)/.brew/opt/readline/include
 
 			# Color Variables #
 GREEN		= \e[0;32m
@@ -41,7 +43,7 @@ all: $(BBSHELL)
 $(NAME): all
 
 $(BBSHELL): $(LIBFT) $(SRC_BBSHELL)
-	@ $(CC) $(CFLAG) $(SRC_BBSHELL) $(LIBFT) $(INC) $(FSANITIZE) -o $(BBSHELL)
+	@ $(CC) $(CFLAG) $(SRC_BBSHELL) $(LIBFT) $(INC) -o $(BBSHELL) $(RDFLAG) $(RDFLAGER)
 	@printf "[$(GREEN)SUCCESS$(RESET)] bbshell compiled.\n"
 
 $(LIBFT):
