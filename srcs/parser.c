@@ -35,9 +35,9 @@ int	command_counter(char *line)
 	i = 0;
 	while (i < len)
 	{
-		if (line[i] == '"')
+		if (line[i] == '"' && g_mini.s_quotes % 2 == 0)
 			g_mini.d_quotes += 1;
-		if (line[i] == '\'')
+		if (line[i] == '\''  && g_mini.d_quotes % 2 == 0)
 			g_mini.s_quotes += 1;
 		if (is_terminator(line, &i) && g_mini.d_quotes % 2 == 0
 			&& g_mini.s_quotes % 2 == 0)

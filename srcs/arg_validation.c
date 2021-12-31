@@ -71,9 +71,9 @@ int	quotes_checker(char *line)
 	while (line[++i])
 	{
 		quote = is_quote(line[i]);
-		if (quote == DQUOTES)
+		if (quote == DQUOTES && g_mini.s_quotes % 2 == 0)
 			g_mini.d_quotes += 1;
-		if (quote == SQUOTES)
+		if (quote == SQUOTES && g_mini.d_quotes % 2 == 0)
 			g_mini.s_quotes += 1;
 	}
 	if ((g_mini.s_quotes % 2 != 0) || (g_mini.d_quotes % 2 != 0))

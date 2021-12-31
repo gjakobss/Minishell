@@ -14,9 +14,9 @@
 
 int	is_quote(char c)
 {
-	if (c == '"')
+	if (c == '"' && g_mini.s_quotes % 2 == 0)
 		return (DQUOTES);
-	if (c == '\'')
+	if (c == '\'' && g_mini.d_quotes % 2 == 0)
 		return (SQUOTES);
 	else
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/30 12:15:55 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:18:49 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_mini
 	int		num_cmds;
 	int		sig_int;
 	int		status;
+	int		pid;
 }				t_mini;
 
 typedef struct s_expand
@@ -109,7 +110,7 @@ char	**splitter(char const *s, char c);
 void	activate_signals(void);
 
 /*		Exec		*/
-void	exec_one(void);
+int		exec_one(void);
 int		exec_com_one(int c, int index);
 int		exec_com_mid(int c, int index);
 int		exec_last_com(int c, int index);

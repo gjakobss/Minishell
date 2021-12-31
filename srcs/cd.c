@@ -53,7 +53,7 @@ int	bi_cd(char *str)
 	if (ret == -1)
 	{
 		printf("Error changing directory\n");
-		return (-1);
+		return (1);
 	}
 	getcwd(new_pwd, 1024);
 	update_pwd(old_pwd, new_pwd);

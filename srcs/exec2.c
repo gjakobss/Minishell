@@ -14,16 +14,20 @@
 
 int	exec_one2(int j, int i)
 {
-	int	id;
+	int status;
 
-	id = fork();
-	if (id == 0 && j == 0)
+	g_mini.pid = fork();
+	if (g_mini.pid == 0 && j == -1)
+		exit(127);
+	if (g_mini.pid == 0 && j == 0)
 		execve(ft_str3join(g_mini.bin_paths[i], "/",
 				g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
-	else if (id == 0 && j == 1)
+	else if (g_mini.pid == 0 && j == 1)
 		execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
 	else
-		wait(NULL);
+		waitpid(g_mini.pid, &status, 0);
+	if (WIFEXITED(status))
+		g_mini.status = WEXITSTATUS(status);
 	return (0);
 }
 
@@ -36,11 +40,6 @@ int	exec_com2(int c, int i, int com)
 	{
 		if (g_mini.cmd->command[0][0] == '/')
 			j = access(g_mini.cmd->command[0], F_OK);
-		if (j == 0)
-		{
-			j = 1;
-			break ;
-		}
 		else if (g_mini.cmd->command[0][0] != '/')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
 						g_mini.cmd[c].command[0]), F_OK);
@@ -48,7 +47,7 @@ int	exec_com2(int c, int i, int com)
 			break ;
 		i++;
 	}
-	if (j == -1 && is_builtin(0) == 0 && com != 2)
+	if ((j == -1 && is_builtin(0) == 0))
 	{
 		printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		return (-1);
@@ -58,6 +57,7 @@ int	exec_com2(int c, int i, int com)
 
 int	divergent(int c, int index, int id)
 {
+
 	if (id == 0)
 	{
 		if (g_mini.cmd[c - 1].op == 3)

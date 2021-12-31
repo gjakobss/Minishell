@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/30 12:38:38 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:26:11 by gjakobss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_g(void)
 	g_mini.d_quotes = 0;
 	g_mini.semi_col = 0;
 	g_mini.dollar = 0;
-	g_mini.status = 1;
+	g_mini.status = 0;
 }
 
 int	take_care(char *line)
@@ -82,11 +82,10 @@ int	main(int argc, char **argv, char **o_env)
 			continue ;
 		else
 		{
-			if (ft_strcmp(line, "exit") == 0)
+			if (ft_strncmp(line, "exit", 4) == 0)
 				exit(0);
 			if (take_care(line) == -1)
 				continue ;
-			printf("%d\n", g_mini.status);
 		}
 		free(line);
 	}
