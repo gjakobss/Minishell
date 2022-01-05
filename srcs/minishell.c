@@ -150,3 +150,5 @@ int	main(int argc, char **argv, char **o_env)
 //Em falta:
 //	signals
 //	exit logs dos built ins (pelo menos do cd)
+//  exit (as vezes e preciso fazer exit 2 vezes, e temos de acautelar a cena de ter argumentos)
+
