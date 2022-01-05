@@ -56,7 +56,8 @@ int	exec_com_one(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c) * 256;
-			exit(1);
+			printf("%d\n", g_mini.status);
+			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
@@ -87,6 +88,7 @@ int	exec_com_mid(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c) * 256;
+			printf("%d\n", g_mini.status);
 			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
@@ -118,6 +120,7 @@ int	exec_last_com(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c);
+			printf("%d\n", g_mini.status);
 			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),

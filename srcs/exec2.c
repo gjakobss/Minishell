@@ -19,11 +19,15 @@ int	exec_one2(int j, int i)
 	g_mini.pid = fork();
 	if (g_mini.pid == 0 && j == -1)
 		exit(127);
+	if (g_mini.pid == 0 && is_builtin(0) == 1)
+		exit(exec_one_bi(0));
 	if (g_mini.pid == 0 && j == 0)
 		execve(ft_str3join(g_mini.bin_paths[i], "/",
 				g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
 	else if (g_mini.pid == 0 && j == 1)
 		execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
+	if (g_mini.pid == 0 && j == 1 && is_builtin(0) == 1)
+		exit(exec_one_bi(0));
 	else
 		waitpid(g_mini.pid, &status, 0);
 	if (WIFEXITED(status))
@@ -88,9 +92,9 @@ int	one_time(int c, int index)
 		send_input(c, index);
 		g_mini.cmd[c].op = 6;
 	}
-	if (g_mini.cmd[0].op == 6 && is_builtin(0) == 1)
-		exec_one_bi(0);
-	else if (g_mini.cmd[0].op == 6 && is_builtin(0) == 0)
+//	if (g_mini.cmd[0].op == 6 && is_builtin(0) == 1)
+//		exec_one_bi(0);
+	else if (g_mini.cmd[0].op == 6)// && is_builtin(0) == 0)
 		exec_one();
 	return (0);
 }
