@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/20 19:26:11 by gjakobss         ###   ########.fr       */
+/*   Updated: 2022/01/06 11:45:51 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ int	main(int argc, char **argv, char **o_env)
 	while (1)
 	{
 		line = readline("BBShell >$ ");
+		if (line == NULL)
+			exit(0);
 		if (!line || line[0] == '\0')
 			continue ;
 		else
