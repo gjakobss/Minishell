@@ -153,7 +153,12 @@ int	is_builtin(int x)
 		|| !ft_strcmp(str, "env")
 		|| !ft_strcmp(str, "export") || !ft_strcmp(str, "unset")
 		|| !ft_strcmp(str, "cd"))
+	{
+		if (!ft_strcmp(str, "export") && g_mini.cmd[x].command[1] != NULL
+			|| !ft_strcmp(str, "unset") || !ft_strcmp(str, "cd"))
+			return (2);
 		return (1);
+	}
 	return (0);
 }
 
@@ -168,7 +173,7 @@ int	get_bin_path(void)
 			break ;
 	if (g_mini.env[i] == NULL && is_builtin(0) == 0)
 		return (-1);
-	else if (g_mini.env[i] == NULL && is_builtin(0) == 1)
+	else if (g_mini.env[i] == NULL && is_builtin(0) != 0)
 		return (0);
 	g_mini.bin_paths = ft_split(g_mini.env[i] + 5, ':');
 	return (0);

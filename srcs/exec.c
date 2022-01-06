@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/06 13:28:58 by malmeida         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	exec_one(void)
 			break ;
 		i++;
 	}
-	if (j == -1)
+	if (j == -1 && is_builtin(0) == 0)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
+	if (is_builtin(0) != 0)
+		j = 1;
 	return (exec_one2(j, i));
 }
 
@@ -56,7 +58,6 @@ int	exec_com_one(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c) * 256;
-			printf("%d\n", g_mini.status);
 			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
@@ -88,7 +89,6 @@ int	exec_com_mid(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c) * 256;
-			printf("%d\n", g_mini.status);
 			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
@@ -120,7 +120,6 @@ int	exec_last_com(int c, int index)
 		if (is_builtin(c) == 1)
 		{
 			g_mini.status = exec_one_bi(c);
-			printf("%d\n", g_mini.status);
 			exit(g_mini.status);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),

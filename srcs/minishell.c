@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/06 13:40:22 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 11:45:51 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_exitoi(char *s)
 			return (257);
 	}
 	i = -1;
-	if (minus) 
+	if (minus)
 		i = 0;
 	while (s[++i])
 		nbr = nbr * 10 + (s[i] - 48);
@@ -90,15 +90,15 @@ int	ft_exitoi(char *s)
 		nbr *= -1;
 	if (nbr == 257)
 		return (1);
-	return (nbr); 
-}	
+	return (nbr);
+}
 
 int	ft_exit(char *line)
 {
 	int		i;
 	int		j;
 	char	**buff;
-	
+
 	i = 0;
 	buff = ft_split(line, ' ');
 	while (buff[i] != NULL)
@@ -114,7 +114,7 @@ int	ft_exit(char *line)
 		j = ft_exitoi(buff[1]);
 	if (j == 257)
 		printf("bash: exit: numeric argument required\n");
-	else 
+	else
 		exit(j);
 	return (-1);
 }

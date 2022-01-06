@@ -17,19 +17,21 @@ int	exec_one2(int j, int i)
 	int status;
 
 	g_mini.pid = fork();
-	if (g_mini.pid == 0 && j == -1)
-		exit(127);
-	if (g_mini.pid == 0 && is_builtin(0) == 1)
-		exit(exec_one_bi(0));
-	if (g_mini.pid == 0 && j == 0)
-		execve(ft_str3join(g_mini.bin_paths[i], "/",
-				g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
-	else if (g_mini.pid == 0 && j == 1)
-		execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
-	if (g_mini.pid == 0 && j == 1 && is_builtin(0) == 1)
-		exit(exec_one_bi(0));
-	else
-		waitpid(g_mini.pid, &status, 0);
+	if (g_mini.pid == 0)
+	{
+		if (g_mini.pid == 0 && j == -1)
+			exit(127);
+		if (g_mini.pid == 0 && is_builtin(0) != 0)
+			exit(exec_one_bi(0));
+		if (g_mini.pid == 0 && j == 0)
+			execve(ft_str3join(g_mini.bin_paths[i], "/",
+					g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
+		else if (g_mini.pid == 0 && j == 1)
+			execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
+	}
+	if (is_builtin(0) == 2)
+		exec_one_bi(0);
+	waitpid(g_mini.pid, &status, 0);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
 	return (0);
