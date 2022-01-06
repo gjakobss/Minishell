@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:22:47 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 11:31:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 10:20:39 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 	(void)context;
 	printf("\n");
 	rl_on_new_line();
-//	rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
 void	activate_signals(void)
 {
-	struct sigaction	sa_signal;
+	struct sigaction	sa_signal1;
+	struct sigaction	sa_signal2;
 
 	g_mini.sig_int = 0;
-	sa_signal.sa_sigaction = sig_handler;
-	//	CTRL C;
-	sigaction(SIGINT, &sa_signal, NULL);
-	//	CTRL \;
-	signal(SIGQUIT, SIG_IGN);
+	sa_signal1.sa_sigaction = &sig_handler;
+	sa_signal2.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &sa_signal1, NULL);
+	sigaction(SIGQUIT, &sa_signal2, NULL);
 }

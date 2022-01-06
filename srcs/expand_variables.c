@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:09:56 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:02:36 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 10:29:55 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	expander(t_cmds *cmd)
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{
-				if (cmd[i].command[j][z] == '\'')
+				if (cmd[i].command[j][z] == '\'' && cmd[i].command[j][z - 1] != '"')
 					while (cmd[i].command[j][++z]
 					&& cmd[i].command[j][z] != '\'')
 					;
