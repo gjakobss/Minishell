@@ -92,12 +92,14 @@ void	expander(t_cmds *cmd)
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{
-				if (cmd[i].command[j][z] == '\'' && cmd[i].command[j][z - 1] != '"')
+				if (cmd[i].command[j][z] == '\'')
 					while (cmd[i].command[j][++z]
 					&& cmd[i].command[j][z] != '\'')
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
+				if (cmd[i].command[j][z] == '\0')
+					break;
 			}
 		}
 	}

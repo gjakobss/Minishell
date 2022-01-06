@@ -148,8 +148,3 @@ int	main(int argc, char **argv, char **o_env)
 	}
 	return (garbage_collector());
 }
-
-
-//Em falta:
-//	signals
-//	exit logs dos built ins (pelo menos do cd)
