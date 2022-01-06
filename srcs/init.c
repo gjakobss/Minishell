@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:50:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/06 15:50:05 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:05:47 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**init_env(char **o_env)
 	return (env);
 }
 
-void	init_g(void)
+void	init_g(char **o_env)
 {
 	g_mini.pipes = 0;
 	g_mini.s_quotes = 0;

@@ -6,9 +6,11 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:29:27 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/06 15:31:24 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:05:02 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 int	exec_one_bi(int x)
 {

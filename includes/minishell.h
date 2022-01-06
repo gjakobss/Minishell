@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 12:18:49 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:06:14 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int		multi_exec(int c, int index, int i);
 /*		Minishell	*/
 int		garbage_collector(void);
 int		take_care(char *line);
-void	init_g(void);
+void	init_g(char **o_env);
 char	**init_env(char **o_env);
 
 /*		Redirections	*/

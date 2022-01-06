@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/06 11:45:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 16:06:30 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **o_env)
 
 	(void)argc;
 	(void)argv;
-	init_g();
+	init_g(o_env);
 	activate_signals();
 	while (1)
 	{
