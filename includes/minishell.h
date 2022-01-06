@@ -119,7 +119,7 @@ int		exec_last_com(int c, int index);
 int		send_to_exec(void);
 
 int		exec_one2(int j, int i);
-int		exec_com2(int c, int i, int com);
+int		exec_com2(int c, int i);
 int		divergent(int c, int index, int id);
 int		one_time(int c, int index);
 int		multi_exec(int c, int index, int i);
@@ -127,7 +127,7 @@ int		multi_exec(int c, int index, int i);
 /*		Minishell	*/
 int		garbage_collector(void);
 int		take_care(char *line);
-void	init_g(void);
+void	init_g(char **o_env);
 char	**init_env(char **o_env);
 
 /*		Redirections	*/

@@ -71,6 +71,7 @@ int	ft_exit(char *line)
 	char	**buff;
 
 	i = 0;
+	j = 0;
 	buff = ft_split(line, ' ');
 	while (buff[i] != NULL)
 		i++;
@@ -96,7 +97,7 @@ int	main(int argc, char **argv, char **o_env)
 
 	(void)argc;
 	(void)argv;
-	init_g();
+	init_g(o_env);
 	activate_signals();
 	while (1)
 	{

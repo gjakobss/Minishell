@@ -49,7 +49,7 @@ int	exec_com_one(int c, int index)
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
 	{
-		i = exec_com2(c, 0, 2);
+		i = exec_com2(c, 0);
 		if (i == -1)
 			exit(127);
 		close(g_mini.pipefd[index][0]);
@@ -76,7 +76,7 @@ int	exec_com_mid(int c, int index)
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
 	{
-		i = exec_com2(c, 0, 2);
+		i = exec_com2(c, 0);
 		if (i == -1)
 			exit(127);
 		close(g_mini.pipefd[index][0]);
@@ -104,7 +104,7 @@ int	exec_last_com(int c, int index)
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
 	{
-		i = exec_com2(c, 0, g_mini.cmd[c].op);
+		i = exec_com2(c, 0);
 		if (i == -1)
 			exit(127);
 		close(g_mini.pipefd[index][1]);

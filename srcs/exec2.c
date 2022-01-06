@@ -37,7 +37,7 @@ int	exec_one2(int j, int i)
 	return (0);
 }
 
-int	exec_com2(int c, int i, int com)
+int	exec_com2(int c, int i)
 {
 	int	j;
 

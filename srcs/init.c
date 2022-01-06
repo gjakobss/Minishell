@@ -31,7 +31,7 @@ char	**init_env(char **o_env)
 	return (env);
 }
 
-void	init_g(void)
+void	init_g(char **o_env)
 {
 	g_mini.pipes = 0;
 	g_mini.s_quotes = 0;

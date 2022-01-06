@@ -16,6 +16,7 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
+	(void)signum;
 	printf("\n");
 	if (g_mini.child == 0)
 	{
