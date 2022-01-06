@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 13:28:58 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,12 @@ int	send_to_exec(void)
 
 	c = 0;
 	index = 0;
+	g_mini.child = 1;
 	if (g_mini.cmd[c].op == 6 || g_mini.num_cmds == 2)
 		one_time(c, index);
 	if (g_mini.cmd[0].op != 6)
 		if (multi_exec(c, index, 0) == -1)
 			return (-1);
+	g_mini.child = 0;
 	return (0);
 }

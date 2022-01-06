@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2021/12/27 12:18:49 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 13:39:32 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <termios.h>
 
 # include "../libft/libft.h"
 # include "get_next_line.h"
@@ -58,6 +59,7 @@ typedef struct s_mini
 	int		sig_int;
 	int		status;
 	int		pid;
+	int		child;
 }				t_mini;
 
 typedef struct s_expand

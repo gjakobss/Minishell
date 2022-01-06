@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/06 11:45:51 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 13:40:22 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	init_g(void)
 	g_mini.semi_col = 0;
 	g_mini.dollar = 0;
 	g_mini.status = 0;
+	g_mini.child = 0;
 }
 
 int	take_care(char *line)
