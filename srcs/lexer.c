@@ -82,6 +82,8 @@ void	assign_line(t_cmds *cmd, char *line)
 		if (len > 0)
 			cmd[j].full_line = ft_substr(line, start, len);
 		j++;
+		if (line[i] == '\0')
+			break;
 	}
 	cmd[j].full_line = NULL;
 }

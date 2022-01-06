@@ -6,7 +6,7 @@
 #    By: malmeida <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/27 11:29:20 by malmeida          #+#    #+#              #
-#    Updated: 2021/12/27 11:54:49 by malmeida         ###   ########.fr        #
+#    Updated: 2022/01/06 14:40:54 by gjakobss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ all: $(BBSHELL)
 $(NAME): all
 
 $(BBSHELL): $(LIBFT) $(SRC_BBSHELL)
-	@ $(CC) $(CFLAG) $(SRC_BBSHELL) $(LIBFT) $(INC) -o $(BBSHELL) $(RDFLAG) $(RDFLAGER)
+	@ $(CC) $(CFLAG) $(FSANITIZE) $(SRC_BBSHELL) $(LIBFT) $(INC) -o $(BBSHELL) $(RDFLAG) $(RDFLAGER)
 	@printf "[$(GREEN)SUCCESS$(RESET)] bbshell compiled.\n"
 
 $(LIBFT):
