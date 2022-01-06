@@ -14,8 +14,8 @@
 
 char	*get_retfromstr(char **ret, char *str, int i, int x)
 {
-	int j;
-	int z;
+	int	j;
+	int	z;
 
 	j = 0;
 	z = 0;
@@ -36,7 +36,26 @@ char	*get_retfromstr(char **ret, char *str, int i, int x)
 	return (ret[j]);
 }
 
-char	**get_quotes(char **exp, char *str, int z)
+char	*get_retfromexp(char **ret, char *exp, int j, int i)
+{
+	int	z;
+
+	z = -1;
+	ret[j] = malloc(sizeof(char) * (ft_strlen(exp) + 3));
+	while (exp[++z])
+	{
+		ret[j][++i] = exp[z];
+		if (exp[z] == '=' && exp[z + 1] != '"')
+			ret[j][++i] = '"';
+	}
+	if (ret[j][i] != '"')
+		ret[j][++i] = '"';
+	i++;
+	ret[j][i] = '\0';
+	return (ret[j]);
+}
+
+char	**get_quotes(char **exp, char *str)
 {
 	int		i;
 	int		j;
@@ -48,46 +67,11 @@ char	**get_quotes(char **exp, char *str, int z)
 		i++;
 	ret = malloc(sizeof(char *) * (i + 1));
 	j = 0;
-//	i = 0;
-//	x = -1;
 	if (str)
-	{
-		ret[j] = get_retfromstr(ret, str, 0, -1);
-/*		ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
-		while (str[++x])
-		{
-			ret[j][i] = str[x];
-			if (str[x] == '=')
-			{
-				z = 1;
-				ret[j][++i] = '"';
-			}
-			i++;
-		}
-		if (z == 1)
-			ret[j][i++] = '"';
-		ret[j][i] = '\0';*/
-		j++;
-	}
-	i = -1;
+		ret[j++] = get_retfromstr(ret, str, 0, -1);
 	x = -1;
 	while (exp[++x] != NULL)
-	{
-		z = -1;
-		ret[j] = malloc(sizeof(char) * (ft_strlen(exp[x]) + 3));
-		while (exp[x][++z])
-		{
-			ret[j][++i] = exp[x][z];
-			if (exp[x][z] == '=' && exp[x][z + 1] != '"')
-				ret[j][++i] = '"';
-		}
-		if (ret[j][i] != '"')
-			ret[j][++i] = '"';
-		i++;
-		ret[j][i] = '\0';
-		j++;
-		i = -1;
-	}
+		ret[j++] = get_retfromexp(ret, exp[x], j, -1);
 	ret[j] = NULL;
 	return (ret);
 }
@@ -128,7 +112,7 @@ char	**exp_organizer(char **exp, char *str, int i, int y)
 		i++;
 	if (str != NULL)
 		i++;
-	ret = get_quotes(exp, str, 0);
+	ret = get_quotes(exp, str);
 	exp = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (ret[i] != NULL)

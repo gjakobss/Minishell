@@ -40,8 +40,8 @@ static char	*ft_find(const char *haystack, const char *needle, \
 	y = 0;
 	while (counter > 0)
 	{
-		while (haystack[x + y] == needle[y] && haystack[x + y] != '\0' \
-				&& needle[y] != '\0' && x + y < len)
+		while (haystack[x + y] == needle[y] && haystack[x + y] != '\0'
+			&& needle[y] != '\0' && x + y < len)
 		{
 			y++;
 		}

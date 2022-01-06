@@ -29,7 +29,7 @@ int	ft_strlen(const char *str)
 
 int	ft_arraylen(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr == NULL)

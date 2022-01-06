@@ -138,7 +138,7 @@ int		send_input(int c, int index);
 int		wait_input(int c, int index);
 
 /*		Utils	*/
-char	**get_quotes(char **exp, char *str, int z);
+char	**get_quotes(char **exp, char *str);
 char	*exp_organizer2(char **ret, int i);
 char	**exp_organizer(char **exp, char *str, int i, int y);
 int		exec_one_bi(int x);
