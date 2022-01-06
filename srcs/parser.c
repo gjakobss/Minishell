@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 12:52:03 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 11:36:17 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 15:28:40 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	command_counter(char *line)
 	{
 		if (line[i] == '"' && g_mini.s_quotes % 2 == 0)
 			g_mini.d_quotes += 1;
-		if (line[i] == '\''  && g_mini.d_quotes % 2 == 0)
+		if (line[i] == '\'' && g_mini.d_quotes % 2 == 0)
 			g_mini.s_quotes += 1;
 		if (is_terminator(line, &i) && g_mini.d_quotes % 2 == 0
 			&& g_mini.s_quotes % 2 == 0)

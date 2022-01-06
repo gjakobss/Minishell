@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:05:34 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/13 11:29:26 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/06 15:28:16 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ int	assign_operator(char *line, int *i)
 	return (0);
 }
 
+static void	skip_quotes(char *line, int	*i)
+{
+	if (line[*i] == '"')
+		quotes_skipper(line, i, DQUOTES);
+	if (line[*i] == '\'')
+		quotes_skipper(line, i, SQUOTES);
+}
+
 void	assign_line(t_cmds *cmd, char *line)
 {
 	int	start;
@@ -71,10 +79,7 @@ void	assign_line(t_cmds *cmd, char *line)
 		start = i;
 		while (line[i] && !is_terminator(line, &i))
 		{
-			if (line[i] == '"')
-				quotes_skipper(line, &i, DQUOTES);
-			if (line[i] == '\'')
-				quotes_skipper(line, &i, SQUOTES);
+			skip_quotes(line, &i);
 			i++;
 		}
 		len = i - start;
@@ -83,7 +88,7 @@ void	assign_line(t_cmds *cmd, char *line)
 			cmd[j].full_line = ft_substr(line, start, len);
 		j++;
 		if (line[i] == '\0')
-			break;
+			break ;
 	}
 	cmd[j].full_line = NULL;
 }
