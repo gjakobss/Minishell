@@ -14,7 +14,7 @@
 
 int	exec_one2(int j, int i)
 {
-	int status;
+	int	status;
 
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
@@ -63,7 +63,6 @@ int	exec_com2(int c, int i, int com)
 
 int	divergent(int c, int index, int id)
 {
-
 	if (id == 0)
 	{
 		if (g_mini.cmd[c - 1].op == 3)
@@ -94,9 +93,7 @@ int	one_time(int c, int index)
 		send_input(c, index);
 		g_mini.cmd[c].op = 6;
 	}
-//	if (g_mini.cmd[0].op == 6 && is_builtin(0) == 1)
-//		exec_one_bi(0);
-	else if (g_mini.cmd[0].op == 6)// && is_builtin(0) == 0)
+	else if (g_mini.cmd[0].op == 6)
 		exec_one();
 	return (0);
 }

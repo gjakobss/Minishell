@@ -17,9 +17,9 @@ int	exec_one(void)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = 2;
-	while (g_mini.bin_paths[i] != NULL)
+	while (g_mini.bin_paths[++i] != NULL)
 	{
 		if (g_mini.cmd->command[0][0] == '/')
 			j = access(g_mini.cmd->command[0], F_OK);
@@ -33,7 +33,6 @@ int	exec_one(void)
 						g_mini.cmd->command[0]), F_OK);
 		if (j == 0)
 			break ;
-		i++;
 	}
 	if (j == -1 && is_builtin(0) == 0)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
@@ -45,7 +44,7 @@ int	exec_one(void)
 int	exec_com_one(int c, int index)
 {
 	int	i;
-	int status;
+	int	status;
 
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
@@ -56,10 +55,7 @@ int	exec_com_one(int c, int index)
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
-		{
-			g_mini.status = exec_one_bi(c) * 256;
-			exit(g_mini.status);
-		}
+			exit(exec_one_bi(c));
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
@@ -87,10 +83,7 @@ int	exec_com_mid(int c, int index)
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
-		{
-			g_mini.status = exec_one_bi(c) * 256;
-			exit(g_mini.status);
-		}
+			exit(exec_one_bi(c));
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
@@ -106,7 +99,7 @@ int	exec_com_mid(int c, int index)
 int	exec_last_com(int c, int index)
 {
 	int	i;
-	int status;
+	int	status;
 
 	g_mini.pid = fork();
 	if (g_mini.pid == 0)
@@ -118,21 +111,15 @@ int	exec_last_com(int c, int index)
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		if (is_builtin(c) == 1)
-		{
-			g_mini.status = exec_one_bi(c);
-			exit(g_mini.status);
-		}
+			exit(exec_one_bi(c) * 256);
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
-	else
-	{
-		waitpid(g_mini.pid, &status, 0);
-		close (g_mini.pipefd[index][1]);
-		close(g_mini.pipefd[index][0]);
-		if (WIFEXITED(status))
-			g_mini.status = WEXITSTATUS(status);
-	}
+	waitpid(g_mini.pid, &status, 0);
+	close (g_mini.pipefd[index][1]);
+	close(g_mini.pipefd[index][0]);
+	if (WIFEXITED(status))
+		g_mini.status = WEXITSTATUS(status);
 	return (0);
 }
 

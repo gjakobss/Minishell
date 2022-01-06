@@ -12,36 +12,6 @@
 
 #include "minishell.h"
 
-char	**init_env(char **o_env)
-{
-	int		i;
-	char	**env;
-
-	i = 0;
-	while (o_env[i] != NULL)
-		i++;
-	env = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (o_env[i] != NULL)
-	{
-		env[i] = o_env[i];
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
-
-void	init_g(void)
-{
-	g_mini.pipes = 0;
-	g_mini.s_quotes = 0;
-	g_mini.d_quotes = 0;
-	g_mini.semi_col = 0;
-	g_mini.dollar = 0;
-	g_mini.status = 0;
-	g_mini.child = 0;
-}
-
 int	take_care(char *line)
 {
 	if (arg_validation(line))
@@ -68,9 +38,9 @@ int	garbage_collector(void)
 
 int	ft_exitoi(char *s)
 {
-	int i;
-	int minus;
-	long long nbr;
+	int			i;
+	int			minus;
+	long long	nbr;
 
 	i = -1;
 	nbr = 0;
@@ -78,7 +48,8 @@ int	ft_exitoi(char *s)
 	{
 		if (s[i] == '-')
 			minus = 1;
-		if ((ft_isalnum((int)s[i]) == 1 && ft_isalpha((int)s[i]) == 1) || ft_isalnum((int)s[i]) == 0)
+		if ((ft_isalnum((int)s[i]) == 1 && ft_isalpha((int)s[i]) == 1)
+			|| ft_isalnum((int)s[i]) == 0)
 			return (257);
 	}
 	i = -1;
@@ -126,8 +97,6 @@ int	main(int argc, char **argv, char **o_env)
 	(void)argc;
 	(void)argv;
 	init_g();
-	g_mini.env = init_env(o_env);
-	g_mini.exp = exp_organizer(o_env, NULL, 0, 0);
 	activate_signals();
 	while (1)
 	{
