@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -59,8 +60,9 @@ char			*ft_strjoin(char const *s1, char const *s2);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcpy(char *dest, const char *src, size_t size);
 int				ft_strlen(const char	*str);
+int				ft_arraylen(char **arr);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_strncmp(const char *s1, const char *s2, int n);
 int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_strnstr(const char *haystack, const char *needle, \
 							size_t len);

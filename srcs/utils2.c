@@ -43,7 +43,8 @@ int	is_builtin(int x)
 		|| !ft_strcmp(str, "cd"))
 	{
 		if ((!ft_strcmp(str, "export") && g_mini.cmd[x].command[1] != NULL)
-			|| !ft_strcmp(str, "unset") || !ft_strcmp(str, "cd"))
+			|| (!ft_strcmp(str, "unset") && g_mini.cmd[x].command[1] != NULL)
+			|| !ft_strcmp(str, "cd"))
 			return (2);
 		return (1);
 	}

@@ -54,11 +54,11 @@ int	bi_unset(char **buff)
 		j = -1;
 		len = ft_strlen(buff[i]);
 		while (g_mini.exp[++j])
-			if (ft_strncmp(buff[i], g_mini.exp[j], len - 1) == 0)
+			if (ft_strncmp(buff[i], g_mini.exp[j], len) == 0)
 				rm_from_exp(j);
 		j = -1;
 		while (g_mini.env[++j])
-			if (ft_strncmp(buff[i], g_mini.env[j], len - 1) == 0)
+			if (ft_strncmp(buff[i], g_mini.env[j], len) == 0)
 				rm_from_env(j);
 	}
 	return (0);

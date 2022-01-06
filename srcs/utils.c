@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+char	*get_retfromstr(char **ret, char *str, int i, int x)
+{
+	int j;
+	int z;
+
+	j = 0;
+	z = 0;
+	ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
+	while (str[++x])
+	{
+		ret[j][i] = str[x];
+		if (str[x] == '=')
+		{
+			z = 1;
+			ret[j][++i] = '"';
+		}
+		i++;
+	}
+	if (z == 1)
+		ret[j][i++] = '"';
+	ret[j][i] = '\0';
+	return (ret[j]);
+}
+
 char	**get_quotes(char **exp, char *str, int z)
 {
 	int		i;
@@ -19,18 +43,17 @@ char	**get_quotes(char **exp, char *str, int z)
 	int		x;
 	char	**ret;
 
-	i = 0;
-	while (exp[i])
-		i++;
+	i = ft_arraylen(exp);
 	if (str)
 		i++;
 	ret = malloc(sizeof(char *) * (i + 1));
 	j = 0;
-	i = 0;
-	x = -1;
+//	i = 0;
+//	x = -1;
 	if (str)
 	{
-		ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
+		ret[j] = get_retfromstr(ret, str, 0, -1);
+/*		ret[j] = malloc(sizeof(char) * (ft_strlen(str) + 3));
 		while (str[++x])
 		{
 			ret[j][i] = str[x];
@@ -43,7 +66,7 @@ char	**get_quotes(char **exp, char *str, int z)
 		}
 		if (z == 1)
 			ret[j][i++] = '"';
-		ret[j][i] = '\0';
+		ret[j][i] = '\0';*/
 		j++;
 	}
 	i = -1;
