@@ -55,7 +55,7 @@ static char	*ft_find(const char *haystack, const char *needle, \
 	return (NULL);
 }
 
-char		*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	x;
 	size_t	y;

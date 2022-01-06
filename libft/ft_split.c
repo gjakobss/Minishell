@@ -91,7 +91,7 @@ static int	alloc_and_copy(char **split, char const *s, char c, int i)
 	return (j);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**split;
 	int		i;

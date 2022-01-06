@@ -20,7 +20,7 @@ char	*ft_str3join(char const *s1, char const *s2, char const *s3)
 
 	i = 0;
 	len = (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3));
-	ptr = (char*)malloc((len + 1) * sizeof(char));
+	ptr = malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	if (!s1)
@@ -49,7 +49,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	len = (ft_strlen(s1) + ft_strlen(s2));
-	ptr = (char*)malloc((len + 1) * sizeof(char));
+	ptr = malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	if (!s1)

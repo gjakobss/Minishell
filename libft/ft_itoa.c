@@ -33,21 +33,16 @@ static int	ft_counter(int n)
 	return (counter + 1);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*str;
 	int		strsize;
 
 	strsize = ft_counter(n);
-	if (!(str = malloc(sizeof(char) * (strsize + 1))))
+	str = malloc(sizeof(char) * (strsize + 1));
+	if (!str)
 		return (NULL);
 	str[strsize] = '\0';
-	if (n == -2147483648)
-	{
-		str[0] = '-';
-		str[1] = '2';
-		n = 147483648;
-	}
 	if (n < 0)
 		str[0] = '-';
 	if (n < 0)

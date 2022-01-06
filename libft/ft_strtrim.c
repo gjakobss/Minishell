@@ -59,7 +59,7 @@ static int	ft_end(char const *s1, char const *set)
 	return (len - i);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		start;
 	int		end;
@@ -75,7 +75,7 @@ char		*ft_strtrim(char const *s1, char const *set)
 		return (ft_strdup(s1));
 	if (start >= end)
 		return (ft_strdup(""));
-	newstr = (char*)malloc((end - start + 2) * sizeof(char));
+	newstr = malloc((end - start + 2) * sizeof(char));
 	if (newstr == NULL)
 		return (NULL);
 	while (start + i <= end)
