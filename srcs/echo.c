@@ -6,13 +6,13 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:15 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/07 12:17:30 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:40:58 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*real_aspas_remover(char *str)
+static char	*real_aspas_remover(char *str)
 {
 	char	**ptr;
 	int		i;
@@ -40,7 +40,7 @@ char	*real_aspas_remover(char *str)
 	return (*ptr);
 }
 
-void	aspas_remover(char **str, int n_flag)
+static void	aspas_remover(char **str, int n_flag)
 {
 	int		i;
 

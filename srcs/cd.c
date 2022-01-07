@@ -6,13 +6,13 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:00:27 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/07 12:17:28 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:37:45 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	update_pwd(char *old, char *new)
+static int	update_pwd(char *old, char *new)
 {
 	int	i;
 

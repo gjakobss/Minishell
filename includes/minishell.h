@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/07 12:03:13 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:42:47 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,5 @@ char	**exp_organizer(char **exp, char *str, int i, int y);
 int		exec_one_bi(int x);
 int		is_builtin(int x);
 int		get_bin_path(void);
-void	aspas_remover(char **str, int n_flag);
-char	*real_aspas_remover(char *str);
 
 #endif
