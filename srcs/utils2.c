@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:29:27 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/06 16:05:02 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:09:19 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,25 @@ int	get_bin_path(void)
 		return (0);
 	g_mini.bin_paths = ft_split(g_mini.env[i] + 5, ':');
 	return (0);
+}
+
+int	cat_fix(int c)
+{
+	while (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
+	{
+		g_mini.pipes--;
+		g_mini.num_cmds--;
+		c++;
+	}
+	return (c);
+}
+
+void	exec_cat(int c, int nmr)
+{
+	(void)c;
+	while (nmr > 0)
+	{
+		readline(NULL);
+		nmr--;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:45 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:02:20 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:08:54 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,27 +121,6 @@ int	exec_last_com(int c, int index)
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
 	return (0);
-}
-
-int	cat_fix(int c)
-{
-	while (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
-	{
-		g_mini.pipes--;
-		g_mini.num_cmds--;
-		c++;
-	}
-	return (c);
-}
-
-void	exec_cat(int c, int nmr)
-{
-	(void)c;
-	while (nmr > 0)
-	{
-		readline(NULL);
-		nmr--;
-	}
 }
 
 int	send_to_exec(void)

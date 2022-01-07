@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:14 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/07 12:42:47 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:09:17 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,7 @@ char	**exp_organizer(char **exp, char *str, int i, int y);
 int		exec_one_bi(int x);
 int		is_builtin(int x);
 int		get_bin_path(void);
+int		cat_fix(int c);
+void	exec_cat(int c, int nmr);
 
 #endif

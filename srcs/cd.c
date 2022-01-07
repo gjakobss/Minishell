@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:00:27 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/07 12:37:45 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:04:10 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static char	*remove_quotes(char *str)
 		return (str);
 	ptr = ft_split(str, c);
 	return (ptr[0]);
-	
 }
 
 int	bi_cd(char *str)

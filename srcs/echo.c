@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:01:15 by malmeida          #+#    #+#             */
-/*   Updated: 2022/01/07 12:40:58 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:07:54 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ static void	aspas_remover(char **str, int n_flag)
 		i = 1;
 	while (str[i])
 	{
-		str[i] = real_aspas_remover(str[i]);
+		if ((str[i][0] == '\'' && str[i][1] == '\'') || \
+				(str[i][0] == '"' && str[i][1] == '"'))
+			str[i] = NULL;
+		else
+			str[i] = real_aspas_remover(str[i]);
 		i++;
 	}
 }
