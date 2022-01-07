@@ -63,7 +63,6 @@ void	expand_variable(char **line, int start)
 	if (str.full[start] == '$' && str.full[start + 1] == '?')
 	{
 		*line = ft_itoa(g_mini.status);
-		g_mini.status = 0;
 		return ;
 	}
 	str.before = ft_substr(str.full, 0, start);

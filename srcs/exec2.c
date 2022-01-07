@@ -93,7 +93,7 @@ int	one_time(int c, int index)
 		send_input(c, index);
 		g_mini.cmd[c].op = 6;
 	}
-	else if (g_mini.cmd[c].op == 6)
+	if (g_mini.cmd[c].op == 6)
 		exec_one(c);
 	return (0);
 }
