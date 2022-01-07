@@ -98,10 +98,19 @@ int	send_input(int c, int index)
 int	wait_input(int c, int index)
 {
 	char	*line;
+	char	*temp;
 
 	(void)index;
 	line = readline("heredoc> ");
 	while (ft_strcmp(line, g_mini.cmd[c + 1].command[0]) != 0)
 		line = readline("heredoc> ");
+	if (g_mini.num_cmds > 2)
+	{
+		temp = ft_strdup(g_mini.cmd[c].command[0]);
+		free(g_mini.cmd[c].command[0]);
+		g_mini.cmd[c].command[0] = ft_strdup(g_mini.cmd[c + 1].command[0]);
+		free(g_mini.cmd[c + 1].command[0]);
+		g_mini.cmd[c + 1].command[0] = ft_strdup(temp);
+	}
 	return (0);
 }

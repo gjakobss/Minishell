@@ -86,7 +86,7 @@ int	one_time(int c, int index)
 	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds == 2)
 	{
 		wait_input(c, index);
-		g_mini.cmd[c].op = 3;
+		g_mini.cmd[c].op = 6;
 	}
 	if (g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2)
 	{
@@ -108,6 +108,7 @@ int	multi_exec(int c, int index, int i)
 	}
 	if (g_mini.cmd[c].op == 5)
 	{
+
 		wait_input(c, index);
 		g_mini.cmd[c].op = 3;
 	}
