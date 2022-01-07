@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 20:18:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/06 15:30:52 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 10:52:25 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ char	**get_quotes(char **exp, char *str)
 		ret[j++] = get_retfromstr(ret, str, 0, -1);
 	x = -1;
 	while (exp[++x] != NULL)
-		ret[j++] = get_retfromexp(ret, exp[x], j, -1);
+	{
+		ret[j] = get_retfromexp(ret, exp[x], j, -1);
+		j++;
+	}
 	ret[j] = NULL;
 	return (ret);
 }
