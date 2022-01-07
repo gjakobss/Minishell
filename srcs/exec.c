@@ -133,7 +133,8 @@ int	send_to_exec(void)
 	index = 0;
 	g_mini.child = 1;
 	cat = 0;
-	if (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0 && !g_mini.cmd[c].command[1] && g_mini.cmd[c].op == 1)
+	if (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0
+		&& !g_mini.cmd[c].command[1] && g_mini.cmd[c].op == 1)
 	{
 		c = cat_fix(c);
 		cat = c;

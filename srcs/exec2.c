@@ -24,8 +24,8 @@ int	exec_one2(int c, int j, int i)
 		if (g_mini.pid == 0 && is_builtin(0) != 0)
 			exit(exec_one_bi(0));
 		if (g_mini.pid == 0 && j == 0)
-			execve(ft_str3join(g_mini.bin_paths[i], "/",
-					g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
+			execve(ft_str3join(g_mini.bin_paths[i], "/", \
+			g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 		else if (g_mini.pid == 0 && j == 1)
 			execve(g_mini.cmd[c].command[0], g_mini.cmd[c].command, g_mini.env);
 	}
@@ -108,7 +108,6 @@ int	multi_exec(int c, int index, int i)
 	}
 	if (g_mini.cmd[c].op == 5)
 	{
-
 		wait_input(c, index);
 		g_mini.cmd[c].op = 3;
 	}
