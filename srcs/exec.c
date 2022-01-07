@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	exec_one(void)
+int	exec_one(int c)
 {
 	int	i;
 	int	j;
@@ -21,16 +21,16 @@ int	exec_one(void)
 	j = 2;
 	while (g_mini.bin_paths[++i] != NULL)
 	{
-		if (g_mini.cmd->command[0][0] == '/')
-			j = access(g_mini.cmd->command[0], F_OK);
+		if (g_mini.cmd[c].command[0][0] == '/')
+			j = access(g_mini.cmd[c].command[0], F_OK);
 		if (j == 0)
 		{
 			j = 1;
 			break ;
 		}
-		else if (g_mini.cmd->command[0][0] != '/')
+		else if (g_mini.cmd[c].command[0][0] != '/')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
-						g_mini.cmd->command[0]), F_OK);
+						g_mini.cmd[c].command[0]), F_OK);
 		if (j == 0)
 			break ;
 	}
@@ -38,7 +38,7 @@ int	exec_one(void)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
 	if (is_builtin(0) != 0)
 		j = 1;
-	return (exec_one2(j, i));
+	return (exec_one2(c, j, i));
 }
 
 int	exec_com_one(int c, int index)
@@ -123,19 +123,51 @@ int	exec_last_com(int c, int index)
 	return (0);
 }
 
+int	cat_fix(int c)
+{
+	while (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
+	{
+		g_mini.pipes--;
+		g_mini.num_cmds--;
+		c++;
+	}
+	return (c);
+}
+
+void	exec_cat(int c, int nmr)
+{
+	(void)c;
+	while (nmr > 0)
+	{
+		readline(NULL);
+		nmr--;
+	}
+}
+
 int	send_to_exec(void)
 {
 	int	c;
+	int	cat;
 	int	index;
 
 	c = 0;
 	index = 0;
 	g_mini.child = 1;
+	cat = 0;
+	if (ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0 && !g_mini.cmd[c].command[1])
+	{
+		c = cat_fix(c);
+		cat = c;
+	}
 	if (g_mini.cmd[c].op == 6 || g_mini.num_cmds == 2)
 		one_time(c, index);
-	if (g_mini.cmd[0].op != 6)
+	if (g_mini.cmd[c].op != 6)
+	{
 		if (multi_exec(c, index, 0) == -1)
 			return (-1);
+	}
+	if (cat > 0)
+		exec_cat(0, cat);
 	g_mini.child = 0;
 	return (0);
 }

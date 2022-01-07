@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	exec_one2(int j, int i)
+int	exec_one2(int c, int j, int i)
 {
 	int	status;
 
@@ -25,9 +25,9 @@ int	exec_one2(int j, int i)
 			exit(exec_one_bi(0));
 		if (g_mini.pid == 0 && j == 0)
 			execve(ft_str3join(g_mini.bin_paths[i], "/",
-					g_mini.cmd->command[0]), g_mini.cmd->command, g_mini.env);
+					g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 		else if (g_mini.pid == 0 && j == 1)
-			execve(g_mini.cmd->command[0], g_mini.cmd->command, g_mini.env);
+			execve(g_mini.cmd[c].command[0], g_mini.cmd[c].command, g_mini.env);
 	}
 	if (is_builtin(0) == 2)
 		exec_one_bi(0);
@@ -44,9 +44,9 @@ int	exec_com2(int c, int i)
 	i = 0;
 	while (g_mini.bin_paths[i] != NULL)
 	{
-		if (g_mini.cmd->command[0][0] == '/')
-			j = access(g_mini.cmd->command[0], F_OK);
-		else if (g_mini.cmd->command[0][0] != '/')
+		if (g_mini.cmd[c].command[0][0] == '/')
+			j = access(g_mini.cmd[c].command[0], F_OK);
+		else if (g_mini.cmd[c].command[0][0] != '/')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
 						g_mini.cmd[c].command[0]), F_OK);
 		if (j == 0)
@@ -93,8 +93,8 @@ int	one_time(int c, int index)
 		send_input(c, index);
 		g_mini.cmd[c].op = 6;
 	}
-	else if (g_mini.cmd[0].op == 6)
-		exec_one();
+	else if (g_mini.cmd[c].op == 6)
+		exec_one(c);
 	return (0);
 }
 
