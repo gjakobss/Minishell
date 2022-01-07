@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:00:27 by malmeida          #+#    #+#             */
-/*   Updated: 2021/12/15 13:01:05 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:17:28 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,35 @@ int	update_pwd(char *old, char *new)
 	return (0);
 }
 
+static char	*remove_quotes(char *str)
+{
+	char	**ptr;
+	char	c;
+
+	if (str[0] == '\'')
+		c = '\'';
+	else if (str[0] == '"')
+		c = '"';
+	else
+		return (str);
+	ptr = ft_split(str, c);
+	return (ptr[0]);
+	
+}
+
 int	bi_cd(char *str)
 {
 	char	new_pwd[1024];
 	char	*old_pwd;
+	char	*arg;
 	int		ret;
 
+	arg = remove_quotes(str);
 	old_pwd = getenv("PWD");
-	if ((!str) || (str[0] == '~' && str[1] == '\0'))
+	if ((!arg) || (arg[0] == '~' && arg[1] == '\0'))
 		ret = chdir(getenv("HOME"));
 	else
-		ret = chdir(str);
+		ret = chdir(arg);
 	if (ret == -1)
 	{
 		printf("Error changing directory\n");
