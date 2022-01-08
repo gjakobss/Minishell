@@ -43,7 +43,7 @@ all: $(BBSHELL)
 $(NAME): all
 
 $(BBSHELL): $(LIBFT) $(SRC_BBSHELL)
-	@ $(CC) $(CFLAGS) $(SRC_BBSHELL) $(LIBFT) $(INC) -o $(BBSHELL) $(RDFLAG) $(RDFLAGER)
+	@ $(CC) $(CFLAGS) $(FSANITIZE) $(SRC_BBSHELL) $(LIBFT) $(INC) -o $(BBSHELL) $(RDFLAG) $(RDFLAGER)
 	@printf "[$(GREEN)SUCCESS$(RESET)] bbshell compiled.\n"
 
 $(LIBFT):

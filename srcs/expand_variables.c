@@ -36,11 +36,16 @@ void	replace_var(char **str)
 	while (g_mini.env[++i])
 		if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 			break ;
+	if (g_mini.env[i] == NULL || len - 1 == 0)
+	{
+		*str = NULL;
+		return ;
+	}
 	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 	{
 		*str = NULL;
 		j = 0;
-		while (g_mini.env[i][j] != '=')
+		while (g_mini.env[i][j] != '\0' && g_mini.env[i][j] != '=')
 			j++;
 		*str = ft_substr(g_mini.env[i], j + 1, 100);
 	}
@@ -69,11 +74,40 @@ void	expand_variable(char **line, int start)
 	i = start;
 	while ((ft_isalpha(str.full[i]) || str.full[i] == '$') && str.full[i])
 		i++;
-	str.var = ft_substr(str.full, start, i - start);
+	str.var = ft_substr(str.full, start, i - start);;
 	replace_var(&(str.var));
+	if (!str.var)
+	{
+		*line = NULL;
+		return ;
+	}
 	len = ft_strlen(str.full);
 	str.after = ft_substr(str.full, i, len - i);
 	replace_command(line, str);
+}
+
+void	safety_check(char	**str, int j)
+{
+	int	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (++i < j)
+	{
+		if (str[i] == NULL)
+		{
+			counter = i;
+			while (i < j && str[i] == NULL)
+				i++;
+			if (i < j)
+			{
+				str[counter] = str[i];
+				str[i] = NULL;
+				i = counter;
+			}
+		}
+	}
 }
 
 void	expander(t_cmds *cmd)
@@ -97,9 +131,12 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
+				if (cmd[i].command[j] == NULL)
+					break ;
 				if (cmd[i].command[j][z] == '\0')
 					break ;
 			}
 		}
+		safety_check((cmd[i].command), j);
 	}
 }

@@ -75,17 +75,22 @@ int	ft_exit(char *line)
 	buff = ft_split(line, ' ');
 	while (buff[i] != NULL)
 		i++;
+	if (ft_strlen(buff[0]) != 4)
+		return (0);
 	if (i > 2)
 	{
 		printf("bbshell: exit: too many arguments\n");
-		return (-1);
+		return (0);
 	}
 	else if (i == 1)
 		exit(0);
 	else if (i == 2)
 		j = ft_exitoi(buff[1]);
 	if (j == 257)
+	{
 		printf("bash: exit: numeric argument required\n");
+		exit(255);
+	}
 	else
 		exit(j);
 	return (-1);
