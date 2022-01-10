@@ -99,7 +99,7 @@ void	lexer(t_cmds *cmd, char *line);
 
 /*		Expand Variables	*/
 void	replace_command(char **line, t_expand str);
-void	replace_var(char **str);
+char	*strreplace_var(char *str);
 void	expand_variables(char **line, int start);
 void	expander(t_cmds *cmd);
 

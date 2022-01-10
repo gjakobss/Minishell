@@ -23,38 +23,58 @@ void	replace_command(char **line, t_expand str)
 	*line = ft_strdup(full);
 }
 
-void	replace_var(char **str)
+char	*replace_var(char *str)
 {
 	int		i;
 	int		j;
 	int		len;
 	char	*copy;
 
-	copy = ft_substr(*str, 1, 100);
+	copy = ft_substr(str, 1, 100);
 	len = ft_strlen(copy);
 	i = -1;
 	while (g_mini.env[++i])
 		if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 			break ;
 	if (g_mini.env[i] == NULL || len - 1 == 0)
-	{
-		*str = NULL;
-		return ;
-	}
+		return (NULL);
 	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 	{
-		*str = NULL;
+		str = NULL;
 		j = 0;
 		while (g_mini.env[i][j] != '\0' && g_mini.env[i][j] != '=')
 			j++;
-		*str = ft_substr(g_mini.env[i], j + 1, 100);
+		str = ft_substr(g_mini.env[i], j + 1, 100);
 	}
 	else
 	{
-		*str = NULL;
-		*str = malloc(sizeof(char));
-		*str[0] = '\0';
+		str = NULL;
+		str = malloc(sizeof(char));
+		str[0] = '\0';
 	}
+	return (str);
+}
+
+void	more_than_one_var(t_expand	str, char **line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	str.var = ft_strdup("");
+	while (str.full[i])
+	{
+		if (str.full[i] == '$')
+		{
+			j = i + 1;
+			while (str.full[j] && str.full[j] != '$')
+				j++;
+			str.var = ft_strjoin(str.var, replace_var(ft_substr(str.full, i, j - i)));
+		}
+		i++;
+	}
+	str.after = ft_strdup("");
+	replace_command(line, str);
 }
 
 void	expand_variable(char **line, int start)
@@ -72,10 +92,17 @@ void	expand_variable(char **line, int start)
 	}
 	str.before = ft_substr(str.full, 0, start);
 	i = start;
-	while ((ft_isalpha(str.full[i]) || str.full[i] == '$') && str.full[i])
+	while ((ft_isalpha(str.full[i])) && str.full[i])
 		i++;
-	str.var = ft_substr(str.full, start, i - start);;
-	replace_var(&(str.var));
+//fazer este while dentro do more_than_one_var para poupar linhas e nao estragar o i
+	while (str.full[i++])
+		if (str.full[i] == '$')
+		{
+			more_than_one_var(str, line);
+			return ;
+		}
+	str.var = ft_substr(str.full, start, i - start);
+	str.var = replace_var(str.var);
 	if (!str.var)
 	{
 		*line = NULL;

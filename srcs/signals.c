@@ -21,7 +21,7 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 	if (g_mini.child == 0)
 	{
 		rl_on_new_line();
-		rl_replace_line("", 0);
+//		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
