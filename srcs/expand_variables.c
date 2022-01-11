@@ -30,13 +30,22 @@ char	*replace_var(char *str)
 	int		len;
 	char	*copy;
 
-	copy = ft_substr(str, 1, 100);
+	copy = ft_substr(str, 1, 250);
 	len = ft_strlen(copy);
 	i = -1;
-	while (g_mini.env[++i])
-		if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
-			break ;
-	if (g_mini.env[i] == NULL || len - 1 == 0)
+	if (len == 1)
+	{
+		while (g_mini.env[++i])
+			if (copy[0] == g_mini.env[i][0] && (g_mini.env[i][1] == '='|| g_mini.env[i][1] == '\0'))
+				break;
+	}
+	else
+	{
+		while (g_mini.env[++i])
+			if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
+				break ;
+	}
+	if (g_mini.env[i] == NULL)
 		return (NULL);
 	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
 	{
@@ -44,7 +53,7 @@ char	*replace_var(char *str)
 		j = 0;
 		while (g_mini.env[i][j] != '\0' && g_mini.env[i][j] != '=')
 			j++;
-		str = ft_substr(g_mini.env[i], j + 1, 100);
+		str = ft_substr(g_mini.env[i], j + 1, 250);
 	}
 	else
 	{
@@ -101,7 +110,7 @@ void	expand_variable(char **line, int start)
 			more_than_one_var(str, line);
 			return ;
 		}
-	str.var = ft_substr(str.full, start, i - start);
+	str.var = ft_substr(str.full, start, i - start + 1);
 	str.var = replace_var(str.var);
 	if (!str.var)
 	{
