@@ -34,7 +34,7 @@ int	exec_one(int c)
 		if (j == 0)
 			break ;
 	}
-	if (j == -1 && is_builtin(0) == 0)
+	if (j == -1 && is_builtin(0) == 0 && ft_strcmp(g_mini.cmd->command[0], "exit") != 0)
 		printf("bbshell: command not found: %s\n", g_mini.cmd->command[0]);
 	if (is_builtin(0) != 0)
 		j = 1;
@@ -55,7 +55,7 @@ int	exec_com_one(int c, int index)
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
-			exit(exec_one_bi(c));
+			exit(exec_one_bi(c, 2));
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
@@ -83,7 +83,7 @@ int	exec_com_mid(int c, int index)
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
-			exit(exec_one_bi(c));
+			exit(exec_one_bi(c, 2));
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
@@ -111,7 +111,7 @@ int	exec_last_com(int c, int index)
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		if (is_builtin(c) == 1)
-			exit(exec_one_bi(c) * 256);
+			exit(exec_one_bi(c, 2) * 256);
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}

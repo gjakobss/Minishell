@@ -77,7 +77,7 @@ int		bi_env(void);
 int		bi_pwd(void);
 int		bi_cd(char *str);
 int		bi_echo(char **str);
-int		bi_export(char **buff);
+int		bi_export(char **buff, int index);
 int		bi_unset(char **buff);
 
 /*		Arg Validation	*/
@@ -141,7 +141,7 @@ int		wait_input(int c, int index);
 char	**get_quotes(char **exp, char *str);
 char	*exp_organizer2(char **ret, int i);
 char	**exp_organizer(char **exp, char *str, int i, int y);
-int		exec_one_bi(int x);
+int		exec_one_bi(int x, int index);
 int		is_builtin(int x);
 int		get_bin_path(void);
 int		cat_fix(int c);

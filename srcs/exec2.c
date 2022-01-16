@@ -17,12 +17,13 @@ int	exec_one2(int c, int j, int i)
 	int	status;
 
 	g_mini.pid = fork();
+	printf("%d\n", g_mini.pid);
 	if (g_mini.pid == 0)
 	{
 		if (g_mini.pid == 0 && j == -1)
 			exit(127);
 		if (g_mini.pid == 0 && is_builtin(0) != 0)
-			exit(exec_one_bi(0));
+			exit(exec_one_bi(0, 1));
 		if (g_mini.pid == 0 && j == 0)
 			execve(ft_str3join(g_mini.bin_paths[i], "/", \
 			g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
@@ -30,7 +31,7 @@ int	exec_one2(int c, int j, int i)
 			execve(g_mini.cmd[c].command[0], g_mini.cmd[c].command, g_mini.env);
 	}
 	if (is_builtin(0) == 2)
-		exec_one_bi(0);
+		exec_one_bi(0, 2);
 	waitpid(g_mini.pid, &status, 0);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
@@ -53,9 +54,10 @@ int	exec_com2(int c, int i)
 			break ;
 		i++;
 	}
-	if ((j == -1 && is_builtin(0) == 0))
+	if ((j == -1 && is_builtin(0) == 0) || ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 	{
-		printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+		if (ft_strcmp(g_mini.cmd[c].command[0], "exit") != 0)
+			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		return (-1);
 	}
 	return (i);

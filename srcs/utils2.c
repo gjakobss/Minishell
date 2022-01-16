@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	exec_one_bi(int x)
+int	exec_one_bi(int x, int index)
 {
 	char	*str;
 
@@ -26,7 +26,7 @@ int	exec_one_bi(int x)
 	if (!ft_strcmp(str, "echo"))
 		return (bi_echo(g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "export"))
-		return (bi_export(g_mini.cmd[x].command));
+		return (bi_export(g_mini.cmd[x].command, index));
 	if (!ft_strcmp(str, "unset"))
 		return (bi_unset(g_mini.cmd[x].command));
 	return (-1);
