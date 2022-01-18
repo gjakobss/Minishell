@@ -18,7 +18,7 @@ int	exec_one_bi(int x, int index)
 
 	str = g_mini.cmd[x].command[0];
 	if (!ft_strcmp(str, "cd"))
-		return (bi_cd(g_mini.cmd[x].command[1]));
+		return (bi_cd(g_mini.cmd[x].command[1], index));
 	if (!ft_strcmp(str, "pwd"))
 		return (bi_pwd());
 	if (!ft_strcmp(str, "env"))

@@ -75,7 +75,7 @@ t_mini	g_mini;
 /*		Built-ins		*/
 int		bi_env(void);
 int		bi_pwd(void);
-int		bi_cd(char *str);
+int		bi_cd(char *str, int index);
 int		bi_echo(char **str);
 int		bi_export(char **buff, int index);
 int		bi_unset(char **buff);
@@ -88,7 +88,7 @@ int		check_commands(char *line);
 
 /*		Arg Parser	*/
 t_cmds	*parser(char *line);
-int		is_terminator(char *line, int *j);
+int		is_terminator(char *line, int j);
 int		command_counter(char *line);
 
 /*		Lexer		*/
@@ -146,5 +146,5 @@ int		is_builtin(int x);
 int		get_bin_path(void);
 int		cat_fix(int c);
 void	exec_cat(int c, int nmr);
-
+char	*get_env(char *str);
 #endif

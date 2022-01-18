@@ -52,6 +52,8 @@ int	exec_com_one(int c, int index)
 		i = exec_com2(c, 0);
 		if (i == -1)
 			exit(127);
+		if (i == -2)
+			exit(128);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
@@ -63,7 +65,7 @@ int	exec_com_one(int c, int index)
 	close (g_mini.pipefd[index][1]);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
-	if (g_mini.status != 0)
+	if (g_mini.status != 0 && g_mini.status != 128)
 		return (-1);
 	return (0);
 }
@@ -79,6 +81,8 @@ int	exec_com_mid(int c, int index)
 		i = exec_com2(c, 0);
 		if (i == -1)
 			exit(127);
+		if (i == -2)
+			exit(128);
 		close(g_mini.pipefd[index][0]);
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		dup2(g_mini.pipefd[index][1], 1);
@@ -91,6 +95,8 @@ int	exec_com_mid(int c, int index)
 	close (g_mini.pipefd[index][1]);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
+	if (g_mini.status == 128)
+		return (index);
 	if (g_mini.status != 0)
 		return (-1);
 	return (index);
@@ -105,7 +111,7 @@ int	exec_last_com(int c, int index)
 	if (g_mini.pid == 0)
 	{
 		i = exec_com2(c, 0);
-		if (i == -1)
+		if (i == -1 || i == -2)
 			exit(127);
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);

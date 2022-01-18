@@ -167,6 +167,8 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
+				if (cmd[i].command[j][z] == '~' && !cmd[i].command[j][z + 1] && z == 0)
+					cmd[i].command[j] = get_env("HOME");
 				if (cmd[i].command[j] == NULL)
 					break ;
 				if (cmd[i].command[j][z] == '\0')

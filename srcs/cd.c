@@ -54,25 +54,52 @@ static char	*remove_quotes(char *str)
 	return (ptr[0]);
 }
 
-int	bi_cd(char *str)
+char	*get_env(char *str)
+{
+	int i;
+	int len;
+	int	blen;
+
+	len = ft_strlen(str);
+	i = -1;
+	while (g_mini.env[++i])
+	{
+		if (ft_strncmp(g_mini.env[i], str, len) == 0)
+			break;
+	}
+	blen = ft_strlen(g_mini.env[i])- len;
+	return (ft_substr(g_mini.env[i], len + 1, blen));
+}
+
+int	bi_cd(char *str, int index)
 {
 	char	new_pwd[1024];
-	char	*old_pwd;
+	char	old_pwd[1024];
 	char	*arg;
 	int		ret;
 
 	arg = remove_quotes(str);
-	old_pwd = getenv("PWD");
+	getcwd(old_pwd, 1024);
 	if ((!arg) || (arg[0] == '~' && arg[1] == '\0'))
-		ret = chdir(getenv("HOME"));
+		ret = chdir(get_env("HOME"));
+	if ((arg[0] == '-' && arg[1] == '\0'))
+	{
+		if (index == 1)
+			printf("%s\n", get_env("OLDPWD"));
+		ret = chdir(get_env("OLDPWD"));
+	}
 	else
 		ret = chdir(arg);
 	if (ret == -1)
 	{
-		printf("Error changing directory\n");
+		if (index == 1)
+			printf("Error changing directory\n");
 		return (1);
 	}
-	getcwd(new_pwd, 1024);
-	update_pwd(old_pwd, new_pwd);
+	if (index == 2)
+	{
+		getcwd(new_pwd, 1024);
+		update_pwd(old_pwd, new_pwd);
+	}
 	return (0);
 }

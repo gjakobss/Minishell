@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-int	is_terminator(char *line, int *j)
+int	is_terminator(char *line, int j)
 {
-	if ((line[*j] == '>' && line[*j + 1] == '>')
-		|| (line[*j] == '<' && line[*j + 1] == '<'))
+	if ((line[j] == '>' && line[j + 1] == '>')
+		|| (line[j] == '<' && line[j + 1] == '<'))
 		return (1);
-	if (line[*j] == '|' || (line[*j] == '<' && line[*j - 1] != '<')
-		|| (line[*j] == '>' && line[*j - 1] != '>') || line[*j] == ';')
+	if (line[j] == '|' || (line[j] == '<' && line[j - 1] != '<')
+		|| (line[j] == '>' && line[j - 1] != '>') || line[j] == ';')
 		return (1);
 	else
 		return (0);
@@ -39,7 +39,7 @@ int	command_counter(char *line)
 			g_mini.d_quotes += 1;
 		if (line[i] == '\'' && g_mini.d_quotes % 2 == 0)
 			g_mini.s_quotes += 1;
-		if (is_terminator(line, &i) && g_mini.d_quotes % 2 == 0
+		if (is_terminator(line, i) && g_mini.d_quotes % 2 == 0
 			&& g_mini.s_quotes % 2 == 0)
 			counter++;
 		i++;

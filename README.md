@@ -5,30 +5,35 @@ The objective of this project is to create a shell, bbshell.
 TO DO
 
 SIGNALS
-CTRL+\ needs some checking
+- CTRL+\ needs some checking
 
-CTRL+D should print exit
+- CTRL+D should print exit
 
-CTRL+C should print ^C sometimes
+- CTRL+C should print ^C sometimes
 
-check signals on heredoc
-
-
-Check export starting with numbers
-	- Should be okay (needs that really hard testing with fucked up arguments, but it looks good)
+- check signals on heredoc
 
 
-Validation for export needed
+- Check export starting with numbers
+	§ Should be okay (needs that really hard testing with fucked up arguments, but it looks good)
 
 
-echo a | exit should do nothing and exit | echo a should printf a and NOT quit
-	- echo a | exit is not printing anything anymore. the 2nd part is still to be taken care o 
+- Validation for export needed
 
 
-echo ~ must expand
+- echo a | exit should do nothing and exit | echo a should printf a and NOT quit
+	§ echo a | exit is not printing anything anymore. exit | echo a does print. so, its working
 
 
-check cd -
+- exit must quit if it has multiple arguments and the first is not a number. if the first arg is a nmbr it does not quit
+	§ Looks good!
 
 
-check parsing for ech""o
+- echo ~ must expand
+	§Fixed
+
+
+- check cd -
+	§ Fixed.
+
+- check parsing for ech""o

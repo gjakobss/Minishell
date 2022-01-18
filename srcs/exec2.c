@@ -17,7 +17,6 @@ int	exec_one2(int c, int j, int i)
 	int	status;
 
 	g_mini.pid = fork();
-	printf("%d\n", g_mini.pid);
 	if (g_mini.pid == 0)
 	{
 		if (g_mini.pid == 0 && j == -1)
@@ -56,8 +55,9 @@ int	exec_com2(int c, int i)
 	}
 	if ((j == -1 && is_builtin(0) == 0) || ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 	{
-		if (ft_strcmp(g_mini.cmd[c].command[0], "exit") != 0)
-			printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+		if (ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
+			return (-2);
+		printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
 		return (-1);
 	}
 	return (i);

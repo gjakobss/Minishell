@@ -79,6 +79,7 @@ int	bi_echo(char **str)
 	aspas_remover(str, n_flag);
 	while (str[++i])
 	{
+
 		printf("%s", str[i]);
 		if (str[i + 1])
 			printf(" ");

@@ -77,7 +77,7 @@ void	assign_line(t_cmds *cmd, char *line)
 	while (line[++i])
 	{
 		start = i;
-		while (line[i] && !is_terminator(line, &i))
+		while (line[i] && !is_terminator(line, i))
 		{
 			skip_quotes(line, &i);
 			i++;
