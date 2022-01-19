@@ -79,7 +79,7 @@ int	divergent(int c, int index, int id)
 	if (g_mini.cmd[c - 1].op == 2)
 		return (send_output(c, index, 0));
 	if (g_mini.cmd[c - 1].op == 4)
-		return (append_output(c, index, 0));
+		return (append_output(c, index, 1));
 	return (exec_last_com(c, index));
 }
 

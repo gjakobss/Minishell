@@ -65,6 +65,22 @@ static void	skip_quotes(char *line, int	*i)
 		quotes_skipper(line, i, SQUOTES);
 }
 
+/*char	*fixer(char *line)
+{
+	int		i;
+	char	*str;
+
+	i = -1;
+	str = NULL;
+	while (line[++i])
+	{
+		if (is_terminator(line, i) == 1)
+		{
+			
+		}
+	}
+}*/
+
 void	assign_line(t_cmds *cmd, char *line)
 {
 	int	start;
@@ -97,6 +113,7 @@ void	lexer(t_cmds *cmd, char *line)
 {
 	int	i;
 
+//	line = fixer(line);
 	assign_line(cmd, line);
 	i = -1;
 	while (++i < g_mini.num_cmds)

@@ -15,12 +15,27 @@
 int	send_output2(int fd, int index, int c)
 {
 	char	*buff;
+	int i;
 
+	i = 1;
 	fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	close(g_mini.pipefd[index][1]);
 	close(g_mini.pipefd[index][0]);
 	while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
+	{
+		if (i == 0)
+			write(fd, "\n", 1);
 		write(fd, buff, ft_strlen(buff));
+		i = 0;
+	}
+	if (ft_strcmp(g_mini.cmd[c - 1].command[0], "echo") == 0)
+	{
+		write(fd, " ", 1);
+ 		while (g_mini.cmd[c].command[++i])
+			write(fd, ft_strjoin(g_mini.cmd[c].command[i], " "),
+				ft_strlen(g_mini.cmd[c].command[i]) + 1);
+	}
+	write(fd, "\n", 1);
 	exit(0);
 }
 
@@ -30,14 +45,7 @@ int	send_output(int c, int index, int i)
 	int		id;
 
 	fd = 0;
-	while (g_mini.cmd[c].command[++i])
-		printf("%s: %s: No such file or directory\n",
-			g_mini.cmd[c - 1].command[0], g_mini.cmd[c].command[i]);
-	if (g_mini.cmd[c].command[1])
-	{
-		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		return (0);
-	}
+	(void)i;
 	id = fork();
 	if (id == 0)
 		send_output2(fd, index, c);
@@ -61,10 +69,20 @@ int	append_output(int c, int index, int i)
 		close(g_mini.pipefd[index][1]);
 		close(g_mini.pipefd[index][0]);
 		while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
+		{
+			if (i == 0)
+				write(fd, "\n", 1);
 			write(fd, buff, ft_strlen(buff));
-		while (g_mini.cmd[c].command[++i])
-			write(fd, ft_strjoin(g_mini.cmd[c].command[i], "\n"),
-				ft_strlen(g_mini.cmd[c].command[i]) + 1);
+			i = 0;
+		}
+		if (ft_strcmp(g_mini.cmd[c - 1].command[0], "echo") == 0)
+		{
+ 			write(fd, " ", 1);
+ 			while (g_mini.cmd[c].command[++i])
+				write(fd, ft_strjoin(g_mini.cmd[c].command[i], " "),
+					ft_strlen(g_mini.cmd[c].command[i]) + 1);
+		}
+ 		write(fd, "\n", 1);
 		exit(0);
 	}
 	wait(NULL);

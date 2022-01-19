@@ -147,4 +147,5 @@ int		get_bin_path(void);
 int		cat_fix(int c);
 void	exec_cat(int c, int nmr);
 char	*get_env(char *str);
+char	**subarr(int c);
 #endif

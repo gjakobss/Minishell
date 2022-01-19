@@ -27,7 +27,7 @@ static int	writer(char **line, char **str, int fd)
 	if (str[fd][length] == '\n')
 	{
 		*line = ft_substr(str[fd], 0, length);
-		*line = ft_strjoin(*line, "\n");
+//		*line = ft_strjoin(*line, "\n");
 		temp = ft_substr(str[fd], length + 1, ft_strlen(str[fd]) - length);
 		free(str[fd]);
 		str[fd] = temp;

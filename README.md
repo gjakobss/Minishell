@@ -12,7 +12,8 @@ SIGNALS
 - CTRL+C should print ^C sometimes
 
 - check signals on heredoc
-
+	§ This is gonna take time. I also need to check al the other stuff regarding '<' '>' and stuff
+		Rigth now, > is working better
 
 - Check export starting with numbers
 	§ Should be okay (needs that really hard testing with fucked up arguments, but it looks good)
