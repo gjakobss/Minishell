@@ -12,6 +12,8 @@ SIGNALS
 - CTRL+C should print ^C sometimes
 
 - check signals on heredoc
+	
+- Redirections
 	§ This is gonna take time. I also need to check al the other stuff regarding '<' '>' and stuff
 		Rigth now, > is working better
 
