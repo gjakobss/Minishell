@@ -40,3 +40,6 @@ SIGNALS
 	§ Fixed.
 
 - check parsing for ech""o
+    § Fixed.
+
+- check norminette again -
