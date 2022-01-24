@@ -76,10 +76,14 @@ int	bi_echo(char **str)
 		n_flag = 1;
 		i = 1;
 	}
+    if (str[1][0] == '~' && str[1][1] == '\0')
+    {
+        printf("%s\n", getenv("HOME"));
+        return (0);
+    }
 	aspas_remover(str, n_flag);
 	while (str[++i])
 	{
-
 		printf("%s", str[i]);
 		if (str[i + 1])
 			printf(" ");
