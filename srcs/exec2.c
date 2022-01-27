@@ -65,21 +65,19 @@ int	exec_com2(int c, int i)
 
 int	divergent(int c, int index, int id)
 {
-	if (id == 0)
+	if (g_mini.cmd[c - 1].op == SMALLER)
+		return (0);
+	if (g_mini.cmd[c - 1].op == DSMALLER)
 	{
-		if (g_mini.cmd[c - 1].op == 3)
-			return (0);
-		if (g_mini.cmd[c - 1].op == 5)
-		{
-			g_mini.cmd[c - 1].op = 3;
-			return (wait_input(c, index));
-		}
-		return (exec_com_mid(c, index));
+		g_mini.cmd[c - 1].op = SMALLER;
+		return (wait_input(c, index));
 	}
-	if (g_mini.cmd[c - 1].op == 2)
+	if (g_mini.cmd[c - 1].op == GREATER)
 		return (send_output(c, index, 0));
-	if (g_mini.cmd[c - 1].op == 4)
+	if (g_mini.cmd[c - 1].op == DGREATER)
 		return (append_output(c, index, 1));
+	if ( id == 0)
+		return (exec_com_mid(c, index));
 	return (exec_last_com(c, index));
 }
 
@@ -102,6 +100,8 @@ int	one_time(int c, int index)
 
 int	multi_exec(int c, int index, int i)
 {
+	int ret;
+
 	g_mini.pipefd = malloc(sizeof(int *) * (g_mini.pipes * 2));
 	while (i < g_mini.pipes * 2)
 	{
@@ -120,7 +120,14 @@ int	multi_exec(int c, int index, int i)
 	index++;
 	c++;
 	while (g_mini.cmd[c].op != 6)
-		if (divergent(c++, index++, 0) == -1)
+	{
+		ret = divergent(c++, index++, 0);
+		if (ret == -1)
 			return (-1);
+		else if (ret == -2)
+			return (0);
+		while (g_mini.cmd[c].op == 2 && g_mini.cmd[c - 1].op == 2)
+			c++;
+	}
 	return (divergent(c, index, 1));
 }

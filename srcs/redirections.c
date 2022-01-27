@@ -16,42 +16,76 @@ int	send_output2(int fd, int index, int c)
 {
 	char	*buff;
 	int i;
+	int temp;
 
-	i = 1;
+	i = 0;
 	fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	close(g_mini.pipefd[index][1]);
 	close(g_mini.pipefd[index][0]);
 	while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
 	{
-		if (i == 0)
+		if (i > 0)
 			write(fd, "\n", 1);
 		write(fd, buff, ft_strlen(buff));
-		i = 0;
+		i++;
 	}
-	if (ft_strcmp(g_mini.cmd[c - 1].command[0], "echo") == 0)
+	temp = c - 1;
+	while (temp >= 0)
 	{
+		if (ft_strcmp(g_mini.cmd[temp].command[0], "echo") == 0)
+			break;
+		temp--;
+	}
+	if (temp >= 0 && ft_strcmp(g_mini.cmd[temp].command[0], "echo") == 0)
+	{
+		temp++;
 		write(fd, " ", 1);
- 		while (g_mini.cmd[c].command[++i])
-			write(fd, ft_strjoin(g_mini.cmd[c].command[i], " "),
-				ft_strlen(g_mini.cmd[c].command[i]) + 1);
+ 		while (temp <= c)
+		{
+			i = 0;
+			while (g_mini.cmd[temp].command[++i])
+			{
+				write(fd, ft_strjoin(g_mini.cmd[temp].command[i], " "),
+				ft_strlen(g_mini.cmd[temp].command[i]) + 1);
+			}
+			temp++;
+		}
 	}
 	write(fd, "\n", 1);
+	close(fd);
 	exit(0);
 }
 
 int	send_output(int c, int index, int i)
 {
-	int		fd;
-	int		id;
+	int	fd;
+	int	id;
+	int	temp;
 
 	fd = 0;
 	(void)i;
+	temp = c;
+	while (g_mini.cmd[c].op == 2)
+	{
+		fd = open(g_mini.cmd[c].command[0], O_CREAT | O_TRUNC, 0777);
+		close(fd);
+		c++;
+	}
+	while (temp > 1 && g_mini.cmd[temp - 2].op == 2)
+	{
+		fd = open(g_mini.cmd[temp - 1].command[0], O_CREAT | O_TRUNC, 0777);
+		close(fd);
+		temp--;
+	}
+	fd = 0;
 	id = fork();
 	if (id == 0)
 		send_output2(fd, index, c);
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
 	close(g_mini.pipefd[index][0]);
+	if (g_mini.cmd[c].op == 6)
+		return (-2);
 	return (0);
 }
 

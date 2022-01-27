@@ -41,15 +41,21 @@ int	exec_one(int c)
 	return (exec_one2(c, j, i));
 }
 
-char	**subarr(int c)
+char	**get_sub(int c, int x)
 {
 	int		len;
 	char	**new;
 	int		i;
 	int		j;
+	int temp;
 
+	temp = x + 1;
 	len = ft_arraylen(g_mini.cmd[c].command);
-	len += ft_arraylen(g_mini.cmd[c + 1].command);
+	while (g_mini.cmd[x].op == 2)
+	{
+		len += ft_arraylen(g_mini.cmd[x].command);
+		x++;
+	}
 	new = malloc(sizeof(char *) * (len + 1));
 	i = -1;
 	j = 0;
@@ -58,11 +64,15 @@ char	**subarr(int c)
 		new[j] = ft_strdup(g_mini.cmd[c].command[i]);
 		j++;
 	}
-	i = 0;
-	while (g_mini.cmd[c + 1].command[++i])
+	while (temp <= x)
 	{
-		new[j] = ft_strdup(g_mini.cmd[c + 1].command[i]);
-		j++;
+		i = 0;
+		while (g_mini.cmd[temp].command[++i])
+		{
+			new[j] = ft_strdup(g_mini.cmd[temp].command[i]);
+			j++;
+		}
+		temp++;
 	}
 	new[j] = NULL;
 	return (new);
@@ -71,6 +81,8 @@ char	**subarr(int c)
 int	exec_com_one(int c, int index)
 {
 	int	i;
+	int x;
+	char	**sub;
 	int	status;
 
 	g_mini.pid = fork();
@@ -85,10 +97,12 @@ int	exec_com_one(int c, int index)
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
 			exit(exec_one_bi(c, 2));
-		if (g_mini.cmd[c].op == 2 && g_mini.cmd[c + 1].command[1])
+		if (g_mini.cmd[c].op == 2)
 		{
+			x = c;
+			sub = get_sub(c, x);
 			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
-				subarr(c), g_mini.env);
+				sub, g_mini.env);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
@@ -105,6 +119,8 @@ int	exec_com_one(int c, int index)
 int	exec_com_mid(int c, int index)
 {
 	int	i;
+	int x;
+	char **sub;
 	int	status;
 
 	g_mini.pid = fork();
@@ -120,10 +136,12 @@ int	exec_com_mid(int c, int index)
 		dup2(g_mini.pipefd[index][1], 1);
 		if (is_builtin(c) == 1)
 			exit(exec_one_bi(c, 2));
-		if (g_mini.cmd[c].op == 2 && g_mini.cmd[c + 1].command[1])
+		if (g_mini.cmd[c].op == 2)
 		{
+			x = c;
+			sub = get_sub(c, x);
 			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
-				subarr(c), g_mini.env);
+				sub, g_mini.env);
 		}
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
@@ -142,6 +160,7 @@ int	exec_com_mid(int c, int index)
 int	exec_last_com(int c, int index)
 {
 	int	i;
+//	int	x;
 	int	status;
 
 	g_mini.pid = fork();
@@ -155,6 +174,12 @@ int	exec_last_com(int c, int index)
 		dup2(g_mini.pipefd[index - 1][0], 0);
 		if (is_builtin(c) == 1)
 			exit(exec_one_bi(c, 2) * 256);
+//		x = c;
+//		while (g_mini.cmd[x].op == 2 &&  g_mini.cmd[x].op != 6)
+//			x++;
+//		if (g_mini.cmd[c].op == 2 && g_mini.cmd[x].command[1])
+//			execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
+//				subarr(c, x), g_mini.env);
 		execve(ft_str3join(g_mini.bin_paths[i], "/", g_mini.cmd[c].command[0]),
 			g_mini.cmd[c].command, g_mini.env);
 	}
@@ -183,7 +208,9 @@ int	send_to_exec(void)
 		cat = c;
 	}
 	if (g_mini.cmd[c].op == 6 || g_mini.num_cmds == 2)
+	{	
 		one_time(c, index);
+	}
 	if (g_mini.cmd[c].op != 6)
 	{
 		if (multi_exec(c, index, 0) == -1)
