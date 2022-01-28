@@ -94,7 +94,22 @@ int	append_output(int c, int index, int i)
 	int		fd;
 	int		id;
 	char	*buff;
+	int		temp;
 
+	fd = 0;
+	temp = c;
+	while (g_mini.cmd[c].op == 4)
+	{
+		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		close(fd);
+		c++;
+	}
+	while (temp > 1 && g_mini.cmd[temp - 2].op == 4)
+	{
+		fd = open(g_mini.cmd[temp - 1].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		close(fd);
+		temp--;
+	}
 	id = fork();
 	if (id == 0)
 	{
@@ -122,18 +137,24 @@ int	append_output(int c, int index, int i)
 	wait(NULL);
 	close(g_mini.pipefd[index][1]);
 	close(g_mini.pipefd[index][0]);
+	if (g_mini.cmd[c].op == 6)
+		return (-2);
 	return (0);
 }
 
 int	send_input(int c, int index)
 {
 	int		i;
+	int		j;
 	char	*temp;
 
 	(void)index;
 	i = 0;
+	j = c;
+	while(g_mini.cmd[j].op == 3)
+		j++;
 	if (!g_mini.cmd[c].command[1])
-		while (g_mini.cmd[c + 1].command[i])
+		while (g_mini.cmd[j].command[i])
 			i++;
 	else
 		return (0);
@@ -142,7 +163,7 @@ int	send_input(int c, int index)
 	free(g_mini.cmd[c].command);
 	g_mini.cmd[c].command = malloc(sizeof(char *) * 3);
 	g_mini.cmd[c].command[0] = ft_strdup(temp);
-	g_mini.cmd[c].command[1] = ft_strdup(g_mini.cmd[c + 1].command[i - 1]);
+	g_mini.cmd[c].command[1] = ft_strdup(g_mini.cmd[j].command[i - 1]);
 	g_mini.cmd[c].command[2] = NULL;
 	return (0);
 }

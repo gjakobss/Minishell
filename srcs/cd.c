@@ -71,7 +71,7 @@ char	*get_env(char *str)
 	return (ft_substr(g_mini.env[i], len + 1, blen));
 }
 
-int	bi_cd(char *str, int index)
+int	bi_cd(int c, char *str, int index)
 {
 	char	new_pwd[1024];
 	char	old_pwd[1024];
@@ -80,7 +80,7 @@ int	bi_cd(char *str, int index)
 
 	arg = remove_quotes(str);
 	getcwd(old_pwd, 1024);
-	if ((!arg) || (arg[0] == '~' && arg[1] == '\0'))
+	if ((!arg) || (arg[0] == '~' && arg[1] == '\0') || g_mini.cmd[c].op == 3)
 		ret = chdir(get_env("HOME"));
 	if ((arg[0] == '-' && arg[1] == '\0'))
 	{

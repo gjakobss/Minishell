@@ -18,13 +18,13 @@ int	exec_one_bi(int x, int index)
 
 	str = g_mini.cmd[x].command[0];
 	if (!ft_strcmp(str, "cd"))
-		return (bi_cd(g_mini.cmd[x].command[1], index));
+		return (bi_cd(x, g_mini.cmd[x].command[1], index));
 	if (!ft_strcmp(str, "pwd"))
 		return (bi_pwd());
 	if (!ft_strcmp(str, "env"))
 		return (bi_env());
 	if (!ft_strcmp(str, "echo"))
-		return (bi_echo(g_mini.cmd[x].command));
+		return (bi_echo(x, g_mini.cmd[x].command));
 	if (!ft_strcmp(str, "export"))
 		return (bi_export(g_mini.cmd[x].command, index));
 	if (!ft_strcmp(str, "unset"))

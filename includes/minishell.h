@@ -75,8 +75,8 @@ t_mini	g_mini;
 /*		Built-ins		*/
 int		bi_env(void);
 int		bi_pwd(void);
-int		bi_cd(char *str, int index);
-int		bi_echo(char **str);
+int		bi_cd(int c, char *str, int index);
+int		bi_echo(int x, char **str);
 int		bi_export(char **buff, int index);
 int		bi_unset(char **buff);
 

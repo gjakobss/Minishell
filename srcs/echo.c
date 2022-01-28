@@ -59,11 +59,21 @@ static void	aspas_remover(char **str, int n_flag)
 	}
 }
 
-int	bi_echo(char **str)
+int	bi_echo(int x, char **str)
 {
 	int	n_flag;
 	int	i;
 
+	if (g_mini.cmd[x].op == 3 && access(str[1], F_OK) == -1)
+	{
+		printf("echo: %s: no such file or directory\n", str[1]);
+		return (0);
+	}
+	else if (g_mini.cmd[x].op == 3 && access(str[1], F_OK) == 0)
+	{
+		printf("\n");
+		return (0);
+	}
 	if (str[1] == NULL)
 	{
 		printf("\n");

@@ -21,16 +21,16 @@ int	exec_one2(int c, int j, int i)
 	{
 		if (g_mini.pid == 0 && j == -1)
 			exit(127);
-		if (g_mini.pid == 0 && is_builtin(0) != 0)
-			exit(exec_one_bi(0, 1));
+		if (g_mini.pid == 0 && is_builtin(c) != 0)
+			exit(exec_one_bi(c, 1));
 		if (g_mini.pid == 0 && j == 0)
 			execve(ft_str3join(g_mini.bin_paths[i], "/", \
 			g_mini.cmd[c].command[0]), g_mini.cmd[c].command, g_mini.env);
 		else if (g_mini.pid == 0 && j == 1)
 			execve(g_mini.cmd[c].command[0], g_mini.cmd[c].command, g_mini.env);
 	}
-	if (is_builtin(0) == 2)
-		exec_one_bi(0, 2);
+	if (is_builtin(c) == 2)
+		exec_one_bi(c, 2);
 	waitpid(g_mini.pid, &status, 0);
 	if (WIFEXITED(status))
 		g_mini.status = WEXITSTATUS(status);
@@ -58,6 +58,8 @@ int	exec_com2(int c, int i)
 		if (ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 			return (-2);
 		printf("bbshell: command not found: %s\n", g_mini.cmd[c].command[0]);
+		if (g_mini.cmd[c].op == 3)
+			return (0);
 		return (-1);
 	}
 	return (i);
@@ -65,8 +67,22 @@ int	exec_com2(int c, int i)
 
 int	divergent(int c, int index, int id)
 {
-	if (g_mini.cmd[c - 1].op == SMALLER)
+	int temp;
+
+	if (g_mini.cmd[c - 1].op == SMALLER || g_mini.cmd[c - 1].op == 6)
 		return (0);
+	if (g_mini.cmd[c].op == 3)
+	{
+		temp = c;
+		while(g_mini.cmd[temp].op == 3)
+			temp++;
+		if (g_mini.cmd[temp].op == 6)
+		{
+			send_input(c, index);
+			return (one_time(c, index));
+		}
+		return (0);
+	}
 	if (g_mini.cmd[c - 1].op == DSMALLER)
 	{
 		g_mini.cmd[c - 1].op = SMALLER;
@@ -83,15 +99,22 @@ int	divergent(int c, int index, int id)
 
 int	one_time(int c, int index)
 {
+	int temp;
+
+	temp = c;
+	while (g_mini.cmd[temp].op == 3)
+		temp++;
 	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds == 2)
 	{
 		wait_input(c, index);
 		g_mini.cmd[c].op = 6;
 	}
-	if (g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2)
+	if ((g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2) || (g_mini.cmd[c].op == 3 && g_mini.cmd[temp].op == 6))
 	{
 		send_input(c, index);
+		exec_one(c);
 		g_mini.cmd[c].op = 6;
+		return (0);
 	}
 	if (g_mini.cmd[c].op == 6)
 		exec_one(c);
@@ -101,6 +124,7 @@ int	one_time(int c, int index)
 int	multi_exec(int c, int index, int i)
 {
 	int ret;
+	int temp;
 
 	g_mini.pipefd = malloc(sizeof(int *) * (g_mini.pipes * 2));
 	while (i < g_mini.pipes * 2)
@@ -114,7 +138,16 @@ int	multi_exec(int c, int index, int i)
 		g_mini.cmd[c].op = 3;
 	}
 	if (g_mini.cmd[c].op == 3)
+	{
 		send_input(c, index);
+		temp = c;
+		while(g_mini.cmd[temp].op == 3)
+			temp++;
+		if (g_mini.cmd[temp].op == 6)
+			return (one_time(c, index));
+		exec_one(c);	
+	}
+	if (g_mini.cmd[c].op != 3)
 	if (exec_com_one(c, index) == -1)
 		return (-1);
 	index++;
@@ -126,7 +159,7 @@ int	multi_exec(int c, int index, int i)
 			return (-1);
 		else if (ret == -2)
 			return (0);
-		while (g_mini.cmd[c].op == 2 && g_mini.cmd[c - 1].op == 2)
+		while ((g_mini.cmd[c].op == 2 && g_mini.cmd[c - 1].op == 2) || (g_mini.cmd[c].op == 4 && g_mini.cmd[c - 1].op == 4))
 			c++;
 	}
 	return (divergent(c, index, 1));
