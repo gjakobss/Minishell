@@ -41,6 +41,8 @@ typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
 	int		op;
+	char	*heredoc;
+	int		hdop;
 }		t_cmds;
 
 typedef struct s_mini
@@ -94,7 +96,7 @@ int		command_counter(char *line);
 /*		Lexer		*/
 void	quotes_skipper(char *line, int *i, int quotes);
 int		assign_operator(char *line, int *i);
-void	assign_line(t_cmds *cmd, char *line);
+void	assign_line(t_cmds *cmd, char *line, int x, int z);
 void	lexer(t_cmds *cmd, char *line);
 
 /*		Expand Variables	*/

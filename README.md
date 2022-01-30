@@ -15,8 +15,7 @@ SIGNALS
 	
 - Redirections
 	§ This is gonna take time. I also need to check al the other stuff regarding '<' '>' and stuff
-		'>' and '>>' should be working 100%
-		'<' is probably 100% as well. But needs confirmation.
+		Every redirection should now be working 100%
 
 - Check export starting with numbers
 	§ Should be okay (needs that really hard testing with fucked up arguments, but it looks good)

@@ -172,18 +172,26 @@ int	wait_input(int c, int index)
 {
 	char	*line;
 	char	*temp;
+	char	*sub;
+	int i;
 
 	(void)index;
-	line = readline("heredoc> ");
-	while (ft_strcmp(line, g_mini.cmd[c + 1].command[0]) != 0)
-		line = readline("heredoc> ");
-	if (g_mini.num_cmds > 2)
+	line = readline("> ");
+	temp = ft_strdup("");
+	while (ft_strcmp(line, g_mini.cmd[c].heredoc) != 0)
 	{
-		temp = ft_strdup(g_mini.cmd[c].command[0]);
-		free(g_mini.cmd[c].command[0]);
-		g_mini.cmd[c].command[0] = ft_strdup(g_mini.cmd[c + 1].command[0]);
-		free(g_mini.cmd[c + 1].command[0]);
-		g_mini.cmd[c + 1].command[0] = ft_strdup(temp);
+		temp = ft_strjoin(temp, line);
+		line = readline("> ");
+	}
+	sub = ft_strdup("");
+	if (temp && !is_builtin(c) && ft_strcmp(g_mini.cmd[c].command[0], "ls"))
+	{
+		i = -1;
+		while (g_mini.cmd[c].command[++i])
+			sub = ft_str3join(sub, " ", g_mini.cmd[c].command[i]);
+		temp = ft_str3join(sub, " ", temp);
+		free(g_mini.cmd[c].command);
+		g_mini.cmd[c].command = splitter(temp, ' ');
 	}
 	return (0);
 }

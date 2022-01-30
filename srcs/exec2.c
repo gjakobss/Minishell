@@ -71,6 +71,11 @@ int	divergent(int c, int index, int id)
 
 	if (g_mini.cmd[c - 1].op == SMALLER || g_mini.cmd[c - 1].op == 6)
 		return (0);
+	if (g_mini.cmd[c].op == DSMALLER)
+	{
+		wait_input(c, index);
+		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
+	}
 	if (g_mini.cmd[c].op == 3)
 	{
 		temp = c;
@@ -82,11 +87,6 @@ int	divergent(int c, int index, int id)
 			return (one_time(c, index));
 		}
 		return (0);
-	}
-	if (g_mini.cmd[c - 1].op == DSMALLER)
-	{
-		g_mini.cmd[c - 1].op = SMALLER;
-		return (wait_input(c, index));
 	}
 	if (g_mini.cmd[c - 1].op == GREATER)
 		return (send_output(c, index, 0));
@@ -104,10 +104,10 @@ int	one_time(int c, int index)
 	temp = c;
 	while (g_mini.cmd[temp].op == 3)
 		temp++;
-	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds == 2)
+	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds < 2)
 	{
 		wait_input(c, index);
-		g_mini.cmd[c].op = 6;
+		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
 	if ((g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2) || (g_mini.cmd[c].op == 3 && g_mini.cmd[temp].op == 6))
 	{
@@ -135,7 +135,7 @@ int	multi_exec(int c, int index, int i)
 	if (g_mini.cmd[c].op == 5)
 	{
 		wait_input(c, index);
-		g_mini.cmd[c].op = 3;
+		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
 	if (g_mini.cmd[c].op == 3)
 	{
@@ -148,11 +148,11 @@ int	multi_exec(int c, int index, int i)
 		exec_one(c);	
 	}
 	if (g_mini.cmd[c].op != 3)
-	if (exec_com_one(c, index) == -1)
-		return (-1);
+		if (exec_com_one(c, index) == -1)
+			return (-1);
 	index++;
 	c++;
-	while (g_mini.cmd[c].op != 6)
+	while (g_mini.cmd[c].op != 6 && g_mini.cmd[c].hdop != 6)
 	{
 		ret = divergent(c++, index++, 0);
 		if (ret == -1)

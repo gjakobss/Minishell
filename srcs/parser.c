@@ -14,10 +14,9 @@
 
 int	is_terminator(char *line, int j)
 {
-	if ((line[j] == '>' && line[j + 1] == '>')
-		|| (line[j] == '<' && line[j + 1] == '<'))
+	if (line[j] == '>' && line[j + 1] == '>')
 		return (1);
-	if (line[j] == '|' || (line[j] == '<' && line[j - 1] != '<')
+	if (line[j] == '|' || (line[j] == '<' && line[j - 1] != '<' && line[j + 1] != '<')
 		|| (line[j] == '>' && line[j - 1] != '>') || line[j] == ';')
 		return (1);
 	else

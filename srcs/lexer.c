@@ -65,7 +65,7 @@ static void	skip_quotes(char *line, int	*i)
 		quotes_skipper(line, i, SQUOTES);
 }
 
-void	assign_line(t_cmds *cmd, char *line)
+void	assign_line(t_cmds *cmd, char *line, int x, int z)
 {
 	int	start;
 	int	len;
@@ -79,11 +79,27 @@ void	assign_line(t_cmds *cmd, char *line)
 		start = i;
 		while (line[i] && !is_terminator(line, i))
 		{
+			if (line[i] == '<' && line[i + 1] == '<')
+			{
+				x = i + 2;
+				while (line[x] && line[x] == ' ')
+					x++;
+				z = x;
+				while (line[z] && line[z] != ' ' && !is_terminator(line, z))
+					z++;
+				cmd[j].op = 5;
+				cmd[j].heredoc = ft_strdup(ft_substr(line, x, (z - x)));
+				line = ft_strdup(ft_strjoin(ft_substr(line, 0, i), ft_substr(line, z, (ft_strlen(line) - z))));
+				i -= 2;
+			}
 			skip_quotes(line, &i);
 			i++;
 		}
 		len = i - start;
-		cmd[j].op = assign_operator(line, &i);
+		if (cmd[j].op != 5)
+			cmd[j].op = assign_operator(line, &i);
+		else
+			cmd[j].hdop = assign_operator(line, &i);
 		if (len > 0)
 			cmd[j].full_line = ft_substr(line, start, len);
 		j++;
@@ -97,7 +113,7 @@ void	lexer(t_cmds *cmd, char *line)
 {
 	int	i;
 
-	assign_line(cmd, line);
+	assign_line(cmd, line, 0, 0);
 	i = -1;
 	while (++i < g_mini.num_cmds)
 		cmd[i].command = splitter(cmd[i].full_line, ' ');
