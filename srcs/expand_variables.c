@@ -92,7 +92,6 @@ void	expand_variable(char **line, int start)
 	int			i;
 	int			len;
 
-	(void)start;
 	str.full = ft_strdup(*line);
 	if (str.full[start] == '$' && str.full[start + 1] == '?')
 	{
