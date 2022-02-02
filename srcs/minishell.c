@@ -6,7 +6,7 @@
 /*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:26:09 by gjakobss          #+#    #+#             */
-/*   Updated: 2022/01/06 16:06:30 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/02/02 16:21:37 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	garbage_collector(void)
 	free(g_mini.env);
 	free(g_mini.cmd);
 	free(g_mini.pipefd);
+	g_mini.t.c_lflag |= ECHOCTL;
+	tcsetattr(0, TCSANOW, &g_mini.t);
 	return (0);
 }
 
@@ -111,7 +113,11 @@ int	main(int argc, char **argv, char **o_env)
 	{
 		line = readline("BBShell >$ ");
 		if (line == NULL)
+		{
+			rl_replace_line("exit", 1);
+			rl_redisplay();
 			exit(0);
+		}
 		if (!line || line[0] == '\0')
 			continue ;
 		else

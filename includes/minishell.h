@@ -62,6 +62,7 @@ typedef struct s_mini
 	int		status;
 	int		pid;
 	int		child;
+	struct termios	t;
 }				t_mini;
 
 typedef struct s_expand

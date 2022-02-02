@@ -98,6 +98,9 @@ void    remove_middle_quotes(char **cmd)
                     ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
                 cmd[i] = ptr[0];
             }
+            if (cmd[i][j] == '"')
+                while (cmd[i][j] && cmd[i][j] != '"')
+                    ;
             if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
             {
                 ptr = ft_split(cmd[i], '\'');
@@ -120,12 +123,12 @@ t_cmds	*parser(char *line)
 	g_mini.num_cmds = command_counter(line);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	lexer(cmd, line);
+    i = -1;
+    while (++i < g_mini.num_cmds)
+        remove_middle_quotes(cmd[i].command);
 	expander(cmd);
     i = -1;
     while (++i < g_mini.num_cmds)
-    {
         remove_beginning_quotes(cmd[i].command);
-        remove_middle_quotes(cmd[i].command);
-    }
     return (cmd);
 }
