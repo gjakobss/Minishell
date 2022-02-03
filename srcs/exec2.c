@@ -41,17 +41,23 @@ int	exec_com2(int c, int i)
 {
 	int	j;
 
-	i = 0;
-	while (g_mini.bin_paths[i] != NULL)
+	i = -1;
+	while (g_mini.bin_paths[++i] != NULL)
 	{
-		if (g_mini.cmd[c].command[0][0] == '/')
+		if (g_mini.cmd[c].command[0][0] == '/' || g_mini.cmd[c].command[0][0] == '.')
+			j = access(g_mini.cmd[c].command[0], F_OK);
+		if (j == 0)
+		{
+			j = 1;
+			break ;
+		}
+		if (g_mini.cmd[c].command[0][0] == '/' && g_mini.cmd[c].command[0][0] != '.')
 			j = access(g_mini.cmd[c].command[0], F_OK);
 		else if (g_mini.cmd[c].command[0][0] != '/')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
 						g_mini.cmd[c].command[0]), F_OK);
 		if (j == 0)
 			break ;
-		i++;
 	}
 	if ((j == -1 && is_builtin(0) == 0) || ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 	{
@@ -74,7 +80,10 @@ int	divergent(int c, int index, int id)
 	if (g_mini.cmd[c].op == DSMALLER)
 	{
 		wait_input(c, index);
-		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
+		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+			g_mini.cmd[c].op = 7;
+		else
+			g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
 	if (g_mini.cmd[c].op == 3)
 	{
@@ -107,6 +116,11 @@ int	one_time(int c, int index)
 	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds < 2)
 	{
 		wait_input(c, index);
+		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+		{
+			g_mini.cmd[c].op = 6;
+			return (0);
+		}
 		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
 	if ((g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2) || (g_mini.cmd[c].op == 3 && g_mini.cmd[temp].op == 6))
@@ -135,7 +149,10 @@ int	multi_exec(int c, int index, int i)
 	if (g_mini.cmd[c].op == 5)
 	{
 		wait_input(c, index);
-		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
+		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+			g_mini.cmd[c].op = 7;
+		else
+			g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
 	if (g_mini.cmd[c].op == 3)
 	{
@@ -145,9 +162,9 @@ int	multi_exec(int c, int index, int i)
 			temp++;
 		if (g_mini.cmd[temp].op == 6)
 			return (one_time(c, index));
-		exec_one(c);	
+		exec_one(c);
 	}
-	if (g_mini.cmd[c].op != 3)
+	if (g_mini.cmd[c].op != 3 && g_mini.cmd[c].op <= 6)
 		if (exec_com_one(c, index) == -1)
 			return (-1);
 	index++;

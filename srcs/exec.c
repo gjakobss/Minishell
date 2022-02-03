@@ -21,14 +21,14 @@ int	exec_one(int c)
 	j = 2;
 	while (g_mini.bin_paths[++i] != NULL)
 	{
-		if (g_mini.cmd[c].command[0][0] == '/')
+		if (g_mini.cmd[c].command[0][0] == '/' || g_mini.cmd[c].command[0][0] == '.')
 			j = access(g_mini.cmd[c].command[0], F_OK);
 		if (j == 0)
 		{
 			j = 1;
 			break ;
 		}
-		else if (g_mini.cmd[c].command[0][0] != '/')
+		if (g_mini.cmd[c].command[0][0] != '/' && g_mini.cmd[c].command[0][0] != '.')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
 						g_mini.cmd[c].command[0]), F_OK);
 		if (j == 0)

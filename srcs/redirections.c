@@ -177,13 +177,22 @@ int	wait_input(int c, int index)
 
 	(void)index;
 	line = readline("> ");
-	temp = ft_strdup("");
+	temp = ft_strdup(line);
+	i = 0;
 	while (ft_strcmp(line, g_mini.cmd[c].heredoc) != 0)
 	{
-		temp = ft_strjoin(temp, line);
+		if (i > 0)
+			temp = ft_str3join(temp, "\n" ,line);
 		line = readline("> ");
+		i++;
 	}
 	sub = ft_strdup("");
+	if (temp && ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
+	{
+		if (g_mini.num_cmds < 2)
+			printf("%s\n", temp);
+		return (0);
+	}
 	if (temp && !is_builtin(c) && ft_strcmp(g_mini.cmd[c].command[0], "ls"))
 	{
 		i = -1;
