@@ -56,8 +56,8 @@ static char	*remove_quotes(char *str)
 
 char	*get_env(char *str)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 	int	blen;
 
 	len = ft_strlen(str);
@@ -65,10 +65,26 @@ char	*get_env(char *str)
 	while (g_mini.env[++i])
 	{
 		if (ft_strncmp(g_mini.env[i], str, len) == 0)
-			break;
+			break ;
 	}
-	blen = ft_strlen(g_mini.env[i])- len;
+	blen = ft_strlen(g_mini.env[i]) - len;
 	return (ft_substr(g_mini.env[i], len + 1, blen));
+}
+
+int	bi_cd2(char	*new_pwd, char *old_pwd, int ret, int index)
+{
+	if (ret == -1)
+	{
+		if (index == 1)
+			printf("Error changing directory\n");
+		return (1);
+	}
+	if (index == 2)
+	{
+		getcwd(new_pwd, 1024);
+		update_pwd(old_pwd, new_pwd);
+	}
+	return (0);
 }
 
 int	bi_cd(int c, char *str, int index)
@@ -90,16 +106,5 @@ int	bi_cd(int c, char *str, int index)
 	}
 	else
 		ret = chdir(arg);
-	if (ret == -1)
-	{
-		if (index == 1)
-			printf("Error changing directory\n");
-		return (1);
-	}
-	if (index == 2)
-	{
-		getcwd(new_pwd, 1024);
-		update_pwd(old_pwd, new_pwd);
-	}
-	return (0);
+	return (bi_cd2(new_pwd, old_pwd, ret, index));
 }

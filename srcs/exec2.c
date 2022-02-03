@@ -37,21 +37,22 @@ int	exec_one2(int c, int j, int i)
 	return (0);
 }
 
-int	exec_com2(int c, int i)
+int	get_j(int i, int c)
 {
 	int	j;
 
-	i = -1;
 	while (g_mini.bin_paths[++i] != NULL)
 	{
-		if (g_mini.cmd[c].command[0][0] == '/' || g_mini.cmd[c].command[0][0] == '.')
+		if (g_mini.cmd[c].command[0][0] == '/'
+			|| g_mini.cmd[c].command[0][0] == '.')
 			j = access(g_mini.cmd[c].command[0], F_OK);
 		if (j == 0)
 		{
 			j = 1;
 			break ;
 		}
-		if (g_mini.cmd[c].command[0][0] == '/' && g_mini.cmd[c].command[0][0] != '.')
+		if (g_mini.cmd[c].command[0][0] == '/'
+			&& g_mini.cmd[c].command[0][0] != '.')
 			j = access(g_mini.cmd[c].command[0], F_OK);
 		else if (g_mini.cmd[c].command[0][0] != '/')
 			j = access(ft_str3join(g_mini.bin_paths[i], "/",
@@ -59,7 +60,43 @@ int	exec_com2(int c, int i)
 		if (j == 0)
 			break ;
 	}
-	if ((j == -1 && is_builtin(0) == 0) || ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
+	return (j);
+}
+
+int	get_i(int i, int c)
+{
+	int	j;
+
+	while (g_mini.bin_paths[++i] != NULL)
+	{
+		if (g_mini.cmd[c].command[0][0] == '/'
+			|| g_mini.cmd[c].command[0][0] == '.')
+			j = access(g_mini.cmd[c].command[0], F_OK);
+		if (j == 0)
+		{
+			j = 1;
+			break ;
+		}
+		if (g_mini.cmd[c].command[0][0] == '/'
+			&& g_mini.cmd[c].command[0][0] != '.')
+			j = access(g_mini.cmd[c].command[0], F_OK);
+		else if (g_mini.cmd[c].command[0][0] != '/')
+			j = access(ft_str3join(g_mini.bin_paths[i], "/",
+						g_mini.cmd[c].command[0]), F_OK);
+		if (j == 0)
+			break ;
+	}
+	return (i);
+}
+
+int	exec_com2(int c, int i)
+{
+	int	j;
+
+	i = get_i(-1, c);
+	j = get_j(-1, c);
+	if ((j == -1 && is_builtin(0) == 0)
+		|| ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 	{
 		if (ft_strcmp(g_mini.cmd[c].command[0], "exit") == 0)
 			return (-2);
@@ -73,14 +110,15 @@ int	exec_com2(int c, int i)
 
 int	divergent(int c, int index, int id)
 {
-	int temp;
+	int	temp;
 
 	if (g_mini.cmd[c - 1].op == SMALLER || g_mini.cmd[c - 1].op == 6)
 		return (0);
 	if (g_mini.cmd[c].op == DSMALLER)
 	{
 		wait_input(c, index);
-		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+		if (!g_mini.cmd[c].command[1]
+			&& !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
 			g_mini.cmd[c].op = 7;
 		else
 			g_mini.cmd[c].op = g_mini.cmd[c].hdop;
@@ -88,7 +126,7 @@ int	divergent(int c, int index, int id)
 	if (g_mini.cmd[c].op == 3)
 	{
 		temp = c;
-		while(g_mini.cmd[temp].op == 3)
+		while (g_mini.cmd[temp].op == 3)
 			temp++;
 		if (g_mini.cmd[temp].op == 6)
 		{
@@ -101,14 +139,14 @@ int	divergent(int c, int index, int id)
 		return (send_output(c, index, 0));
 	if (g_mini.cmd[c - 1].op == DGREATER)
 		return (append_output(c, index, 1));
-	if ( id == 0)
+	if (id == 0)
 		return (exec_com_mid(c, index));
 	return (exec_last_com(c, index));
 }
 
 int	one_time(int c, int index)
 {
-	int temp;
+	int	temp;
 
 	temp = c;
 	while (g_mini.cmd[temp].op == 3)
@@ -116,14 +154,16 @@ int	one_time(int c, int index)
 	if (g_mini.cmd[c].op == 5 && g_mini.num_cmds < 2)
 	{
 		wait_input(c, index);
-		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+		if (!g_mini.cmd[c].command[1]
+			&& !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
 		{
 			g_mini.cmd[c].op = 6;
 			return (0);
 		}
 		g_mini.cmd[c].op = g_mini.cmd[c].hdop;
 	}
-	if ((g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2) || (g_mini.cmd[c].op == 3 && g_mini.cmd[temp].op == 6))
+	if ((g_mini.cmd[c].op == 3 && g_mini.num_cmds == 2)
+		|| (g_mini.cmd[c].op == 3 && g_mini.cmd[temp].op == 6))
 	{
 		send_input(c, index);
 		exec_one(c);
@@ -137,8 +177,8 @@ int	one_time(int c, int index)
 
 int	multi_exec(int c, int index, int i)
 {
-	int ret;
-	int temp;
+	int	ret;
+	int	temp;
 
 	g_mini.pipefd = malloc(sizeof(int *) * (g_mini.pipes * 2));
 	while (i < g_mini.pipes * 2)
@@ -149,7 +189,8 @@ int	multi_exec(int c, int index, int i)
 	if (g_mini.cmd[c].op == 5)
 	{
 		wait_input(c, index);
-		if (!g_mini.cmd[c].command[1] && !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
+		if (!g_mini.cmd[c].command[1]
+			&& !ft_strcmp(g_mini.cmd[c].command[0], "cat"))
 			g_mini.cmd[c].op = 7;
 		else
 			g_mini.cmd[c].op = g_mini.cmd[c].hdop;
@@ -158,14 +199,14 @@ int	multi_exec(int c, int index, int i)
 	{
 		send_input(c, index);
 		temp = c;
-		while(g_mini.cmd[temp].op == 3)
+		while (g_mini.cmd[temp].op == 3)
 			temp++;
 		if (g_mini.cmd[temp].op == 6)
 			return (one_time(c, index));
 		exec_one(c);
 	}
 	if (g_mini.cmd[c].op != 3 && g_mini.cmd[c].op <= 6)
-		if (exec_com_one(c, index) == -1)
+		if (exec_com_one(c, index, 0) == -1)
 			return (-1);
 	index++;
 	c++;
@@ -176,7 +217,8 @@ int	multi_exec(int c, int index, int i)
 			return (-1);
 		else if (ret == -2)
 			return (0);
-		while ((g_mini.cmd[c].op == 2 && g_mini.cmd[c - 1].op == 2) || (g_mini.cmd[c].op == 4 && g_mini.cmd[c - 1].op == 4))
+		while ((g_mini.cmd[c].op == 2 && g_mini.cmd[c - 1].op == 2)
+			|| (g_mini.cmd[c].op == 4 && g_mini.cmd[c - 1].op == 4))
 			c++;
 	}
 	return (divergent(c, index, 1));

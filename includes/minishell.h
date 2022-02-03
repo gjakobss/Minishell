@@ -47,21 +47,21 @@ typedef struct s_cmds {
 
 typedef struct s_mini
 {
-	char	**bin_paths;
-	char	**env;
-	char	**exp;
-	int		**pipefd;
-	int		pipes;
-	int		s_quotes;
-	int		d_quotes;
-	int		semi_col;
-	int		dollar;
-	t_cmds	*cmd;
-	int		num_cmds;
-	int		sig_int;
-	int		status;
-	int		pid;
-	int		child;
+	char			**bin_paths;
+	char			**env;
+	char			**exp;
+	int				**pipefd;
+	int				pipes;
+	int				s_quotes;
+	int				d_quotes;
+	int				semi_col;
+	int				dollar;
+	t_cmds			*cmd;
+	int				num_cmds;
+	int				sig_int;
+	int				status;
+	int				pid;
+	int				child;
 	struct termios	t;
 }				t_mini;
 
@@ -87,7 +87,7 @@ int		bi_unset(char **buff);
 int		arg_validation(char **line);
 int		quotes_checker(char *line);
 void	operators_count(char *line);
-int		check_commands(char **line);
+int		check_commands(char **line, int i);
 
 /*		Arg Parser	*/
 t_cmds	*parser(char *line);
@@ -116,7 +116,7 @@ void	activate_signals(void);
 
 /*		Exec		*/
 int		exec_one(int c);
-int		exec_com_one(int c, int index);
+int		exec_com_one(int c, int index, int i);
 int		exec_com_mid(int c, int index);
 int		exec_last_com(int c, int index);
 int		send_to_exec(void);
@@ -126,7 +126,7 @@ int		exec_com2(int c, int i);
 int		divergent(int c, int index, int id);
 int		one_time(int c, int index);
 int		multi_exec(int c, int index, int i);
-
+char	**get_sub(int c, int x, int temp, int i);
 /*		Minishell	*/
 int		garbage_collector(int i);
 int		take_care(char *line);

@@ -12,11 +12,8 @@
 
 #include "minishell.h"
 
-int	check_commands(char **line)
+int	check_commands(char **line, int i)
 {
-	int	i;
-
-	i = 0;
 	while (line[0][i] != '\0')
 	{
 		if (line[0][i] == '|' || line[0][i] == '<' || line[0][i] == '>'
@@ -85,10 +82,9 @@ int	quotes_checker(char *line)
 		return (0);
 }
 
-
 int	arg_validation(char **line)
 {
-	if (check_commands(line))
+	if (check_commands(line, 0))
 	{
 		printf("");
 		return (1);
