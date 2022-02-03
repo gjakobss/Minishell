@@ -93,6 +93,13 @@ int		check_commands(char **line, int i);
 t_cmds	*parser(char *line);
 int		is_terminator(char *line, int j);
 int		command_counter(char *line);
+void	check_brackets_expansion(char **line);
+char	*correct_brackets(char *line);
+
+/*		Quotes Parsing		*/
+void	remove_beginning_quotes(char **cmd);
+void	remove_middle_quotes(char **cmd);
+void	quote_remover(char **cmd, int *i, int quotes);
 
 /*		Lexer		*/
 void	quotes_skipper(char *line, int *i, int quotes);

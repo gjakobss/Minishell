@@ -39,7 +39,7 @@ void	get_new_env(char **buff, int i, int j)
 
 int	ft_strchrlen(char	*str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
@@ -51,13 +51,14 @@ int	ft_strchrlen(char	*str, char c)
 
 int	check_if_valid(char **buff, int j, int index)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (buff[j][i] != '_' && ft_isalpha(buff[j][i]) == 0)
 	{
 		if (index == 2)
-			printf("bbshell: export: '%s': not a valid identifier\n", ft_substr(buff[j], 0, ft_strchrlen(buff[j], '=')));
+			printf("bbshell: export: '%s': not a valid identifier\n", \
+			ft_substr(buff[j], 0, ft_strchrlen(buff[j], '=')));
 		return (-1);
 	}
 	while (buff[j][++i] && buff[j][i] != '=')
@@ -65,11 +66,12 @@ int	check_if_valid(char **buff, int j, int index)
 		if (ft_isalnum(buff[j][i]) == 0 && buff[j][i] != '_')
 		{
 			if (index == 2)
-				printf("bbshell: export: '%s': not a valid identifier\n", ft_substr(buff[j], 0, ft_strchrlen(buff[j], '=')));
+				printf("bbshell: export: '%s': not a valid identifier\n", \
+				ft_substr(buff[j], 0, ft_strchrlen(buff[j], '=')));
 			return (-1);
 		}
 	}
-	return(0);
+	return (0);
 }
 
 int	get_env_from_export(char **buff, int j, int index)
