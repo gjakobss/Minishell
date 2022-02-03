@@ -23,7 +23,7 @@ char	*get_retfromstr(char **ret, char *str, int i, int x)
 	while (str[++x])
 	{
 		ret[j][i] = str[x];
-		if (str[x] == '=')
+		if (str[x] == '=' && z == 0)
 		{
 			z = 1;
 			ret[j][++i] = '"';

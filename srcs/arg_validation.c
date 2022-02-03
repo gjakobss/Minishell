@@ -20,7 +20,7 @@ int	check_commands(char *line)
 	while (line[i] != '\0')
 	{
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>'
-			|| line[i] == ';' || line[i] == ' ')
+			|| line[i] == ';' || line[i] == ' ' || line[i] == '	')
 		{
 			while (line[i] != '\0')
 			{
