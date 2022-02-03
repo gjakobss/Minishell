@@ -30,7 +30,6 @@ char	*replace_var(char *str)
 	int		len;
 	char	*copy;
 
-	printf("str is %s\n", str);
 	copy = ft_substr(str, 1, 250);
 	len = ft_strlen(copy);
 	i = -1;
@@ -65,28 +64,6 @@ char	*replace_var(char *str)
 	return (str);
 }
 
-void	more_than_one_var(t_expand	str, char **line)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	str.var = ft_strdup("");
-	while (str.full[i])
-	{
-		if (str.full[i] == '$')
-		{
-			j = i + 1;
-			while (str.full[j] && str.full[j] != '$')
-				j++;
-			str.var = ft_strjoin(str.var, replace_var(ft_substr(str.full, i, j - i)));
-		}
-		i++;
-	}
-	str.after = ft_strdup("");
-	replace_command(line, str);
-}
-
 void	expand_variable(char **line, int start)
 {
 	t_expand	str;
@@ -94,33 +71,28 @@ void	expand_variable(char **line, int start)
 	int			len;
 
 	str.full = ft_strdup(*line);
-	if (str.full[start] == '$' && str.full[start + 1] == '?')
-	{
-		*line = ft_itoa(g_mini.status);
-		return ;
-	}
 	str.before = ft_substr(str.full, 0, start);
 	i = start;
-	while ((ft_isalpha(str.full[i])) && str.full[i])
-		i++;
-	printf("i before is %d\n", i);
-//fazer este while dentro do more_than_one_var para poupar linhas e nao estragar o i
-	while (str.full[i++])
-		if (str.full[i] == '$')
+	if (str.full[start] == '$' && str.full[start + 1] == '?')
+	{
+		str.var = ft_itoa(g_mini.status);
+		i += 2;
+	}
+	else
+	{
+		while ((ft_isalpha(str.full[++i])) && str.full[i])
+			i++;
+		str.var = ft_substr(str.full, start, i - start + 1);
+		str.var = replace_var(str.var);
+		if (!str.var)
 		{
-			more_than_one_var(str, line);
+			*line = NULL;
 			return ;
 		}
-	printf("i before is %d\n", i);
-	str.var = ft_substr(str.full, start, i - start + 1);
-	str.var = replace_var(str.var);
-	if (!str.var)
-	{
-		*line = NULL;
-		return ;
 	}
 	len = ft_strlen(str.full);
 	str.after = ft_substr(str.full, i, len - i);
+//	printf("before is %s\n, var is %s\n, after is %s\n", str.before, str.var, str.after);
 	replace_command(line, str);
 }
 
@@ -171,7 +143,6 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
-//				printf("j is %d, str is %s\n", j, cmd[i].command[j]);
 				if (cmd[i].command[j][z] == '~' && size == 1 && z == 0)
 					cmd[i].command[j] = get_env("HOME");
 				if (cmd[i].command[j] == NULL)

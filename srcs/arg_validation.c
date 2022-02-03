@@ -81,48 +81,6 @@ int	quotes_checker(char *line)
 	else
 		return (0);
 }
-char	*correct_brackets(char *line)
-{
-	int		size;
-	int		i;
-	int		j;
-	char	*str;
-
-	size = ft_strlen(line);
-	str = malloc(sizeof(char) * size);
-	i = 0;
-	j = 0;
-	while (j < size)
-	{
-		if (line[j] == '{' || line[j] == '}')
-			j++;
-		str[i] = line[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-void	check_brackets_expansion(char *line)
-{
-	int	i;
-	char *str;
-
-	i = 0;
-	while(line[i] && line[i] != '$')
-		i++;
-	if (line[i] == '\0')
-		return;
-	else
-		if (line[i + 1] == '{')
-		{
-			str = correct_brackets(line);
-			line = NULL;
-			line = str;
-		}
-	return;
-}
 
 
 int	arg_validation(char *line)
@@ -137,7 +95,6 @@ int	arg_validation(char *line)
 		printf("Error: Unclosed quotes\n");
 		return (1);
 	}
-//	check_brackets_expansion(line);
 	operators_count(line);
 	return (0);
 }
