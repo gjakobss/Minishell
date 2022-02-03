@@ -30,6 +30,7 @@ char	*replace_var(char *str)
 	int		len;
 	char	*copy;
 
+	printf("str is %s\n", str);
 	copy = ft_substr(str, 1, 250);
 	len = ft_strlen(copy);
 	i = -1;
@@ -102,6 +103,7 @@ void	expand_variable(char **line, int start)
 	i = start;
 	while ((ft_isalpha(str.full[i])) && str.full[i])
 		i++;
+	printf("i before is %d\n", i);
 //fazer este while dentro do more_than_one_var para poupar linhas e nao estragar o i
 	while (str.full[i++])
 		if (str.full[i] == '$')
@@ -109,6 +111,7 @@ void	expand_variable(char **line, int start)
 			more_than_one_var(str, line);
 			return ;
 		}
+	printf("i before is %d\n", i);
 	str.var = ft_substr(str.full, start, i - start + 1);
 	str.var = replace_var(str.var);
 	if (!str.var)
@@ -150,6 +153,7 @@ void	expander(t_cmds *cmd)
 	int	i;
 	int	j;
 	int	z;
+	int	size;
 
 	i = -1;
 	while (++i < g_mini.num_cmds)
@@ -157,6 +161,7 @@ void	expander(t_cmds *cmd)
 		j = 0;
 		while (cmd[i].command[++j])
 		{
+			size = ft_strlen(cmd[i].command[j]);
 			z = -1;
 			while (cmd[i].command[j][++z])
 			{
@@ -166,7 +171,8 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
-				if (cmd[i].command[j][z] == '~' && !cmd[i].command[j][z + 1] && z == 0)
+//				printf("j is %d, str is %s\n", j, cmd[i].command[j]);
+				if (cmd[i].command[j][z] == '~' && size == 1 && z == 0)
 					cmd[i].command[j] = get_env("HOME");
 				if (cmd[i].command[j] == NULL)
 					break ;

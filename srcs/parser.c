@@ -98,9 +98,11 @@ void    remove_middle_quotes(char **cmd)
                     ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
                 cmd[i] = ptr[0];
             }
-            if (cmd[i][j] == '"')
+            if (cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
+            { 
                 while (cmd[i][j] && cmd[i][j] != '"')
                     ;
+            }
             if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
             {
                 ptr = ft_split(cmd[i], '\'');
