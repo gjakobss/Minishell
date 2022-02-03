@@ -128,7 +128,7 @@ int		one_time(int c, int index);
 int		multi_exec(int c, int index, int i);
 
 /*		Minishell	*/
-int		garbage_collector(void);
+int		garbage_collector(int i);
 int		take_care(char *line);
 void	init_g(char **o_env);
 char	**init_env(char **o_env);
