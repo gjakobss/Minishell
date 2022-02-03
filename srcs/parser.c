@@ -46,12 +46,14 @@ void	check_brackets_expansion(char **line)
 	if ((*line)[i] == '\0')
 		return ;
 	else
+	{
 		if ((*line)[i + 1] == '{')
 		{
 			str = correct_brackets(*line);
 			*line = NULL;
 			*line = str;
 		}
+	}
 	return ;
 }
 
@@ -59,7 +61,8 @@ int	is_terminator(char *line, int j)
 {
 	if (line[j] == '>' && line[j + 1] == '>')
 		return (1);
-	if (line[j] == '|' || (line[j] == '<' && line[j - 1] != '<' && line[j + 1] != '<')
+	if (line[j] == '|' || (line[j] == '<' && \
+	line[j - 1] != '<' && line[j + 1] != '<')
 		|| (line[j] == '>' && line[j - 1] != '>') || line[j] == ';')
 		return (1);
 	else
@@ -89,79 +92,6 @@ int	command_counter(char *line)
 	g_mini.d_quotes = 0;
 	g_mini.s_quotes = 0;
 	return (counter);
-}
-
-void	remove_beginning_quotes(char **cmd)
-{
-	int		i;
-	int		j;
-	int		flag;
-	char	**ptr;
-
-	i = 0;
-	flag = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] == '"')
-		{
-			flag = 1;
-			ptr = ft_split(cmd[i], '"');
-			j = 1;
-			while (ptr[j] != NULL)
-				ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
-			cmd[i] = ptr[0];
-		}
-		if (cmd[i][0] == '\'' && flag == 0)
-		{
-			ptr = ft_split(cmd[i], '\'');
-			j = 1;
-			while (ptr[j] != NULL)
-				ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
-			cmd[i] = ptr[0];
-		}
-		i++;
-	}
-}
-
-void	remove_middle_quotes(char **cmd)
-{
-	int		i;
-	int		j;
-	int		z;
-	char	**ptr;
-
-	i = 0;
-	while (cmd[i])
-	{
-		j = 0;
-		while (cmd[i][j])
-		{
-			if (cmd[i][j] == '"' && cmd[i][j + 1] == '"')
-			{
-				ptr = ft_split(cmd[i], '"');
-				z = 1;
-				while (ptr[z] != NULL)
-					ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-				cmd[i] = ptr[0];
-			}
-			if (cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
-			{
-				j++;
-				while (cmd[i][j] && cmd[i][j] != '"')
-					j++;
-			}
-			if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
-			{
-				ptr = ft_split(cmd[i], '\'');
-				z = 1;
-				while (ptr[z] != NULL)
-					ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-				cmd[i] = ptr[0];
-			}
-			j++;
-		}
-		i++;
-	}
 }
 
 t_cmds	*parser(char *line)
