@@ -38,8 +38,8 @@ char	*get_retfromstr(char **ret, char *str, int i, int x)
 
 char	*get_retfromexp(char **ret, char *exp, int j, int i)
 {
-	int x;
-	int z;
+	int	x;
+	int	z;
 
 	x = -1;
 	z = 0;
@@ -53,7 +53,7 @@ char	*get_retfromexp(char **ret, char *exp, int j, int i)
 			ret[j][++i] = '"';
 		}
 	}
-	if (z == 1)//ret[j][i] != '"')
+	if (z == 1) //ret[j][i] != '"')
 		ret[j][++i] = '"';
 	i++;
 	ret[j][i] = '\0';

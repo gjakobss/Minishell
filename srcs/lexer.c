@@ -89,7 +89,8 @@ void	assign_line(t_cmds *cmd, char *line, int x, int z)
 					z++;
 				cmd[j].op = 5;
 				cmd[j].heredoc = ft_strdup(ft_substr(line, x, (z - x)));
-				line = ft_strdup(ft_strjoin(ft_substr(line, 0, i), ft_substr(line, z, (ft_strlen(line) - z))));
+				line = ft_strdup(ft_strjoin(ft_substr(line, 0, i), \
+				ft_substr(line, z, (ft_strlen(line) - z))));
 				i -= 2;
 			}
 			skip_quotes(line, &i);

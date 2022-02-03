@@ -15,8 +15,8 @@
 int	send_output2(int fd, int index, int c)
 {
 	char	*buff;
-	int i;
-	int temp;
+	int		i;
+	int		temp;
 
 	i = 0;
 	fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -33,20 +33,20 @@ int	send_output2(int fd, int index, int c)
 	while (temp >= 0)
 	{
 		if (ft_strcmp(g_mini.cmd[temp].command[0], "echo") == 0)
-			break;
+			break ;
 		temp--;
 	}
 	if (temp >= 0 && ft_strcmp(g_mini.cmd[temp].command[0], "echo") == 0)
 	{
 		temp++;
 		write(fd, " ", 1);
- 		while (temp <= c)
+		while (temp <= c)
 		{
 			i = 0;
 			while (g_mini.cmd[temp].command[++i])
 			{
-				write(fd, ft_strjoin(g_mini.cmd[temp].command[i], " "),
-				ft_strlen(g_mini.cmd[temp].command[i]) + 1);
+				write(fd, ft_strjoin(g_mini.cmd[temp].command[i], " "), \
+                ft_strlen(g_mini.cmd[temp].command[i]) + 1);
 			}
 			temp++;
 		}
@@ -100,13 +100,15 @@ int	append_output(int c, int index, int i)
 	temp = c;
 	while (g_mini.cmd[c].op == 4)
 	{
-		fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(g_mini.cmd[c].command[0], \
+		O_WRONLY | O_CREAT | O_APPEND, 0777);
 		close(fd);
 		c++;
 	}
 	while (temp > 1 && g_mini.cmd[temp - 2].op == 4)
 	{
-		fd = open(g_mini.cmd[temp - 1].command[0], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(g_mini.cmd[temp - 1].command[0], \
+		O_WRONLY | O_CREAT | O_APPEND, 0777);
 		close(fd);
 		temp--;
 	}
@@ -126,12 +128,12 @@ int	append_output(int c, int index, int i)
 		}
 		if (ft_strcmp(g_mini.cmd[c - 1].command[0], "echo") == 0)
 		{
- 			write(fd, " ", 1);
- 			while (g_mini.cmd[c].command[++i])
+			write(fd, " ", 1);
+			while (g_mini.cmd[c].command[++i])
 				write(fd, ft_strjoin(g_mini.cmd[c].command[i], " "),
 					ft_strlen(g_mini.cmd[c].command[i]) + 1);
 		}
- 		write(fd, "\n", 1);
+		write(fd, "\n", 1);
 		exit(0);
 	}
 	wait(NULL);
@@ -151,7 +153,7 @@ int	send_input(int c, int index)
 	(void)index;
 	i = 0;
 	j = c;
-	while(g_mini.cmd[j].op == 3)
+	while (g_mini.cmd[j].op == 3)
 		j++;
 	if (!g_mini.cmd[c].command[1])
 		while (g_mini.cmd[j].command[i])
@@ -173,7 +175,7 @@ int	wait_input(int c, int index)
 	char	*line;
 	char	*temp;
 	char	*sub;
-	int i;
+	int		i;
 
 	(void)index;
 	line = readline("> ");
@@ -182,7 +184,7 @@ int	wait_input(int c, int index)
 	while (ft_strcmp(line, g_mini.cmd[c].heredoc) != 0)
 	{
 		if (i > 0)
-			temp = ft_str3join(temp, "\n" ,line);
+			temp = ft_str3join(temp, "\n", line);
 		line = readline("> ");
 		i++;
 	}

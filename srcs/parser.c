@@ -37,14 +37,14 @@ char	*correct_brackets(char *line)
 
 void	check_brackets_expansion(char **line)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = 0;
-	while((*line)[i] && (*line)[i] != '$')
+	while ((*line)[i] && (*line)[i] != '$')
 		i++;
 	if ((*line)[i] == '\0')
-		return;
+		return ;
 	else
 		if ((*line)[i + 1] == '{')
 		{
@@ -52,9 +52,8 @@ void	check_brackets_expansion(char **line)
 			*line = NULL;
 			*line = str;
 		}
-	return;
+	return ;
 }
-
 
 int	is_terminator(char *line, int j)
 {
@@ -92,94 +91,94 @@ int	command_counter(char *line)
 	return (counter);
 }
 
-void    remove_beginning_quotes(char **cmd)
+void	remove_beginning_quotes(char **cmd)
 {
-    int     i;
-    int     j;
-    int     flag;
-    char    **ptr;
+	int		i;
+	int		j;
+	int		flag;
+	char	**ptr;
 
-    i = 0;
-    flag = 0;
-    while (cmd[i])
-    {
-        if (cmd[i][0] == '"')
-        {
-            flag = 1;
-            ptr = ft_split(cmd[i], '"');
-            j = 1;
-            while (ptr[j] != NULL)
-                ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
-            cmd[i] = ptr[0];
-        }
-        if (cmd[i][0] == '\'' && flag == 0)
-        {
-            ptr = ft_split(cmd[i], '\'');
-            j = 1;
-            while (ptr[j] != NULL)
-                ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
-            cmd[i] = ptr[0];
-        }
-        i++;
-    }
+	i = 0;
+	flag = 0;
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '"')
+		{
+			flag = 1;
+			ptr = ft_split(cmd[i], '"');
+			j = 1;
+			while (ptr[j] != NULL)
+				ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
+			cmd[i] = ptr[0];
+		}
+		if (cmd[i][0] == '\'' && flag == 0)
+		{
+			ptr = ft_split(cmd[i], '\'');
+			j = 1;
+			while (ptr[j] != NULL)
+				ptr[0] = ft_strjoin(ptr[0], ptr[j++]);
+			cmd[i] = ptr[0];
+		}
+		i++;
+	}
 }
 
-void    remove_middle_quotes(char **cmd)
+void	remove_middle_quotes(char **cmd)
 {
-    int     i;
-    int     j;
-    int     z;
-    char    **ptr;
+	int		i;
+	int		j;
+	int		z;
+	char	**ptr;
 
-    i = 0;
-    while (cmd[i])
-    {
-        j = 0;
-        while (cmd[i][j])
-        {
-            if (cmd[i][j] == '"' && cmd[i][j + 1] == '"')
-            {
-                ptr = ft_split(cmd[i], '"');
-                z = 1;
-                while (ptr[z] != NULL)
-                    ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-                cmd[i] = ptr[0];
-            }
-            if (cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
-            {
-                j++;
-                while (cmd[i][j] && cmd[i][j] != '"')
-                    j++;
-            }
-            if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
-            {
-                ptr = ft_split(cmd[i], '\'');
-                z = 1;
-                while (ptr[z] != NULL)
-                    ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-                cmd[i] = ptr[0];
-            }
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	while (cmd[i])
+	{
+		j = 0;
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == '"' && cmd[i][j + 1] == '"')
+			{
+				ptr = ft_split(cmd[i], '"');
+				z = 1;
+				while (ptr[z] != NULL)
+					ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
+				cmd[i] = ptr[0];
+			}
+			if (cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
+			{
+				j++;
+				while (cmd[i][j] && cmd[i][j] != '"')
+					j++;
+			}
+			if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
+			{
+				ptr = ft_split(cmd[i], '\'');
+				z = 1;
+				while (ptr[z] != NULL)
+					ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
+				cmd[i] = ptr[0];
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 t_cmds	*parser(char *line)
 {
 	t_cmds	*cmd;
-    int     i;
+	int		i;
 
-    check_brackets_expansion(&line);
+	check_brackets_expansion(&line);
 	g_mini.num_cmds = command_counter(line);
 	cmd = malloc(sizeof(t_cmds) * (g_mini.num_cmds + 1));
 	lexer(cmd, line);
-    i = -1;
-    while (++i < g_mini.num_cmds)
-        remove_middle_quotes(cmd[i].command);
+	i = -1;
+	while (++i < g_mini.num_cmds)
+		remove_middle_quotes(cmd[i].command);
 	expander(cmd);
-    i = -1;
-    while (++i < g_mini.num_cmds)
-        remove_beginning_quotes(cmd[i].command);
-    return (cmd);
+	i = -1;
+	while (++i < g_mini.num_cmds)
+		remove_beginning_quotes(cmd[i].command);
+	return (cmd);
 }
