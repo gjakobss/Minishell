@@ -12,28 +12,31 @@
 
 #include "minishell.h"
 
-int	check_commands(char *line)
+int	check_commands(char **line)
 {
 	int	i;
 
 	i = 0;
-	while (line[i] != '\0')
+	while (line[0][i] != '\0')
 	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>'
-			|| line[i] == ';' || line[i] == ' ' || line[i] == '	')
+		if (line[0][i] == '|' || line[0][i] == '<' || line[0][i] == '>'
+			|| line[0][i] == ';' || line[0][i] == ' ' || line[0][i] == '	')
 		{
-			while (line[i] != '\0')
+			while (line[0][i] != '\0')
 			{
-				if ((line[i] >= 'a' && line[i] <= 'z')
-					|| (line[i] >= 'A' && line[i] <= 'Z'))
+				if ((line[0][i] >= 'a' && line[0][i] <= 'z')
+					|| (line[0][i] >= 'A' && line[0][i] <= 'Z'))
+				{
+					line[0] = ft_substr(line[0], i, ft_strlen(line[0]) - 1);
 					break ;
+				}
 				i++;
 			}
-			if (line[i] == '\0')
+			if (line[0][i] == '\0')
 				return (1);
 		}
-		if ((line[i] >= 'a' && line[i] <= 'z')
-			|| (line[i] >= 'A' && line[i] <= 'Z'))
+		if ((line[0][i] >= 'a' && line[0][i] <= 'z')
+			|| (line[0][i] >= 'A' && line[0][i] <= 'Z'))
 			break ;
 		i++;
 	}
@@ -83,18 +86,18 @@ int	quotes_checker(char *line)
 }
 
 
-int	arg_validation(char *line)
+int	arg_validation(char **line)
 {
 	if (check_commands(line))
 	{
 		printf("");
 		return (1);
 	}
-	if (quotes_checker(line))
+	if (quotes_checker(*line))
 	{
 		printf("Error: Unclosed quotes\n");
 		return (1);
 	}
-	operators_count(line);
+	operators_count(*line);
 	return (0);
 }

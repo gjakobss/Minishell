@@ -80,7 +80,7 @@ void	expand_variable(char **line, int start)
 	}
 	else
 	{
-		while ((ft_isalpha(str.full[++i])) && str.full[i])
+		while (str.full[i] && (ft_isalpha(str.full[++i])))
 			i++;
 		str.var = ft_substr(str.full, start, i - start + 1);
 		str.var = replace_var(str.var);
@@ -143,7 +143,7 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
-				if (cmd[i].command[j][z] == '~' && size == 1 && z == 0)
+				if (size == 1 && z == 0 && cmd[i].command[j][z] && cmd[i].command[j][z] == '~')
 					cmd[i].command[j] = get_env("HOME");
 				if (cmd[i].command[j] == NULL)
 					break ;

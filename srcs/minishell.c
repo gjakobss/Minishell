@@ -14,7 +14,7 @@
 
 int	take_care(char *line)
 {
-	if (arg_validation(line))
+	if (arg_validation(&line))
 		return (-1);
 	add_history(line);
 	g_mini.cmd = parser(line);

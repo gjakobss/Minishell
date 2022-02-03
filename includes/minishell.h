@@ -84,10 +84,10 @@ int		bi_export(char **buff, int index);
 int		bi_unset(char **buff);
 
 /*		Arg Validation	*/
-int		arg_validation(char *line);
+int		arg_validation(char **line);
 int		quotes_checker(char *line);
 void	operators_count(char *line);
-int		check_commands(char *line);
+int		check_commands(char **line);
 
 /*		Arg Parser	*/
 t_cmds	*parser(char *line);

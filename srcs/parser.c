@@ -98,7 +98,7 @@ void    remove_beginning_quotes(char **cmd)
     int     j;
     int     flag;
     char    **ptr;
-    
+
     i = 0;
     flag = 0;
     while (cmd[i])
