@@ -28,14 +28,14 @@ int	take_care(char *line)
 	return (0);
 }
 
-int	garbage_collector(void)
+int	garbage_collector(int i)
 {
 	free(g_mini.env);
 	free(g_mini.cmd);
 	free(g_mini.pipefd);
 	g_mini.t.c_lflag |= ECHOCTL;
 	tcsetattr(0, TCSANOW, &g_mini.t);
-	return (0);
+	return (i);
 }
 
 int	ft_exitoi(char *s)
@@ -84,12 +84,12 @@ int	ft_exit(char *line)
 	if (ft_strlen(buff[0]) != 4)
 		return (0);
 	else if (i == 1)
-		exit(0);
+		exit(garbage_collector(0));
 	j = ft_exitoi(buff[1]);
 	if (j == 257)
 	{
 		printf("bash: exit: numeric argument required\n");
-		exit(255);
+		exit(garbage_collector(255));
 	}
 	if (i > 2)
 	{
@@ -97,7 +97,7 @@ int	ft_exit(char *line)
 		return (0);
 	}
 	else
-		exit(j);
+		exit(garbage_collector(j));
 	return (-1);
 }
 
@@ -126,5 +126,5 @@ int	main(int argc, char **argv, char **o_env)
 		}
 		free(line);
 	}
-	return (garbage_collector());
+	return (garbage_collector(0));
 }
