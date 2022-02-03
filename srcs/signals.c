@@ -17,13 +17,15 @@ void	sigint_handler(int signum, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	(void)signum;
-	printf("\n");
 	if (g_mini.child == 0)
 	{
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	else
+		printf("^C\n");
 }
 
 void	sigquit_handler(int signum, siginfo_t *info, void *context)
@@ -33,7 +35,11 @@ void	sigquit_handler(int signum, siginfo_t *info, void *context)
 	(void)signum;
 	if (g_mini.child != 0)
 		printf("^\\Quit: 3\n");
-
+	else
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	activate_signals(void)

@@ -113,11 +113,7 @@ int	main(int argc, char **argv, char **o_env)
 	{
 		line = readline("BBShell >$ ");
 		if (line == NULL)
-		{
-			rl_replace_line("exit", 1);
-			rl_redisplay();
 			exit(0);
-		}
 		if (!line || line[0] == '\0')
 			continue ;
 		else
