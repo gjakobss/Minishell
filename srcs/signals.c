@@ -32,7 +32,7 @@ void	sigquit_handler(int signum, siginfo_t *info, void *context)
 	(void)context;
 	(void)signum;
 	if (g_mini.child != 0)
-		printf("Quit: 3\n");
+		printf("^\\Quit: 3\n");
 
 }
 
