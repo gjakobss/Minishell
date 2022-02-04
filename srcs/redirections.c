@@ -46,7 +46,7 @@ int	send_output2(int fd, int index, int c)
 			while (g_mini.cmd[temp].command[++i])
 			{
 				write(fd, ft_strjoin(g_mini.cmd[temp].command[i], " "), \
-                ft_strlen(g_mini.cmd[temp].command[i]) + 1);
+				ft_strlen(g_mini.cmd[temp].command[i]) + 1);
 			}
 			temp++;
 		}

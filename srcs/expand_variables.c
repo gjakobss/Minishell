@@ -36,8 +36,9 @@ char	*replace_var(char *str)
 	if (len == 1)
 	{
 		while (g_mini.env[++i])
-			if (copy[0] == g_mini.env[i][0] && (g_mini.env[i][1] == '='|| g_mini.env[i][1] == '\0'))
-				break;
+			if (copy[0] == g_mini.env[i][0] && (g_mini.env[i][1] == '=' \
+			|| g_mini.env[i][1] == '\0'))
+				break ;
 	}
 	else
 	{
@@ -92,7 +93,6 @@ void	expand_variable(char **line, int start)
 	}
 	len = ft_strlen(str.full);
 	str.after = ft_substr(str.full, i, len - i);
-//	printf("before is %s\n, var is %s\n, after is %s\n", str.before, str.var, str.after);
 	replace_command(line, str);
 }
 
@@ -143,7 +143,8 @@ void	expander(t_cmds *cmd)
 					;
 				if (cmd[i].command[j][z] == '$')
 					expand_variable(&(cmd[i].command[j]), z);
-				if (size == 1 && z == 0 && cmd[i].command[j][z] && cmd[i].command[j][z] == '~')
+				if (size == 1 && z == 0 && cmd[i].command[j][z] && \
+				cmd[i].command[j][z] == '~')
 					cmd[i].command[j] = get_env("HOME");
 				if (cmd[i].command[j] == NULL)
 					break ;
