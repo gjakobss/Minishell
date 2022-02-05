@@ -57,7 +57,7 @@ void	expand_variable(char **line, int start)
 	replace_command(line, str);
 }
 
-void static	expand_helper(t_cmds *cmd, t_vars *v)
+void static	expander_helper(t_cmds *cmd, t_vars *v)
 {
 	if (cmd[v->i].command[v->j][v->z] == '\'' && \
 	cmd[v->i].command[v->j][0] != '"')
@@ -82,7 +82,7 @@ void	expander(t_cmds *cmd)
 			v.z = -1;
 			while (cmd[v.i].command[v.j][++v.z])
 			{
-				expand_helper(cmd, &v);
+				expander_helper(cmd, &v);
 				if (v.size == 1 && v.z == 0 && cmd[v.i].command[v.j][v.z] \
 				&& cmd[v.i].command[v.j][v.z] == '~')
 					cmd[v.i].command[v.j] = get_env("HOME");
