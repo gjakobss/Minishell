@@ -65,17 +65,9 @@ int	send_output(int c, int index, int i)
 	(void)i;
 	temp = c;
 	while (g_mini.cmd[c].op == 2)
-	{
-		fd = open(g_mini.cmd[c].command[0], O_CREAT | O_TRUNC, 0777);
-		close(fd);
-		c++;
-	}
+		open_close_fd(&fd, &c, &temp, 3);
 	while (temp > 1 && g_mini.cmd[temp - 2].op == 2)
-	{
-		fd = open(g_mini.cmd[temp - 1].command[0], O_CREAT | O_TRUNC, 0777);
-		close(fd);
-		temp--;
-	}
+		open_close_fd(&fd, &c, &temp, 4);
 	fd = 0;
 	id = fork();
 	if (id == 0)

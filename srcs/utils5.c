@@ -46,11 +46,19 @@ void	close_pipes(int index)
 
 void	open_close_fd(int *fd, int *c, int *temp, int x)
 {
-	*fd = open(g_mini.cmd[*c].command[0], \
-	O_WRONLY | O_CREAT | O_APPEND, 0777);
-	close(*fd);
-	if (x == 1)
+	if (x > 0 && x < 3)
+	{
+		*fd = open(g_mini.cmd[*c].command[0], \
+		O_WRONLY | O_CREAT | O_APPEND, 0777);
+		close(*fd);
+	}
+	if (x > 2 && x < 5)
+	{
+		*fd = open(g_mini.cmd[*c].command[0], O_CREAT | O_TRUNC, 0777);
+		close(*fd);
+	}
+	if (x == 1 || x == 3)
 		*c = *c + 1;
-	if (x == 2)
+	if (x == 2 || x == 4)
 		*temp = *temp - 1;
 }
