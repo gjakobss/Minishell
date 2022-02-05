@@ -49,7 +49,7 @@ void	remove_middle_quotes(char **cmd)
 	while (cmd[i])
 	{
 		j = 0;
-		while (cmd[i][j])
+		while (cmd[i] && cmd[i][j])
 		{
 			if (cmd[i][j] == '"' && cmd[i][j + 1] == '"')
 				quote_remover(cmd, &i, DQUOTES);
