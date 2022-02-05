@@ -81,8 +81,7 @@ int	send_output(int c, int index, int i)
 	if (id == 0)
 		send_output2(fd, index, c);
 	wait(NULL);
-	close(g_mini.pipefd[index][1]);
-	close(g_mini.pipefd[index][0]);
+	close_pipes(index);
 	if (g_mini.cmd[c].op == 6)
 		return (-2);
 	return (0);
