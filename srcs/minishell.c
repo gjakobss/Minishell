@@ -86,16 +86,9 @@ int	ft_exit(char *line)
 	else if (i == 1)
 		exit(garbage_collector(0));
 	j = ft_exitoi(buff[1]);
-	if (j == 257)
-	{
-		printf("bash: exit: numeric argument required\n");
-		exit(garbage_collector(255));
-	}
+	exit_helper(j, i);
 	if (i > 2)
-	{
-		printf("bbshell: exit: too many arguments\n");
 		return (0);
-	}
 	else
 		exit(garbage_collector(j));
 	return (-1);

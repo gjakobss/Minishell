@@ -12,43 +12,6 @@
 
 #include "minishell.h"
 
-void	write_export(void)
-{
-	int	i;
-
-	i = 0;
-	while (g_mini.exp[i])
-		printf("declare -x %s\n", g_mini.exp[i++]);
-	return ;
-}
-
-void	get_new_env(char **buff, int i, int j)
-{
-	char	**new_env;
-
-	new_env = malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (g_mini.env[++i] != NULL)
-		new_env[i] = ft_strdup(g_mini.env[i]);
-	new_env[i++] = ft_strdup(buff[j]);
-	new_env[i] = NULL;
-	i = 0;
-	free(g_mini.env);
-	g_mini.env = new_env;
-}
-
-int	ft_strchrlen(char	*str, char c)
-{
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] && str[i] != c)
-		i++;
-	return (i);
-}
-
 int	check_if_valid(char **buff, int j, int index)
 {
 	int	i;
@@ -74,6 +37,17 @@ int	check_if_valid(char **buff, int j, int index)
 	return (0);
 }
 
+void static	equal_checker(char **buff, int *j)
+{
+	while (buff[*j] != NULL)
+	{
+		if (ft_strchr(buff[*j], '=') != NULL)
+			return ;
+		*j++;
+	}
+	return ;
+}
+
 int	get_env_from_export(char **buff, int j, int index)
 {
 	int		i;
@@ -83,12 +57,7 @@ int	get_env_from_export(char **buff, int j, int index)
 	checker = 0;
 	if (buff[j] && check_if_valid(buff, j, index) == -1)
 		return (j + 1);
-	while (buff[j] != NULL)
-	{
-		if (ft_strchr(buff[j], '=') != NULL)
-			break ;
-		j++;
-	}
+	equal_checker(buff, &j);
 	if (buff[j] == NULL)
 		return (j);
 	else

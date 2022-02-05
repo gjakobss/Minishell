@@ -37,6 +37,13 @@
 # define DQUOTES 7
 # define SQUOTES 8
 
+typedef struct s_vars {
+	int	i;
+	int	j;
+	int	z;
+	int	size;
+}		t_vars;
+
 typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
@@ -158,4 +165,9 @@ int		cat_fix(int c);
 void	exec_cat(int c, int nmr);
 char	*get_env(char *str);
 char	**subarr(int c, int x);
+void	write_export(void);
+void	get_new_env(char **buff, int i, int j);
+int		ft_strchrlen(char	*str, char c);
+void	exit_helper(int j, int i);
+
 #endif

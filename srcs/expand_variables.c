@@ -65,6 +65,12 @@ char	*replace_var(char *str)
 	return (str);
 }
 
+void static	expand_helper(t_expand *str, int *i)
+{
+	str->var = ft_itoa(g_mini.status);
+	*i += 2;
+}
+
 void	expand_variable(char **line, int start)
 {
 	t_expand	str;
@@ -75,10 +81,7 @@ void	expand_variable(char **line, int start)
 	str.before = ft_substr(str.full, 0, start);
 	i = start;
 	if (str.full[start] == '$' && str.full[start + 1] == '?')
-	{
-		str.var = ft_itoa(g_mini.status);
-		i += 2;
-	}
+		expand_helper(&str, &i);
 	else
 	{
 		while (str.full[i] && (ft_isalpha(str.full[++i])))
@@ -122,36 +125,33 @@ void	safety_check(char	**str, int j)
 
 void	expander(t_cmds *cmd)
 {
-	int	i;
-	int	j;
-	int	z;
-	int	size;
-
-	i = -1;
-	while (++i < g_mini.num_cmds)
+	t_vars	var;
+	
+	var.i = -1;
+	while (++var.i < g_mini.num_cmds)
 	{
-		j = 0;
-		while (cmd[i].command[++j])
+		var.j = 0;
+		while (cmd[var.i].command[++var.j])
 		{
-			size = ft_strlen(cmd[i].command[j]);
-			z = -1;
-			while (cmd[i].command[j][++z])
+			var.size = ft_strlen(cmd[var.i].command[var.j]);
+			var.z = -1;
+			while (cmd[var.i].command[var.j][++var.z])
 			{
-				if (cmd[i].command[j][z] == '\'' && cmd[i].command[j][0] != '"')
-					while (cmd[i].command[j][++z]
-					&& cmd[i].command[j][z] != '\'')
+				if (cmd[var.i].command[var.j][var.z] == '\'' && cmd[var.i].command[var.j][0] != '"')
+					while (cmd[var.i].command[var.j][++var.z]
+					&& cmd[var.i].command[var.j][var.z] != '\'')
 					;
-				if (cmd[i].command[j][z] == '$')
-					expand_variable(&(cmd[i].command[j]), z);
-				if (size == 1 && z == 0 && cmd[i].command[j][z] && \
-				cmd[i].command[j][z] == '~')
-					cmd[i].command[j] = get_env("HOME");
-				if (cmd[i].command[j] == NULL)
+				if (cmd[var.i].command[var.j][var.z] == '$')
+					expand_variable(&(cmd[var.i].command[var.j]), var.z);
+				if (var.size == 1 && var.z == 0 && cmd[var.i].command[var.j][var.z] && \
+				cmd[var.i].command[var.j][var.z] == '~')
+					cmd[var.i].command[var.j] = get_env("HOME");
+				if (cmd[var.i].command[var.j] == NULL)
 					break ;
-				if (cmd[i].command[j][z] == '\0')
+				if (cmd[var.i].command[var.j][var.z] == '\0')
 					break ;
 			}
 		}
-		safety_check((cmd[i].command), j);
+		safety_check((cmd[var.i].command), var.j);
 	}
 }
