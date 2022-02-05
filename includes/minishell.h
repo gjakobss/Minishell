@@ -51,6 +51,13 @@ typedef struct s_var {
 	char	*copy;
 }		t_var;
 
+typedef struct s_chars {
+	char	*line;
+	char	*temp;
+	char	*sub;
+	int		i;
+}		t_chars;
+
 typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
@@ -180,7 +187,9 @@ void	exit_helper(int j, int i);
 void	safety_check(char **str, int j);
 void	null_stringer(char **str);
 void	assign_variables(t_var *v, char *str);
+void    variable_assigner(t_chars *x);
 void	looper(t_var *v, char **str);
 char	*replace_var(char *str);
+void	if_ls(t_chars *x, int c);
 
 #endif

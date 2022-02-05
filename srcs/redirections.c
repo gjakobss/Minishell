@@ -172,37 +172,25 @@ int	send_input(int c, int index)
 
 int	wait_input(int c, int index)
 {
-	char	*line;
-	char	*temp;
-	char	*sub;
-	int		i;
+	t_chars	x;
 
 	(void)index;
-	line = readline("> ");
-	temp = ft_strdup(line);
-	i = 0;
-	while (ft_strcmp(line, g_mini.cmd[c].heredoc) != 0)
+	variable_assigner(&x);
+	while (ft_strcmp(x.line, g_mini.cmd[c].heredoc) != 0)
 	{
-		if (i > 0)
-			temp = ft_str3join(temp, "\n", line);
-		line = readline("> ");
-		i++;
+		if (x.i> 0)
+			x.temp = ft_str3join(x.temp, "\n", x.line);
+		x.line = readline("> ");
+		x.i++;
 	}
-	sub = ft_strdup("");
-	if (temp && ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
+	x.sub = ft_strdup("");
+	if (x.temp && ft_strcmp(g_mini.cmd[c].command[0], "cat") == 0)
 	{
 		if (g_mini.num_cmds < 2)
-			printf("%s\n", temp);
+			printf("%s\n", x.temp);
 		return (0);
 	}
-	if (temp && !is_builtin(c) && ft_strcmp(g_mini.cmd[c].command[0], "ls"))
-	{
-		i = -1;
-		while (g_mini.cmd[c].command[++i])
-			sub = ft_str3join(sub, " ", g_mini.cmd[c].command[i]);
-		temp = ft_str3join(sub, " ", temp);
-		free(g_mini.cmd[c].command);
-		g_mini.cmd[c].command = splitter(temp, ' ');
-	}
+	if (x.temp && !is_builtin(c) && ft_strcmp(g_mini.cmd[c].command[0], "ls"))
+		if_ls(&x, c);
 	return (0);
 }

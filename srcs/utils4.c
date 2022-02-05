@@ -26,6 +26,13 @@ void	assign_variables(t_var *v, char *str)
 	v->i = -1;
 }
 
+void    variable_assigner(t_chars *x)
+{
+    x->line = readline("> ");
+	x->temp = ft_strdup(x->line);
+	x->i = 0;
+}
+
 void	looper(t_var *v, char **str)
 {
 	*str = NULL;
