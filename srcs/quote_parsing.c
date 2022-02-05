@@ -17,21 +17,26 @@ void	quote_remover(char **cmd, int *i, int quotes)
 	int		z;
 	char	**ptr;
 
-	if (quotes == DQUOTES)
+	if (ft_strlen(cmd[*i]) == 2)
+		cmd[*i] = NULL;
+	else
 	{
-		ptr = ft_split(cmd[*i], '"');
-		z = 1;
-		while (ptr[z] != NULL)
-			ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-		cmd[*i] = ptr[0];
-	}
-	if (quotes == SQUOTES)
-	{
-		ptr = ft_split(cmd[*i], '\'');
-		z = 1;
-		while (ptr[z] != NULL)
-			ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
-		cmd[*i] = ptr[0];
+		if (quotes == DQUOTES)
+		{
+			ptr = ft_split(cmd[*i], '"');
+			z = 1;
+			while (ptr[z] != NULL)
+				ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
+			cmd[*i] = ptr[0];
+		}
+		if (quotes == SQUOTES)
+		{
+			ptr = ft_split(cmd[*i], '\'');
+			z = 1;
+			while (ptr[z] != NULL)
+				ptr[0] = ft_strjoin(ptr[0], ptr[z++]);
+			cmd[*i] = ptr[0];
+		}
 	}
 }
 
