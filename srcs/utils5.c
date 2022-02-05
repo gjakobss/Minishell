@@ -37,3 +37,20 @@ void	quotes_skipper(char *line, int *i, int quotes)
 			(*i)++;
 	}
 }
+
+void	close_pipes(int index)
+{
+	close(g_mini.pipefd[index][1]);
+	close(g_mini.pipefd[index][0]);
+}
+
+void	open_close_fd(int *fd, int *c, int *temp, int x)
+{
+	*fd = open(g_mini.cmd[*c].command[0], \
+	O_WRONLY | O_CREAT | O_APPEND, 0777);
+	close(*fd);
+	if (x == 1)
+		*c = *c + 1;
+	if (x == 2)
+		*temp = *temp - 1;
+}

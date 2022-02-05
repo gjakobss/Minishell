@@ -123,7 +123,6 @@ void	remove_middle_quotes(char **cmd);
 void	quote_remover(char **cmd, int *i, int quotes);
 
 /*		Lexer		*/
-void	quotes_skipper(char *line, int *i, int quotes);
 int		assign_operator(char *line, int *i);
 void	assign_line(t_cmds *cmd, char *line, int i, int j);
 void	lexer(t_cmds *cmd, char *line);
@@ -191,5 +190,8 @@ void	variable_assigner(t_chars *x);
 void	looper(t_var *v, char **str);
 char	*replace_var(char *str);
 void	if_ls(t_chars *x, int c);
+void	quotes_skipper(char *line, int *i, int quotes);
+void	close_pipes(int index);
+void	open_close_fd(int *fd, int *c, int *temp, int x);
 
 #endif

@@ -20,8 +20,7 @@ int	send_output2(int fd, int index, int c)
 
 	i = 0;
 	fd = open(g_mini.cmd[c].command[0], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	close(g_mini.pipefd[index][1]);
-	close(g_mini.pipefd[index][0]);
+	close_pipes(index);
 	while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
 	{
 		if (i > 0)
@@ -99,26 +98,15 @@ int	append_output(int c, int index, int i)
 	fd = 0;
 	temp = c;
 	while (g_mini.cmd[c].op == 4)
-	{
-		fd = open(g_mini.cmd[c].command[0], \
-		O_WRONLY | O_CREAT | O_APPEND, 0777);
-		close(fd);
-		c++;
-	}
+		open_close_fd(&fd, &c, &temp, 1);
 	while (temp > 1 && g_mini.cmd[temp - 2].op == 4)
-	{
-		fd = open(g_mini.cmd[temp - 1].command[0], \
-		O_WRONLY | O_CREAT | O_APPEND, 0777);
-		close(fd);
-		temp--;
-	}
+		open_close_fd(&fd, &c, &temp, 2);
 	id = fork();
 	if (id == 0)
 	{
 		fd = open(g_mini.cmd[c].command[0],
 				O_WRONLY | O_CREAT | O_APPEND, 0777);
-		close(g_mini.pipefd[index][1]);
-		close(g_mini.pipefd[index][0]);
+		close_pipes(index);
 		while (get_next_line(g_mini.pipefd[index - 1][0], &buff) != 0)
 		{
 			if (i == 0)
@@ -137,8 +125,7 @@ int	append_output(int c, int index, int i)
 		exit(0);
 	}
 	wait(NULL);
-	close(g_mini.pipefd[index][1]);
-	close(g_mini.pipefd[index][0]);
+	close_pipes(index);
 	if (g_mini.cmd[c].op == 6)
 		return (-2);
 	return (0);
@@ -178,7 +165,7 @@ int	wait_input(int c, int index)
 	variable_assigner(&x);
 	while (ft_strcmp(x.line, g_mini.cmd[c].heredoc) != 0)
 	{
-		if (x.i> 0)
+		if (x.i > 0)
 			x.temp = ft_str3join(x.temp, "\n", x.line);
 		x.line = readline("> ");
 		x.i++;
