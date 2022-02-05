@@ -162,8 +162,10 @@ void	init_g(char **o_env);
 char	**init_env(char **o_env);
 
 /*		Redirections	*/
+void	send_output3(int temp, int fd, int c);
 int		send_output2(int fd, int index, int c);
 int		send_output(int c, int index, int i);
+void	append_output2(int c, int index, int i);
 int		append_output(int c, int index, int i);
 int		send_input(int c, int index);
 int		wait_input(int c, int index);

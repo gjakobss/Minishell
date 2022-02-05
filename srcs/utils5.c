@@ -62,3 +62,24 @@ void	open_close_fd(int *fd, int *c, int *temp, int x)
 	if (x == 2 || x == 4)
 		*temp = *temp - 1;
 }
+
+void	send_output3(int temp, int fd, int c)
+{
+	int	i;
+
+	if (temp >= 0 && ft_strcmp(g_mini.cmd[temp].command[0], "echo") == 0)
+	{
+		temp++;
+		write(fd, " ", 1);
+		while (temp <= c)
+		{
+			i = 0;
+			while (g_mini.cmd[temp].command[++i])
+			{
+				write(fd, ft_strjoin(g_mini.cmd[temp].command[i], " "), \
+				ft_strlen(g_mini.cmd[temp].command[i]) + 1);
+			}
+			temp++;
+		}
+	}
+}
