@@ -59,3 +59,27 @@ void	exit_helper(int j, int i)
 	else if (i > 2)
 		printf("bbshell: exit: too many arguments\n");
 }
+
+void	safety_check(char **str, int j)
+{
+	int	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (++i < j)
+	{
+		if (str[i] == NULL)
+		{
+			counter = i;
+			while (i < j && str[i] == NULL)
+				i++;
+			if (i < j)
+			{
+				str[counter] = str[i];
+				str[i] = NULL;
+				i = counter;
+			}
+		}
+	}
+}

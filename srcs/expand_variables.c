@@ -23,48 +23,6 @@ void	replace_command(char **line, t_expand str)
 	*line = ft_strdup(full);
 }
 
-char	*replace_var(char *str)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*copy;
-
-	copy = ft_substr(str, 1, 250);
-	len = ft_strlen(copy);
-	i = -1;
-	if (len == 1)
-	{
-		while (g_mini.env[++i])
-			if (copy[0] == g_mini.env[i][0] && (g_mini.env[i][1] == '=' \
-			|| g_mini.env[i][1] == '\0'))
-				break ;
-	}
-	else
-	{
-		while (g_mini.env[++i])
-			if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
-				break ;
-	}
-	if (g_mini.env[i] == NULL)
-		return (NULL);
-	if (ft_strncmp(copy, g_mini.env[i], len - 1) == 0)
-	{
-		str = NULL;
-		j = 0;
-		while (g_mini.env[i][j] != '\0' && g_mini.env[i][j] != '=')
-			j++;
-		str = ft_substr(g_mini.env[i], j + 1, 250);
-	}
-	else
-	{
-		str = NULL;
-		str = malloc(sizeof(char));
-		str[0] = '\0';
-	}
-	return (str);
-}
-
 void static	expand_helper(t_expand *str, int *i)
 {
 	str->var = ft_itoa(g_mini.status);
@@ -99,59 +57,41 @@ void	expand_variable(char **line, int start)
 	replace_command(line, str);
 }
 
-void	safety_check(char	**str, int j)
+void static	expand_helper(t_cmds *cmd, t_vars *v)
 {
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (++i < j)
-	{
-		if (str[i] == NULL)
-		{
-			counter = i;
-			while (i < j && str[i] == NULL)
-				i++;
-			if (i < j)
-			{
-				str[counter] = str[i];
-				str[i] = NULL;
-				i = counter;
-			}
-		}
-	}
+	if (cmd[v->i].command[v->j][v->z] == '\'' && \
+	cmd[v->i].command[v->j][0] != '"')
+		while (cmd[v->i].command[v->j][++v->z] && \
+		cmd[v->i].command[v->j][v->z] != '\'')
+			;
+	if (cmd[v->i].command[v->j][v->z] == '$')
+		expand_variable(&(cmd[v->i].command[v->j]), v->z);
 }
 
 void	expander(t_cmds *cmd)
 {
-	t_vars	var;
-	
-	var.i = -1;
-	while (++var.i < g_mini.num_cmds)
+	t_vars	v;
+
+	v.i = -1;
+	while (++v.i < g_mini.num_cmds)
 	{
-		var.j = 0;
-		while (cmd[var.i].command[++var.j])
+		v.j = 0;
+		while (cmd[v.i].command[++v.j])
 		{
-			var.size = ft_strlen(cmd[var.i].command[var.j]);
-			var.z = -1;
-			while (cmd[var.i].command[var.j][++var.z])
+			v.size = ft_strlen(cmd[v.i].command[v.j]);
+			v.z = -1;
+			while (cmd[v.i].command[v.j][++v.z])
 			{
-				if (cmd[var.i].command[var.j][var.z] == '\'' && cmd[var.i].command[var.j][0] != '"')
-					while (cmd[var.i].command[var.j][++var.z]
-					&& cmd[var.i].command[var.j][var.z] != '\'')
-					;
-				if (cmd[var.i].command[var.j][var.z] == '$')
-					expand_variable(&(cmd[var.i].command[var.j]), var.z);
-				if (var.size == 1 && var.z == 0 && cmd[var.i].command[var.j][var.z] && \
-				cmd[var.i].command[var.j][var.z] == '~')
-					cmd[var.i].command[var.j] = get_env("HOME");
-				if (cmd[var.i].command[var.j] == NULL)
+				expand_helper(cmd, &v);
+				if (v.size == 1 && v.z == 0 && cmd[v.i].command[v.j][v.z] \
+				&& cmd[v.i].command[v.j][v.z] == '~')
+					cmd[v.i].command[v.j] = get_env("HOME");
+				if (cmd[v.i].command[v.j] == NULL)
 					break ;
-				if (cmd[var.i].command[var.j][var.z] == '\0')
+				if (cmd[v.i].command[v.j][v.z] == '\0')
 					break ;
 			}
 		}
-		safety_check((cmd[var.i].command), var.j);
+		safety_check((cmd[v.i].command), v.j);
 	}
 }
