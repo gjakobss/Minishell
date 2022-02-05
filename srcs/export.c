@@ -37,15 +37,15 @@ int	check_if_valid(char **buff, int j, int index)
 	return (0);
 }
 
-void static	equal_checker(char **buff, int *j)
+int static	equal_checker(char **buff, int j)
 {
-	while (buff[*j] != NULL)
+	while (buff[j] != NULL)
 	{
-		if (ft_strchr(buff[*j], '=') != NULL)
-			return ;
-		*j++;
+		if (ft_strchr(buff[j], '=') != NULL)
+			return (j);
+		j++;
 	}
-	return ;
+	return (j);
 }
 
 int	get_env_from_export(char **buff, int j, int index)
@@ -57,7 +57,7 @@ int	get_env_from_export(char **buff, int j, int index)
 	checker = 0;
 	if (buff[j] && check_if_valid(buff, j, index) == -1)
 		return (j + 1);
-	equal_checker(buff, &j);
+	j = equal_checker(buff, j);
 	if (buff[j] == NULL)
 		return (j);
 	else

@@ -101,7 +101,7 @@ int	send_to_exec(void)
 		cat = c;
 	}
 	if (g_mini.cmd[c].op == 6 || g_mini.num_cmds <= 2)
-		one_time(c, index);
+		one_time(c, index, c);
 	if (g_mini.cmd[c].op != 6)
 	{
 		if (multi_exec(c, index, 0) == -1)

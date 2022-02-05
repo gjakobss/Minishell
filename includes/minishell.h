@@ -137,8 +137,9 @@ int		send_to_exec(void);
 
 int		exec_one2(int c, int j, int i);
 int		exec_com2(int c, int i);
-int		divergent(int c, int index, int id);
-int		one_time(int c, int index);
+int		divergent(int c, int index, int id, int temp);
+int		divergent2(int c, int id, int index);
+int		one_time(int c, int index, int temp);
 int		multi_exec(int c, int index, int i);
 char	**get_sub(int c, int x, int temp, int i);
 /*		Minishell	*/
