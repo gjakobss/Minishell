@@ -44,6 +44,13 @@ typedef struct s_vars {
 	int	size;
 }		t_vars;
 
+typedef struct s_var {
+	int		i;
+	int		j;
+	int		len;
+	char	*copy;
+}		t_var;
+
 typedef struct s_cmds {
 	char	*full_line;
 	char	**command;
@@ -170,5 +177,10 @@ void	write_export(void);
 void	get_new_env(char **buff, int i, int j);
 int		ft_strchrlen(char	*str, char c);
 void	exit_helper(int j, int i);
+void	safety_check(char **str, int j);
+void	null_stringer(char **str);
+void	assign_variables(t_var *v, char *str);
+void	looper(t_var *v, char **str);
+char	*replace_var(char *str);
 
 #endif
