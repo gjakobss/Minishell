@@ -51,6 +51,7 @@ int	ft_strchrlen(char	*str, char c)
 
 void	exit_helper(int j, int i)
 {
+	printf("exit\n");
 	if (j == 257)
 	{
 		printf("bash: exit: numeric argument required\n");
@@ -58,8 +59,6 @@ void	exit_helper(int j, int i)
 	}
 	else if (i > 2)
 		printf("bbshell: exit: too many arguments\n");
-	else
-		printf("exit\n");
 }
 
 void	safety_check(char **str, int j)

@@ -14,6 +14,11 @@
 
 int	take_care(char *line)
 {
+	if (line[0] == ';')
+	{
+		printf("bbshell: syntax error near unexpected token ';'\n");
+		return (-1);
+	}
 	if (arg_validation(&line))
 		return (-1);
 	add_history(line);
@@ -52,7 +57,7 @@ int	ft_exitoi(char *s)
 		if (s[i] == '-')
 			minus = 1;
 		if (((ft_isalnum((int)s[i]) == 1 && ft_isalpha((int)s[i]) == 1)
-			|| ft_isalnum((int)s[i]) == 0) && minus == 0)
+				|| ft_isalnum((int)s[i]) == 0) && minus == 0)
 			return (257);
 	}
 	i = -1;
