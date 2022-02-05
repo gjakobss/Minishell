@@ -46,12 +46,13 @@ int	ft_exitoi(char *s)
 
 	i = -1;
 	nbr = 0;
+	minus = 0;
 	while (s[++i])
 	{
 		if (s[i] == '-')
 			minus = 1;
-		if ((ft_isalnum((int)s[i]) == 1 && ft_isalpha((int)s[i]) == 1)
-			|| ft_isalnum((int)s[i]) == 0)
+		if (((ft_isalnum((int)s[i]) == 1 && ft_isalpha((int)s[i]) == 1)
+			|| ft_isalnum((int)s[i]) == 0) && minus == 0)
 			return (257);
 	}
 	i = -1;
