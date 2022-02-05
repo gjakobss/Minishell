@@ -14,10 +14,10 @@
 
 void	if_ls(t_chars *x, int c)
 {
-		x->i = -1;
-		while (g_mini.cmd[c].command[++x->i])
-			x->sub = ft_str3join(x->sub, " ", g_mini.cmd[c].command[x->i]);
-		x->temp = ft_str3join(x->sub, " ", x->temp);
-		free(g_mini.cmd[c].command);
-		g_mini.cmd[c].command = splitter(x->temp, ' ');
+	x->i = -1;
+	while (g_mini.cmd[c].command[++x->i])
+		x->sub = ft_str3join(x->sub, " ", g_mini.cmd[c].command[x->i]);
+	x->temp = ft_str3join(x->sub, " ", x->temp);
+	free(g_mini.cmd[c].command);
+	g_mini.cmd[c].command = splitter(x->temp, ' ');
 }
