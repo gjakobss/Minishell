@@ -6,7 +6,7 @@
 /*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 16:10:20 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/03 16:10:28 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/02/05 18:46:12 by malmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	remove_middle_quotes(char **cmd)
 		{
 			if (cmd[i][j] == '"' && cmd[i][j + 1] == '"')
 				quote_remover(cmd, &i, DQUOTES);
-			if (cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
+			if (cmd[i] && cmd[i][j] == '"' && cmd[i][j + 1] != '\0')
 			{
 				j++;
 				while (cmd[i][j] && cmd[i][j] != '"')
 					j++;
 			}
-			if (cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
+			if (cmd[i] && cmd[i][j] == '\'' && cmd[i][j + 1] == '\'')
 				quote_remover(cmd, &i, SQUOTES);
 			j++;
 		}
