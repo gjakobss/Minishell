@@ -125,7 +125,7 @@ void	quote_remover(char **cmd, int *i, int quotes);
 /*		Lexer		*/
 void	quotes_skipper(char *line, int *i, int quotes);
 int		assign_operator(char *line, int *i);
-void	assign_line(t_cmds *cmd, char *line, int x, int z);
+void	assign_line(t_cmds *cmd, char *line, int i, int j);
 void	lexer(t_cmds *cmd, char *line);
 
 /*		Expand Variables	*/

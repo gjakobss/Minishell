@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-void	quotes_skipper(char *line, int	*i, int quotes)
-{
-	if (quotes == DQUOTES)
-	{
-		(*i)++;
-		while (line[*i] != '"' && line[*i] != '\0')
-			(*i)++;
-	}
-	else if (quotes == SQUOTES)
-	{
-		(*i)++;
-		while (line[*i] != '\'' && line[*i] != '\0')
-			(*i)++;
-	}
-}
-
 int	assign_operator(char *line, int *i)
 {
 	if (line[*i] == '|')
@@ -65,34 +49,39 @@ static void	skip_quotes(char *line, int	*i)
 		quotes_skipper(line, i, SQUOTES);
 }
 
-void	assign_line(t_cmds *cmd, char *line, int x, int z)
+char	*assign_line2(int *i, char *line, t_cmds *cmd, int j)
+{
+	int	x;
+	int	z;
+
+	if (line[*i] == '<' && line[*i + 1] == '<')
+	{
+		x = *i + 2;
+		while (line[x] && line[x] == ' ')
+			x++;
+		z = x;
+		while (line[z] && line[z] != ' ' && !is_terminator(line, z))
+			z++;
+		cmd[j].op = 5;
+		cmd[j].heredoc = ft_strdup(ft_substr(line, x, (z - x)));
+		line = ft_strdup(ft_strjoin(ft_substr(line, 0, *i), \
+		ft_substr(line, z, (ft_strlen(line) - z))));
+		*i -= 2;
+	}
+	return (line);
+}
+
+void	assign_line(t_cmds *cmd, char *line, int i, int j)
 {
 	int	start;
 	int	len;
-	int	i;
-	int	j;
 
-	i = -1;
-	j = 0;
 	while (line[++i])
 	{
 		start = i;
 		while (line[i] && !is_terminator(line, i))
 		{
-			if (line[i] == '<' && line[i + 1] == '<')
-			{
-				x = i + 2;
-				while (line[x] && line[x] == ' ')
-					x++;
-				z = x;
-				while (line[z] && line[z] != ' ' && !is_terminator(line, z))
-					z++;
-				cmd[j].op = 5;
-				cmd[j].heredoc = ft_strdup(ft_substr(line, x, (z - x)));
-				line = ft_strdup(ft_strjoin(ft_substr(line, 0, i), \
-				ft_substr(line, z, (ft_strlen(line) - z))));
-				i -= 2;
-			}
+			line = assign_line2(&i, line, cmd, j);
 			skip_quotes(line, &i);
 			i++;
 		}
@@ -114,7 +103,7 @@ void	lexer(t_cmds *cmd, char *line)
 {
 	int	i;
 
-	assign_line(cmd, line, 0, 0);
+	assign_line(cmd, line, -1, 0);
 	i = -1;
 	while (++i < g_mini.num_cmds)
 		cmd[i].command = splitter(cmd[i].full_line, ' ');

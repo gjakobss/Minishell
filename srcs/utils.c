@@ -53,7 +53,7 @@ char	*get_retfromexp(char **ret, char *exp, int j, int i)
 			ret[j][++i] = '"';
 		}
 	}
-	if (z == 1) //ret[j][i] != '"')
+	if (z == 1)
 		ret[j][++i] = '"';
 	i++;
 	ret[j][i] = '\0';

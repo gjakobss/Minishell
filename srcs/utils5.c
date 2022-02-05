@@ -21,3 +21,19 @@ void	if_ls(t_chars *x, int c)
 	free(g_mini.cmd[c].command);
 	g_mini.cmd[c].command = splitter(x->temp, ' ');
 }
+
+void	quotes_skipper(char *line, int *i, int quotes)
+{
+	if (quotes == DQUOTES)
+	{
+		(*i)++;
+		while (line[*i] != '"' && line[*i] != '\0')
+			(*i)++;
+	}
+	else if (quotes == SQUOTES)
+	{
+		(*i)++;
+		while (line[*i] != '\'' && line[*i] != '\0')
+			(*i)++;
+	}
+}
